@@ -1,0 +1,19 @@
+{
+    "dataset_name": "college-mathematics",
+    "path": "datasets/cmmlu/data/college-mathematics.jsonl",
+    "description": "以下是关于大学数学的单项选择题，请直接给出正确答案的选项。",
+    "transforms": "datasets/cmmlu/transform_gen_v0.py",
+    "fewshot": 5,
+    "metrics": {
+        "accuracy": {
+            "evaluation": {
+                "type": "prefix_match"
+            }
+        }
+    },
+    "generate": {
+        "method": "generate",
+        "params": ""
+    },
+    "postprocess": ""
+}

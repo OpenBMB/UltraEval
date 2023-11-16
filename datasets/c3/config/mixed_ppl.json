@@ -1,0 +1,19 @@
+{
+    "dataset_name": "mixed",
+    "path": "datasets/c3/data/mixed.jsonl",
+    "description": "",
+    "transforms": "datasets/c3/transform_ppl_v0.py",
+    "fewshot": 0,
+    "metrics": {
+        "accuracy": {
+            "evaluation": {
+                "type": "log_prob"
+            }
+        }
+    },
+    "generate": {
+        "method": "loglikelihood",
+        "params": ""
+    },
+    "postprocess": ""
+}

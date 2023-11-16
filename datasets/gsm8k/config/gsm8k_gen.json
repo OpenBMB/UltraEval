@@ -1,0 +1,19 @@
+{
+    "dataset_name": "gsm8k",
+    "path": "datasets/gsm8k/data/gsm8k.jsonl",
+    "description": "",
+    "transforms": "datasets/gsm8k/transform_gen_v0.py",
+    "fewshot": 8,
+    "metrics": {
+        "accuracy": {
+            "evaluation": {
+                "type": "exact_match"
+            }
+        }
+    },
+    "generate": {
+        "method": "generate",
+        "params": "models/model_params/vllm_sample_math.json"
+    },
+    "postprocess": "gsm8k_post"
+}

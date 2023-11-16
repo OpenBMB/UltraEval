@@ -1,0 +1,19 @@
+{
+    "dataset_name": "wic",
+    "path": "datasets/wic/data/wic.jsonl",
+    "description": "",
+    "transforms": "datasets/wic/transform_ppl_v0.py",
+    "fewshot": 0,
+    "metrics": {
+        "accuracy": {
+            "evaluation": {
+                "type": "log_prob"
+            }
+        }
+    },
+    "generate": {
+        "method": "loglikelihood",
+        "params": ""
+    },
+    "postprocess": ""
+}

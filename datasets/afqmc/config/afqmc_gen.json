@@ -1,0 +1,19 @@
+{
+    "dataset_name": "afqmc",
+    "path": "datasets/afqmc/data/afqmc.jsonl",
+    "description": "",
+    "transforms": "datasets/afqmc/transform_gen_v0.py",
+    "fewshot": 0,
+    "metrics": {
+        "accuracy": {
+            "evaluation": {
+                "type": "prefix_match"
+            }
+        }
+    },
+    "generate": {
+        "method": "generate",
+        "params": ""
+    },
+    "postprocess": ""
+}

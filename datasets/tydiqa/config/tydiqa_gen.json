@@ -1,0 +1,24 @@
+{
+    "dataset_name": "tydiqa",
+    "path": "datasets/tydiqa/data/tydiqa.jsonl",
+    "description": "",
+    "transforms": "datasets/tydiqa/transform_gen_v0.py",
+    "fewshot": 0,
+    "metrics": {
+        "f1_score": {
+            "evaluation": {
+                "type": "f1_score"
+            }
+        },
+        "accuracy": {
+            "evaluation": {
+                "type": "exact_match"
+            }
+        }
+    },
+    "generate": {
+        "method": "generate",
+        "params": ""
+    },
+    "postprocess": "exact_match_post"
+}

@@ -1,0 +1,19 @@
+{
+    "dataset_name": "marketing",
+    "path": "datasets/mmlu/data/marketing.jsonl",
+    "description": "The following are multiple choice questions (with answers) about marketing.\n\n",
+    "transforms": "datasets/mmlu/transform_gen_v0.py",
+    "fewshot": 5,
+    "metrics": {
+        "accuracy": {
+            "evaluation": {
+                "type": "prefix_match"
+            }
+        }
+    },
+    "generate": {
+        "method": "generate",
+        "params": ""
+    },
+    "postprocess": ""
+}

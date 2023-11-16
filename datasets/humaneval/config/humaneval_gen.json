@@ -1,0 +1,22 @@
+{
+    "dataset_name": "humaneval",
+    "path": "datasets/humaneval/data/humaneval.jsonl",
+    "description": "",
+    "transforms": "datasets/humaneval/transform_gen_v0.py",
+    "fewshot": 0,
+    "metrics": {
+        "pass_k": {
+            "evaluation": {
+                "type": "function_execution"
+            },
+            "aggregation": {
+                "type": "pass_k"
+            }
+        }
+    },
+    "generate": {
+        "method": "generate",
+        "params": "models/model_params/vllm_sample_code.json"
+    },
+    "postprocess": "humaneval_post"
+}

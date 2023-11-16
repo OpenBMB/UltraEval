@@ -1,0 +1,19 @@
+{
+    "dataset_name": "elementary-chinese",
+    "path": "datasets/cmmlu/data/elementary-chinese.jsonl",
+    "description": "以下是关于初级汉语的单项选择题，请直接给出正确答案的选项。",
+    "transforms": "datasets/cmmlu/transform_gen_v0.py",
+    "fewshot": 5,
+    "metrics": {
+        "accuracy": {
+            "evaluation": {
+                "type": "prefix_match"
+            }
+        }
+    },
+    "generate": {
+        "method": "generate",
+        "params": ""
+    },
+    "postprocess": ""
+}

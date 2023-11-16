@@ -1,0 +1,19 @@
+{
+    "dataset_name": "hellaswag",
+    "path": "datasets/hellaswag/data/hellaswag.jsonl",
+    "description": "",
+    "transforms": "datasets/hellaswag/transform_ppl_v0.py",
+    "fewshot": 0,
+    "metrics": {
+        "accuracy": {
+            "evaluation": {
+                "type": "log_prob"
+            }
+        }
+    },
+    "generate": {
+        "method": "loglikelihood",
+        "params": ""
+    },
+    "postprocess": "general_torch_ppl_norm"
+}

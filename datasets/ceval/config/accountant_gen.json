@@ -1,0 +1,19 @@
+{
+    "dataset_name": "accountant",
+    "path": "datasets/ceval/data/accountant.jsonl",
+    "description": "以下是中国关于会计考试的单项选择题，请选出其中的正确答案。",
+    "transforms": "datasets/ceval/transform_gen_v0.py",
+    "fewshot": 5,
+    "metrics": {
+        "accuracy": {
+            "evaluation": {
+                "type": "prefix_match"
+            }
+        }
+    },
+    "generate": {
+        "method": "generate",
+        "params": ""
+    },
+    "postprocess": ""
+}

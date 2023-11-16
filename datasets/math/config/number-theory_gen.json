@@ -1,0 +1,19 @@
+{
+    "dataset_name": "number-theory",
+    "path": "datasets/math/data/number-theory.jsonl",
+    "description": "",
+    "transforms": "datasets/math/transform_gen_v0.py",
+    "fewshot": 4,
+    "metrics": {
+        "accuracy": {
+            "evaluation": {
+                "type": "exact_match"
+            }
+        }
+    },
+    "generate": {
+        "method": "generate",
+        "params": "models/model_params/vllm_sample_math.json"
+    },
+    "postprocess": "math_post"
+}

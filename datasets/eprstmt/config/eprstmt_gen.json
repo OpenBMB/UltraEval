@@ -1,0 +1,19 @@
+{
+    "dataset_name": "eprstmt",
+    "path": "datasets/eprstmt/data/eprstmt.jsonl",
+    "description": "",
+    "transforms": "datasets/eprstmt/transform_gen_v0.py",
+    "fewshot": 0,
+    "metrics": {
+        "accuracy": {
+            "evaluation": {
+                "type": "prefix_match"
+            }
+        }
+    },
+    "generate": {
+        "method": "generate",
+        "params": ""
+    },
+    "postprocess": ""
+}

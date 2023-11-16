@@ -1,0 +1,19 @@
+{
+    "dataset_name": "ax-b",
+    "path": "datasets/ax-b/data/ax-b.jsonl",
+    "description": "",
+    "transforms": "datasets/ax-b/transform_gen_v0.py",
+    "fewshot": 0,
+    "metrics": {
+        "accuracy": {
+            "evaluation": {
+                "type": "prefix_match"
+            }
+        }
+    },
+    "generate": {
+        "method": "generate",
+        "params": ""
+    },
+    "postprocess": ""
+}
