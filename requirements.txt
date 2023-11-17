@@ -23,8 +23,6 @@ typing_extensions
 flask
 rouge_chinese
 diplomat
-cup_admin_model_gateway
-pstatsd
 pytrie
 vllm
 accelerate>=0.20.3
