@@ -8,7 +8,6 @@ class Mean:
         pass
 
     def __call__(self, individual_values):
-
         individual_values = np.array([float(x) for x in individual_values])
         pass_rate = individual_values.mean()
         return pass_rate

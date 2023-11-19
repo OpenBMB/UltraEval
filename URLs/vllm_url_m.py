@@ -1,18 +1,19 @@
-from vllm import LLM, SamplingParams
-import json
 import os
-import argparse
+
 from flask import Flask, jsonify, request
 from gevent.pywsgi import WSGIServer
+from vllm import LLM, SamplingParams
+
 from URLs.dispatcher import GPUDispatcher as gdp
+
 gdp.bind_worker_gpus()
 
-'''
+"""
 reference:https://github.com/vllm-project/vllm/blob/main/vllm/sampling_params.py
-'''
+"""
 
-model_name = os.environ.get('HF_MODEL_NAME')
-per_proc_gpus = int(os.environ.get('PER_PROC_GPUS'))
+model_name = os.environ.get("HF_MODEL_NAME")
+per_proc_gpus = int(os.environ.get("PER_PROC_GPUS"))
 
 llm = LLM(model=model_name, trust_remote_code=True, tensor_parallel_size=per_proc_gpus)
 
@@ -41,6 +42,7 @@ print("model load finished")
 
 app = Flask(__name__)
 
+
 @app.route("/vllm-url-infer", methods=["POST"])
 def main():
     datas = request.get_json()
@@ -53,21 +55,21 @@ def main():
 
     outputs = llm.generate(prompts, SamplingParams(**params_dict))
 
-    res = []    
-    if 'prompt_logprobs' in params and params['prompt_logprobs'] is not None:
+    res = []
+    if "prompt_logprobs" in params and params["prompt_logprobs"] is not None:
         for output in outputs:
             prompt_logprobs = output.prompt_logprobs
             logp_list = [list(d.values())[0] for d in prompt_logprobs[1:]]
             res.append(logp_list)
         return jsonify(res)
 
-    else: 
+    else:
         for output in outputs:
             generated_text = output.outputs[0].text
             res.append(generated_text)
         return jsonify(res)
 
-if __name__ == "__main__":
 
-    http_server = WSGIServer(('127.0.0.1', 5002), app)
+if __name__ == "__main__":
+    http_server = WSGIServer(("127.0.0.1", 5002), app)
     http_server.serve_forever()

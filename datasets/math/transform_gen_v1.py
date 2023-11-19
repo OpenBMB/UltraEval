@@ -1,19 +1,22 @@
 import random
-from seereval.tasks.postprocess import MathPost
+
+from UltraEval.tasks.postprocess import MathPost
+
 
 def remove_boxed(s):
-    left = '\\boxed{'
+    left = "\\boxed{"
     try:
-        assert s[:len(left)] == left
-        assert s[-1] == '}'
-        return s[len(left):-1]
+        assert s[: len(left)] == left
+        assert s[-1] == "}"
+        return s[len(left) : -1]
     except Exception:
         return None
 
+
 def last_boxed_only_string(string):
-    idx = string.rfind('\\boxed')
+    idx = string.rfind("\\boxed")
     if idx < 0:
-        idx = string.rfind('\\fbox')
+        idx = string.rfind("\\fbox")
         if idx < 0:
             return None
 
@@ -21,9 +24,9 @@ def last_boxed_only_string(string):
     right_brace_idx = None
     num_left_braces_open = 0
     while i < len(string):
-        if string[i] == '{':
+        if string[i] == "{":
             num_left_braces_open += 1
-        if string[i] == '}':
+        if string[i] == "}":
             num_left_braces_open -= 1
             if num_left_braces_open == 0:
                 right_brace_idx = i
@@ -33,16 +36,24 @@ def last_boxed_only_string(string):
     if right_brace_idx is None:
         retval = None
     else:
-        retval = string[idx:right_brace_idx + 1]
+        retval = string[idx : right_brace_idx + 1]
 
     return retval
+
 
 def transform(data, num_sample: int, r: random.Random, dataset_name: str):
     question = f"Question:\n{data['question']}\n"
     answer_prompt = f"Answer:\n"
     text = question + answer_prompt
-    correct_answer = data['answer']
+    correct_answer = data["answer"]
     mp = MathPost()
-    _, processed_correct_answer = mp([], remove_boxed(last_boxed_only_string(data['answer'])))
-    
-    return {"input": text, "output": correct_answer + f"\nFinal Answer: The final answer is ${processed_correct_answer[0]}$. I hope it is correct.", "processed_output": processed_correct_answer}
+    _, processed_correct_answer = mp(
+        [], remove_boxed(last_boxed_only_string(data["answer"]))
+    )
+
+    return {
+        "input": text,
+        "output": correct_answer
+        + f"\nFinal Answer: The final answer is ${processed_correct_answer[0]}$. I hope it is correct.",
+        "processed_output": processed_correct_answer,
+    }

@@ -1,6 +1,8 @@
-from typing import Any, Dict, List
+from typing import Any
+
 import numpy as np
-import hashlib
+
+
 class LogProbMC2:
     def __init__(
         self,
@@ -13,5 +15,7 @@ class LogProbMC2:
         """
         split_idx = list(doc["target_scores"].values()).index(0)
         correct_probs = results[0][:split_idx]
-        log_prob_mc2 = np.exp(-np.array(correct_probs)) / sum(np.exp(-np.array(results[0])))
+        log_prob_mc2 = np.exp(-np.array(correct_probs)) / sum(
+            np.exp(-np.array(results[0]))
+        )
         return sum(log_prob_mc2)

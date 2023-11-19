@@ -6,15 +6,14 @@ import random
 import sys
 
 import numpy as np
-from tqdm import tqdm
 
 sys.path.append("..")
+import time
+from collections import defaultdict
+from concurrent.futures import ThreadPoolExecutor
+
 from models import get_model
 from tasks import eval_task
-import time
-from concurrent.futures import ThreadPoolExecutor
-from collections import defaultdict
-
 
 
 class Evaluator:
@@ -74,7 +73,9 @@ class Evaluator:
                     dataset_path=dataset_cfg["path"],
                     description=dataset_cfg.get("description", ""),
                     transform_script_path=dataset_cfg["transforms"],
-                    num_few_shot=self.args.num_fewshot if self.args.num_fewshot is not None else dataset_cfg["fewshot"],
+                    num_few_shot=self.args.num_fewshot
+                    if self.args.num_fewshot is not None
+                    else dataset_cfg["fewshot"],
                     metrics_config=dataset_cfg["metrics"],
                     sample_config=dataset_cfg.get("generate"),
                     model_postprocess=self.args.postprocess,
@@ -82,7 +83,7 @@ class Evaluator:
                     log_dir=self.args.output_base_path,
                     params=self.args.params,
                     limit=self.args.limit,
-                    batch_size=self.args.batch_size
+                    batch_size=self.args.batch_size,
                 )
             )
 
@@ -100,16 +101,17 @@ class Evaluator:
 
     def write_out(self):
         def dump_task(task, base_path):
-            for ins in task.dataset[:task.limit]:
+            for ins in task.dataset[: task.limit]:
                 ins.dump(os.path.join(base_path, task.dataset_name))
 
         with ThreadPoolExecutor() as executor:
-            futures = [executor.submit(dump_task, task, self.args.output_base_path) for task in self.tasks]
+            futures = [
+                executor.submit(dump_task, task, self.args.output_base_path)
+                for task in self.tasks
+            ]
 
             for future in futures:
                 future.result()
-
-
 
     def make_table(
         self,
@@ -144,10 +146,13 @@ class Evaluator:
                 for k, v in value.items():
                     sums[k] += v
                     counts[k] += 1
-            dataset_result[dataset]["mean_result"] = {key: sums[key] / counts[key] for key in sums}
-            
+            dataset_result[dataset]["mean_result"] = {
+                key: sums[key] / counts[key] for key in sums
+            }
 
-        with open(os.path.join(self.args.output_base_path, "_all_results.json"), "w") as f:
+        with open(
+            os.path.join(self.args.output_base_path, "_all_results.json"), "w"
+        ) as f:
             json.dump(dataset_result, f, indent=4, ensure_ascii=False)
 
 
@@ -183,9 +188,11 @@ def main():
 
     if args.write_out:
         evaluator.write_out()
-    
+
     ending = time.time()
-    print(f"Running time: {running - starting} seconds, the whole time: {ending - starting} seconds")
+    print(
+        f"Running time: {running - starting} seconds, the whole time: {ending - starting} seconds"
+    )
 
 
 if __name__ == "__main__":

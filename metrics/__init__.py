@@ -1,12 +1,12 @@
 from .bleu import BLEU
-from .rouge import ROUGE
 from .chrf import CHRF
-from .function_execution import FunctionExecution
-from .prefix_match import PrefixMatch
 from .exact_match import ExactMatch
-from .log_prob import LogProb
 from .f1_score import F1Score
+from .function_execution import FunctionExecution
+from .log_prob import LogProb
 from .log_prob_mc2 import LogProbMC2
+from .prefix_match import PrefixMatch
+from .rouge import ROUGE
 
 METRICS_REGISTRY = {
     "bleu": BLEU,

@@ -1,7 +1,6 @@
 import random
 
 
-
 def transform(data, num_sample: int, r: random.Random, dataset_name: str):
     choices = []
     answer = None
@@ -28,4 +27,4 @@ def transform(data, num_sample: int, r: random.Random, dataset_name: str):
 
     prompt = prompt.format(question=data["question"], options="\n".join(options))
 
-    return {"input": prompt, "output": answer,  "processed_output": answer}
+    return {"input": prompt, "output": answer, "processed_output": answer}

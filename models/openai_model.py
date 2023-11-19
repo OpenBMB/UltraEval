@@ -1,19 +1,16 @@
 import json
 import logging
-import os
 import time
 from concurrent.futures import ThreadPoolExecutor, as_completed
-from typing import Any, List, Union, Type
+from typing import Any, List
 
 from openai import OpenAI
 from tqdm import tqdm
+
 from utils import utils
 from utils.request import Request
 
-client = OpenAI(
-    api_key="your key", 
-    organization="your org"
-    )
+client = OpenAI(api_key="your key", organization="your org")
 
 
 def run_thread_pool_sub(post_method, url: str, reqs, max_work_count: int):
@@ -27,7 +24,6 @@ def run_thread_pool_sub(post_method, url: str, reqs, max_work_count: int):
 
 
 def _post_request(sys_prompt, content, backoff_time=20, backoff_count=50, **kwargs):
-
     req_json = {
         "model": kwargs["model"],
         "messages": [
@@ -50,8 +46,8 @@ def _post_request(sys_prompt, content, backoff_time=20, backoff_count=50, **kwar
 
 
 class OPENAI_API_MODEL:
-    """ https://platform.openai.com/docs/models/gpt-3-5 (updated on 20231030)
-    """
+    """https://platform.openai.com/docs/models/gpt-3-5 (updated on 20231030)"""
+
     MAX_TOKENS_MAP = {
         "gpt-3.5-turbo": 4097,
         "gpt-4": 8192,
@@ -59,7 +55,15 @@ class OPENAI_API_MODEL:
 
     DEFAULT_PROMPT = "you are a helpful AI assistant. please answer questions."
 
-    def __init__(self, model, concurrency=1, max_retries=10, backoff_time=1.0, sys_prompt=None, api_key_path=None):
+    def __init__(
+        self,
+        model,
+        concurrency=1,
+        max_retries=10,
+        backoff_time=1.0,
+        sys_prompt=None,
+        api_key_path=None,
+    ):
         MODEL_LIST = self.MAX_TOKENS_MAP.keys()
         assert model in MODEL_LIST, f"invalid model name: {model}"
         self._model = model
@@ -82,10 +86,12 @@ class OPENAI_API_MODEL:
 
         results: List[str] = []
         for content in data["instances"]:
-
-            print("Request:\n" + json.dumps(content, indent=4, ensure_ascii=False) + "\n")
+            print(
+                "Request:\n" + json.dumps(content, indent=4, ensure_ascii=False) + "\n"
+            )
             output = _post_request(self._sys_prompt, content, **data["params"])
             from pprint import pprint
+
             pprint(output)
 
             print("Result:\n" + json.dumps(output, indent=4, ensure_ascii=False) + "\n")
@@ -99,7 +105,6 @@ class OPENAI_API_MODEL:
 
     def loglikelihood(self, request):
         raise NotImplementedError
-
 
 
 class GPT3_5(OPENAI_API_MODEL):

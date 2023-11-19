@@ -62,39 +62,55 @@ python configs/show_datasets.py
 通过以下指令指定需要测评的任务：
 
 ```shell
-python configs/make_config.py \
-    --datasets ALL \ #指定评测集，默认为ALL(所有的数据集)；指定多个数据集用,间隔，例如：--datasets MMLU,Ceval
-    --tasks \ # 指定评测任务，默认为空。
-    --method \ # 选择生成方式，默认为gen。
-    --save # 选择评测文件的文件名，默认为eval_config.json。
+python configs/make_config.py --datasets ALL
 ```
-注意⚠️：当tasks传入参数，datasets的数量必须为1。表示执行某个评测集下的某些任务；save是一个文件名，且以.json结尾。不需要传入路径，默认在configs下。
-执行上述指令将在configs目录下生成评测文件eval_config.json，以及会下载每个任务的数据到对应的目录中。
+以下是具体的参数描述：
+* ``datasets``: 选择数据集，默认为All(所有的数据集)；指定多个数据集，用,间隔。例如：--datasets MMLU,Ceval
+* ``tasks``: 选择评测任务，默认为空。
+* ``method``: 选择生成方式，默认为gen。
+* ``save``: 选择生成评测文件的文件名，默认为eval_config.json。
+
+注意⚠️：当tasks有值时，datasets的数量必须为1。表示执行某个数据集下的某些任务；save是一个文件名，且以.json结尾，不需要传入路径，默认在configs下。执行上述指令将在configs目录下生成评测文件eval_config.json。
 
 ### 2.2本地部署模型
 以部署meta-llama/Llama-2-7b-hf为例，使用vllm部署模型：
 ```shell
 python URLs/vllm_url.py \
-    --model_name meta-llama/Llama-2-7b-hf \ # 模型名，使用vLLM时，model_name和hugging face官方名称保持一致
-    --gpuid \ # 指定部署模型的gpu id，默认0
-    --port # 部署URL的端口号，默认5002
+    --model_name meta-llama/Llama-2-7b-hf \
+    --gpuid 0 \
+    --port 5002
 ```
+以下是具体的参数描述：
+* ``model_name``: 模型名，使用vLLM时，model_name和hugging face官方名称需保持一致。
+* ``gpuid``: 指定部署模型的gpu id，默认0。如果需要多个，可用,隔开
+* ``port``: 部署URL的端口号，默认5002。
+
 关于个人训练的模型以及多GPU批量评测方式请参考[Tutorial.md]()。
 
 ### 2.3进行测评获取测评结果
 创建一个bash脚本，执行main.py程序，获取测评结果：
 ```shell
 python main.py \
-    --model general \ #选择不同的模型
-    --model_args url=$URL,concurrency=1 \ #指定2.2步生成的URL，初始化模型参数，以及并发线程数
-    --config_path configs/eval_config.json \ #评测文件路径，指定2.1步生成的eval_config.json（默认）
-    --output_base_path logs \  #测评结果保存路径
-    --batch_size 10 \ # 批处理数量
-    --postprocess general_torch \ # 对模型输出的结果做后处理清洗
-    --params models/model_params/vllm_sample.json \ # 模型推理时的参数
-    --write_out \ # 是否保存每个instance的相关数据
-    # --limit 2 \ # 评测每个任务的一定数量的instance
+    --model general \
+    --model_args url=$URL,concurrency=1 \
+    --config_path configs/eval_config.json \
+    --output_base_path logs \
+    --batch_size 10 \
+    --postprocess general_torch \
+    --params models/model_params/vllm_sample.json \
+    --write_out
 ```
+以下是具体的参数描述：
+* ``model``: 指定模型，目前支持general、gpt-3.5-turbo、gpt-4三种模型。
+* ``model_args``: 指定2.2生成的URL，初始化模型参数，以及并发线程数。以逗号分隔，参数名和参数值用=连接。例如：url=$URL,concurrency=1。
+* ``config_path``: 指定2.1中的评测文件路径，默认为configs/eval_config.json。
+* ``output_base_path``: 指定评测结果保存路径，默认为logs。
+* ``batch_size``: 指定批处理数量，默认为10。
+* ``postprocess``: 指定后处理方法，默认为general_torch。
+* ``params``: 指定模型推理时的参数，默认为models/model_params/vllm_sample.json。
+* ``write_out``: 是否保存每个instance的相关数据，默认为False。
+* ``limit``: 评测每个任务的一定数量的instance，默认为None。
+
 测评结果保存在路径下：
 ```shell
 output_base_path    #：输出路径

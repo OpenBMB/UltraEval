@@ -1,11 +1,12 @@
-from vllm import LLM, SamplingParams
-import os
 import argparse
-from flask import Flask, jsonify, request
+import os
 
-'''
+from flask import Flask, jsonify, request
+from vllm import LLM, SamplingParams
+
+"""
 reference:https://github.com/vllm-project/vllm/blob/main/vllm/sampling_params.py
-'''
+"""
 
 parser = argparse.ArgumentParser()
 parser.add_argument("--model_name", type=str, help="Model name on hugginface")
@@ -15,7 +16,11 @@ args = parser.parse_args()
 
 os.environ["CUDA_VISIBLE_DEVICES"] = args.gpuid
 
-llm = LLM(model=args.model_name, trust_remote_code=True, tensor_parallel_size=len(args.gpuid.split(",")))
+llm = LLM(
+    model=args.model_name,
+    trust_remote_code=True,
+    tensor_parallel_size=len(args.gpuid.split(",")),
+)
 
 # 模型的模型参数
 params_dict = {
@@ -42,6 +47,7 @@ print("model load finished")
 
 app = Flask(__name__)
 
+
 @app.route("/vllm-url-infer", methods=["POST"])
 def main():
     datas = request.get_json()
@@ -55,19 +61,18 @@ def main():
     outputs = llm.generate(prompts, SamplingParams(**params_dict))
 
     res = []
-    if 'prompt_logprobs' in params and params['prompt_logprobs'] is not None:
+    if "prompt_logprobs" in params and params["prompt_logprobs"] is not None:
         for output in outputs:
             prompt_logprobs = output.prompt_logprobs
             logp_list = [list(d.values())[0] for d in prompt_logprobs[1:]]
             res.append(logp_list)
         return jsonify(res)
-    else: 
+    else:
         for output in outputs:
             generated_text = output.outputs[0].text
             res.append(generated_text)
         return jsonify(res)
 
+
 if __name__ == "__main__":
-
     app.run(port=args.port, debug=False)
-

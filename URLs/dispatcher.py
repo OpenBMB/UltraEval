@@ -1,11 +1,12 @@
 import os
+
 import pynvml
 
-PATTERN = 'WORKER_{}'
+PATTERN = "WORKER_{}"
+
 
 # 为每个POD中每个进程均分GPUs
 class GPUDispatcher:
-
     def __init__(self):
         pynvml.nvmlInit()
         self._gpus_num = pynvml.nvmlDeviceGetCount()
@@ -73,7 +74,7 @@ class GPUDispatcher:
     def get_worker_gpus():
         key = PATTERN.format(os.getpid())
         gpus = os.getenv(key)
-        #if gpus is not None:
+        # if gpus is not None:
         #   gpus = GPUDispatcher._unpack_gpus(gpus)
         if gpus == None:
             raise

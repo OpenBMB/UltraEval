@@ -1,16 +1,14 @@
-from typing import Any, Dict, List
-import sacrebleu
-from sacrebleu.metrics.bleu import _get_tokenizer
 from collections.abc import Iterable
+from typing import Any
+
+import sacrebleu
+
 
 class BLEU:
-    def __init__(
-        self, **kwargs
-    ):
+    def __init__(self, **kwargs):
         self.tokenizer = kwargs.get("tokenizer", "13a")
 
     def __call__(self, doc, ground_truth, results) -> Any:
-
         try:
             results = [(ground_truth, results[0])]
             return self.bleu(results, tokenizer=self.tokenizer)

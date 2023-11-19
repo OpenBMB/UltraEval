@@ -1,11 +1,11 @@
-from typing import Any, Dict, List
-from sacrebleu.metrics.bleu import _TOKENIZERS
-from sacrebleu.metrics.bleu import _get_tokenizer
+from typing import Any
+
 from rouge_chinese import Rouge
+from sacrebleu.metrics.bleu import _TOKENIZERS, _get_tokenizer
+
+
 class ROUGE:
-    def __init__(
-        self, **kwargs
-    ):
+    def __init__(self, **kwargs):
         self.tokenizer = kwargs.get("tokenizer", "13a")
         self.index = kwargs.get("index", "f1")[0].lower()
         self.n_gram = kwargs.get("n_gram", "1")[0].lower()
@@ -15,13 +15,12 @@ class ROUGE:
         assert self.n_gram in ("1", "2", "l"), "invalid index name"
 
     def __call__(self, doc, ground_truth, results) -> Any:
-
         try:
             results = [(ground_truth, results[0])]
             return self.rouge(results, self.METRIC_NAME, self.tokenizer, self.index)
         except:
             return 0
-        
+
     def rouge(self, items, rouge_type, tokenizer_type="13a", index="f", avg=True):
         """
         Source:
@@ -40,14 +39,18 @@ class ROUGE:
                 scores_of_refs = []
                 for ref in ref_list:
                     pred, ref = tokenizer(pred), tokenizer(ref)
-                    scores_of_refs.append(scorer.get_scores(pred, ref, avg)[rouge_type][index])
+                    scores_of_refs.append(
+                        scorer.get_scores(pred, ref, avg)[rouge_type][index]
+                    )
                 ret.append(max(scores_of_refs))
 
             score = self.mean(ret)
         else:
-            preds, refs = tuple(tokenizer(pred) for pred in preds), tuple(tokenizer(ref) for ref in refs)
+            preds, refs = tuple(tokenizer(pred) for pred in preds), tuple(
+                tokenizer(ref) for ref in refs
+            )
             score = scorer.get_scores(preds, refs, avg)[rouge_type][index]
-        return 100. * score
+        return 100.0 * score
 
     def mean(self, arr):
         return sum(arr) / len(arr)

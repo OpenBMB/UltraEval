@@ -1,4 +1,5 @@
-from typing import Any, Dict, List
+from typing import Any
+
 
 class ExactMatch:
     def __init__(
@@ -7,7 +8,6 @@ class ExactMatch:
         pass
 
     def __call__(self, doc, ground_truth, results) -> Any:
-
         if isinstance(ground_truth, str):
             ground_truth = [ground_truth]
 

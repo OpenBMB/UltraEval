@@ -1,17 +1,13 @@
-import ast
 import contextlib
 import faulthandler
 import io
-import itertools
 import multiprocessing
 import os
 import platform
 import signal
 import tempfile
 from concurrent.futures import ThreadPoolExecutor, as_completed
-from typing import Callable, Dict, Optional
-
-import numpy as np
+from typing import Dict, Optional
 
 
 class FunctionExecution:
@@ -52,7 +48,17 @@ class FunctionExecution:
             the results later even if execution finishes asynchronously.
         """
 
-        if all(key in problem for key in ["text", "code", "task_id", "test_setup_code", "test_list", "challenge_test_list"]):
+        if all(
+            key in problem
+            for key in [
+                "text",
+                "code",
+                "task_id",
+                "test_setup_code",
+                "test_list",
+                "challenge_test_list",
+            ]
+        ):
             dataset = "mbpp"
 
         def unsafe_execute():

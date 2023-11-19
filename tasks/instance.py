@@ -4,7 +4,7 @@ from collections import defaultdict
 
 
 class Instance:
-    """all information of an test instance.
+    """all information of a test instance.
     Include:
     1.  the original data
     2.  the full input to model

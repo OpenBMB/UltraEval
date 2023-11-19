@@ -1,6 +1,9 @@
-from typing import Any, Dict, List
-import numpy as np
 import hashlib
+from typing import Any
+
+import numpy as np
+
+
 class LogProb:
     def __init__(
         self,
@@ -8,7 +11,6 @@ class LogProb:
         pass
 
     def __call__(self, doc, ground_truth, results) -> Any:
-
         lowest_score_index = self._argmin(results[0])
         if lowest_score_index is None:
             res = 0

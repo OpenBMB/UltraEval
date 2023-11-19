@@ -1,17 +1,7 @@
-import collections
-import fnmatch
-import functools
-import inspect
-import os
-import pathlib
-import re
-import subprocess
-import sys
-from typing import List, Union
-
-import torch
-from omegaconf import OmegaConf
 import importlib.util
+import os
+
+from omegaconf import OmegaConf
 
 
 def simple_parse_args_string(args_string):
@@ -29,17 +19,14 @@ def simple_parse_args_string(args_string):
 
 
 def import_function_from_path(filepath: str, func_name: str):
-
-    module_name = os.path.basename(filepath).rstrip('.py')
-    
+    module_name = os.path.basename(filepath).rstrip(".py")
 
     spec = importlib.util.spec_from_file_location(module_name, filepath)
     module = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(module)
-    
 
     function = getattr(module, func_name, None)
     if function is None:
         raise ImportError(f"Function {func_name} not found in {filepath}")
-    
+
     return function

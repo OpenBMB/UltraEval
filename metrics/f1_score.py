@@ -1,5 +1,6 @@
-from typing import Any, Dict, List
 from collections import Counter
+from typing import Any
+
 
 class F1Score:
     def __init__(
@@ -8,12 +9,13 @@ class F1Score:
         pass
 
     def __call__(self, doc, ground_truth, results) -> Any:
-
         if isinstance(ground_truth, str):
             ground_truth = [ground_truth]
 
-        f1_scores = [self.f1_score(results[0], single_answer) for single_answer in ground_truth]
-    
+        f1_scores = [
+            self.f1_score(results[0], single_answer) for single_answer in ground_truth
+        ]
+
         return max(f1_scores, default=0.0)
 
     def f1_score(self, prediction, ground_truth):

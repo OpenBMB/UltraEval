@@ -1,6 +1,8 @@
-from typing import Any, Dict, List
-import sacrebleu
 from collections.abc import Iterable
+from typing import Any
+
+import sacrebleu
+
 
 class CHRF:
     def __init__(
@@ -9,7 +11,6 @@ class CHRF:
         pass
 
     def __call__(self, doc, ground_truth, results) -> Any:
-
         try:
             results = [(ground_truth, results[0])]
             return self.chrf(results)
