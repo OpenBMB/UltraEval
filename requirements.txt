@@ -9,3 +9,4 @@ gevent
 gunicorn
 tqdm
 pynvml
+accelerate>=0.20.3

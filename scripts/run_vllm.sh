@@ -46,7 +46,7 @@ python main.py \
     --model_args url=$URL,concurrency=$NUMBER_OF_THREAD \
     --config_path $CONFIG_PATH \
     --output_base_path $OUTPUT_BASE_PATH \
-    --batch_size 64 \
+    --batch_size 16 \
     --postprocess general_torch \
     --params models/model_params/vllm_sample.json \
     --write_out \
