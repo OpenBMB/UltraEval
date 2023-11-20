@@ -27,7 +27,7 @@ def del_data(datasets_dir):
             for file in os.listdir(data_dir_path):
                 if file.endswith(".jsonl"):
                     shutil.rmtree(data_dir_path)
-                    print(f"success delete data folder{data_dir_path}")
+                    print(f"success delete data folder {data_dir_path}")
                     break
 
 
