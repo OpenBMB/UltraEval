@@ -43,8 +43,9 @@ class Evaluator:
         self.build_tasks(data_config)
 
     def process_config(self, config_path: str):
-        if config_path.endswith("json"):
-            data_config = json.load(open(config_path, "r"))
+        if config_path.endswith(".json"):
+            with open(config_path, "r", encoding="utf-8") as f:
+                data_config = json.load(f)
         else:
             exit("config file must be json format")
         return data_config
@@ -116,12 +117,10 @@ class Evaluator:
     def make_table(
         self,
     ):
-        from pytablewriter import LatexTableWriter, MarkdownTableWriter
+        from pytablewriter import MarkdownTableWriter
 
         md_writer = MarkdownTableWriter()
-        latex_writer = LatexTableWriter()
         md_writer.headers = ["Task", "Metric", "Value"]
-        latex_writer.headers = ["Task", "Metric", "Value"]
 
         values = []
         dataset_result = {}
@@ -135,7 +134,6 @@ class Evaluator:
                 values.append([task.dataset_name, k, "%.4f" % v])
 
         md_writer.value_matrix = values
-        latex_writer.value_matrix = values
 
         print(md_writer.dumps())
 
@@ -151,7 +149,7 @@ class Evaluator:
             }
 
         with open(
-            os.path.join(self.args.output_base_path, "_all_results.json"), "w"
+            os.path.join(self.args.output_base_path, "_all_results.json"), "w", encoding="utf-8"
         ) as f:
             json.dump(dataset_result, f, indent=4, ensure_ascii=False)
 

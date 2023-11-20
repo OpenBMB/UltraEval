@@ -18,7 +18,7 @@ def convert(input_folder_path, output_folder_path):
             output_folder_path, folder_name.replace("_", "-").replace(".json", ".jsonl")
         )
         with open(output_file_path, "w", encoding="utf-8") as outfile:
-            with open(folder_path, "r") as infile:
+            with open(folder_path, "r", encoding="utf-8") as infile:
                 data_entry = json.load(infile)
             for ins in data_entry:
                 new_entry = transform_entry(ins)

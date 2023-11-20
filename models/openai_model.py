@@ -72,7 +72,7 @@ class OPENAI_API_MODEL:
         self._backoff_time = backoff_time
         self._sys_prompt = sys_prompt if sys_prompt else self.DEFAULT_PROMPT
         self._api_key_path = api_key_path
-        print(f"model{self._model}")
+        print(f"model: {self._model}")
 
     def make_request_instance(self, input: str, output: str) -> Any:
         return input + output

@@ -71,7 +71,7 @@ def main():
     args = parse_args()
     random.seed(42)
 
-    with open(args.config, "r") as f:
+    with open(args.config, "r", encoding="utf-8") as f:
         f_config = json.load(f)
 
     rnd = random.Random()
@@ -90,7 +90,7 @@ def main():
     dataset_name = f"{dataset_part}_{dataset_name}_{config_part}"
     description = f_config["description"] + "\n\n" if f_config["description"] else ""
     dataset = []
-    with open(f_config["path"], "r") as file:
+    with open(f_config["path"], "r", encoding="utf-8") as file:
         for line in file:
             data = json.loads(line)
             dataset.append(Instance(data))

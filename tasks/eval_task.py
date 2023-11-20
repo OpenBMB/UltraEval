@@ -54,7 +54,8 @@ class EvalTask:
         _params = (
             self._sample_config["params"] if self._sample_config["params"] else params
         )
-        self._sample_args = json.load(open(_params, "r"))
+        with open(_params, "r", encoding="utf-8") as f:
+            self._sample_args = json.load(f)
         self.sample_config = sample_config
         self.sample_config["args"] = self._sample_args
 
@@ -217,7 +218,7 @@ class EvalTask:
             for metric in ins.metrics:
                 self.gathered_metrics[metric].append(ins.metrics[metric])
         print(
-            "<<{}>> Gathered metrics is: {}".format(
+            "<<{}>> Gathered metrics are: {}".format(
                 self.dataset_name, self.gathered_metrics
             )
         )
@@ -236,7 +237,7 @@ class EvalTask:
             "overall_result": self.final_metrics,
         }
 
-        with open(os.path.join(save_task_path, "final_metrics.json"), "w") as fout:
+        with open(os.path.join(save_task_path, "final_metrics.json"), "w", encoding="utf-8") as fout:
             json.dump(dump_data, fout, indent=4, ensure_ascii=False)
 
         config_data = {
@@ -253,7 +254,7 @@ class EvalTask:
             "log_dir": self.log_dir,
         }
 
-        with open(os.path.join(save_task_path, "config.json"), "w") as fout:
+        with open(os.path.join(save_task_path, "config.json"), "w", encoding="utf-8") as fout:
             json.dump(config_data, fout, indent=4, ensure_ascii=False)
 
     def construct_input(

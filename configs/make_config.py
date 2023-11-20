@@ -67,11 +67,15 @@ if __name__ == "__main__":
                 config_dic[key] = list(value.keys())
         else:
             for key in datasets:
+                if not config_dict_path.get(key):
+                    exit(f"error: {key} not in dataset list!")
                 config_dic[key] = list(config_dict_path[key].keys())
     else:
         if len(datasets) != 1:
             exit("error: datasets must be one!")
         else:
+            if not config_dict_path.get(datasets[0]):
+                exit(f"error: {datasets[0]} not in dataset list!")
             key = datasets[0]
             values = list(config_dict_path[key].keys())
             config_dic[key] = [
@@ -89,7 +93,8 @@ if __name__ == "__main__":
     for key, value in config_dic.items():
         for task in value:
             path = config_dict_path[key][task]
-            tdict = json.load(open(path, "r"))
+            with open(path, "r", encoding="utf-8") as f:
+                tdict = json.load(f)
             name1 = key
             name2 = "-".join(re.split("[-_]", tdict["dataset_name"]))
             name3 = "gen" if tdict["generate"]["method"] == "generate" else "ppl"
@@ -101,6 +106,6 @@ if __name__ == "__main__":
     print(
         f"The number of selected datasets is {len(config_dic.keys())}; the number of selected tasks is {len(eval_config)}."
     )
-    with open(f"configs/{args.save}", "w") as f:
+    with open(f"configs/{args.save}", "w", encoding="utf-8") as f:
         json.dump(eval_config, f, indent=4, ensure_ascii=False)
     print("Results have been saved！")
