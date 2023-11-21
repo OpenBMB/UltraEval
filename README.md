@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="docs/pics/ultraeval_logo.png" width="500px"/>
+  <img src="docs/pics/ultraeval_logo_white.jpg" width="500px"/>
   <br />
   <br />
 <p align="center">
@@ -27,7 +27,7 @@ UltraEval是一个开源的大模型能力评测框架，提供了一套轻量�
 UltraEval整体流程如下：
 <div align="center">
 <p align="center">
-<img src="docs/pics/ultraeval_pipeline.png" width="800px">
+<img src="docs/pics/ultraeval_pipeline_white.jpg" width="800px">
 </p>
 </div>
 
