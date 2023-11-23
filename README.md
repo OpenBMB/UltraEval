@@ -7,7 +7,7 @@
  <a href="#Overview">📖Overview</a> •
  <a href="#Quick start">🔧Quick start</a> •
  <a href="https://github.com/OpenBMB/UltraEval/docs/tutorials/ultraeval.md">🛠️Tutorials</a> •
- <a href="https://github.com/OpenBMB/UltraEval/README_zh.md">中文</a> 
+ <a href="README_zh.md">中文</a> 
 </p>
 </div>
 
