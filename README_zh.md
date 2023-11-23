@@ -3,7 +3,7 @@
   <br />
   <br />
 <p align="center">
- <a href="https://ultraeval.openbmb.cn/home"> 🌐Website</a> •
+ <a href="https://ultraeval.openbmb.cn/home"> 🌐网站</a> •
  <a href="#总览">📖总览</a> •
  <a href="#快速开始">🔧快速开始</a> •
  <a href="https://github.com/OpenBMB/UltraEval/docs/tutorials/ultraeval.md">🛠️详细教程</a> •
