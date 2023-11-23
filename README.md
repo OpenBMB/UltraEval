@@ -4,151 +4,166 @@
   <br />
 <p align="center">
  <a href="https://ultraeval.openbmb.cn/home"> 🌐Website</a> •
- <a href="#总览">📖总览</a> •
- <a href="#快速开始">🔧快速开始</a> •
- <a href="https://ultraeval.openbmb.cn/home">🛠️详细教程</a> 
+ <a href="#Overview">📖Overview</a> •
+ <a href="#Quick start">🔧Quick start</a> •
+ <a href="https://github.com/OpenBMB/UltraEval/docs/tutorials/ultraeval.md">🛠️Tutorials</a> •
+ <a href="https://github.com/OpenBMB/UltraEval/README_zh.md">中文</a> 
 </p>
 </div>
 
 
-# 更新
 
-- \[2023.11.17\]我们开源了UltraEval评测框架，并发布了第一版榜单。🔥🔥🔥
+# News!
 
-# 总览
-UltraEval是一个开源的大模型能力评测框架，提供了一套轻量级、易于使用的评测体系，支持主流大模型的性能评估。它的主要特色如下：
-- 轻量易用的评测框架：具备简洁直观的设计，依赖少，易于部署，具有良好的扩展性，适用多种评测场景。
-- 灵活多样的评测方法：提供了统一的prompt模板和丰富的评估指标，同时支持自定义。
-- 高效快速的部署推理：支持包括torch和vLLM在内的多种模型部署方案，并实现了多实例部署以加速评测过程。
-- 公开透明的开源榜单：维护一个公开的、可追溯和可复现的评测榜单，由社区推动更新，确保透明度。
-- 官方权威的评测数据：采用广泛认可的官方评测集，保证评测的公平性和标准化，确保结果具有可比性和复现性。
-- 全面广泛的模型支持：支持Huggingface平台上的开源模型以及个人训练的模型。
+- \[2023.11.23\]We open sourced the UltraEval evaluation framework and published the first version of the list.🔥🔥🔥
 
-UltraEval整体流程如下：
+# Overview
+UltraEval is an open-source framework for evaluating the capabilities of foundation models, providing a suite of lightweight, easy-to-use evaluation systems that support the performance assessment of mainstream LLMs. Its main features are as follows:
+1. **Lightweight and Easy-to-use Evaluation Framework:** Seamlessly designed with an intuitive interface, minimal dependencies, effortless deployment, excellent scalability, adaptable to diverse evaluation scenarios.
+
+2. **Flexible and Diverse Evaluation Methods:** Supports a unified prompt template with an extensive array of evaluation metrics, allowing for personalized customization to suit specific needs.
+
+3. **Efficient and Swift Inference Deployment:** Facilitates multiple model deployment strategies such as torch and vLLM, enabling multi-instance deployment for swift evaluation processes.
+
+4. **Publicly Transparent Open-Source Leaderboard:** Maintains an open, traceable, and reproducible evaluation leaderboard, driven by community updates to ensure transparency and credibility.
+
+5. **Official and Authoritative Evaluation Data:** Utilizes widely recognized official evaluation sets to ensure fairness and standardization in evaluations, ensuring results are comparable and reproducible.
+
+6. **Comprehensive and Extensive Model Support:** Offers support for a wide spectrum of models, including those from the Huggingface open-source repository and personally trained models, ensuring comprehensive coverage.
+
+
+
+UltraEval's overall workflow is as follows:
 <div align="center">
 <p align="center">
-<img src="docs/pics/ultraeval_pipeline_white.jpg" width="800px">
+<img src="docs/pics/ultraeval_pipeline_white.png" width="800px">
 </p>
 </div>
 
-# 快速开始
-欢迎体验UltraEval——您的大模型能力评测助手，只需几个简单步骤，即可启动评测：
+# Quick start
+Welcome to UltraEval, your assistant for evaluating the capabilities of large models. Get started in just a few simple steps:
 
-## 1.安装UltraEval
+## 1. Install UltraEval
 
 ```shell
 git clone https://github.com/OpenBMB/UltraEval.git
 cd UltraEval
 pip install .
 ```
-## 2.模型测评
-进入UltraEval根目录，以下所有指令均在根目录下执行。
+## 2.Model evaluation
+Enter the UltraEval root directory; all the following commands are executed in the root directory.
 
-### 2.1生成评测任务文件
-解压数据
+### 2.1 Generate the evaluation task file
+unzip evaluation datasets：
 ```shell
 unzip RawData.zip
 ```
-对数据进行预处理
+Preprocess the data：
 ```shell
 python data_process.py
 ```
-执行下述指令显示支持的数据集及其对应任务：
+Execute the following command to display the supported data sets and their corresponding tasks:
 
 ```shell
 python configs/show_datasets.py
 ```
 
-通过以下指令指定需要测评的任务：
+Specify the tasks to be tested with the following instructions:
 
 ```shell
 python configs/make_config.py --datasets ALL
 ```
-以下是具体的参数描述：
-* ``datasets``: 选择数据集，默认为All(所有的数据集)；指定多个数据集，用,间隔。例如：--datasets MMLU,Ceval
-* ``tasks``: 选择评测任务，默认为空。
-* ``method``: 选择生成方式，默认为gen。
-* ``save``: 选择生成评测文件的文件名，默认为eval_config.json。
+The following is the specific parameter description:
+* ``datasets``: Select the data set, default is All(all data sets); Specify multiple data sets, with, spacing. For example, --datasets MMLU,Ceval
+* ``tasks``: Select the task, the default value is empty.
+* ``method``: Select the generation method, the default value is gen.
+* ``save``: Select the filename for the generated evaluation file, which defaults to eval_config.json.
 
-注意⚠️：当tasks有值时，datasets的数量必须为1。表示执行某个数据集下的某些任务；save是一个文件名，且以.json结尾，不需要传入路径，默认在configs下。执行上述指令将在configs目录下生成评测文件eval_config.json。
+Note ⚠️ : When 'tasks' have values, the number of 'datasets' must be 1, indicating that certain tasks under a specific dataset are to be executed; 'save' is a filename that should end with .json, and there is no need to input a path as it defaults to the 'configs' directory. Executing the above command will generate an evaluation file named 'eval_config.json' in the 'configs' directory.
 
-### 2.2本地部署模型
-以部署meta-llama/Llama-2-7b-hf为例，使用vllm部署模型：
+### 2.2 Local deployment model
+As an example, deploying meta-llama/Llama-2-7b-hf using the vLLM deployment model:
 ```shell
 python URLs/vllm_url.py \
     --model_name meta-llama/Llama-2-7b-hf \
     --gpuid 0 \
     --port 5002
 ```
-以下是具体的参数描述：
-* ``model_name``: 模型名，使用vLLM时，model_name和hugging face官方名称需保持一致。
-* ``gpuid``: 指定部署模型的gpu id，默认0。如果需要多个，可用,隔开
-* ``port``: 部署URL的端口号，默认5002。
+Below is a description of the specific parameters:
+* ``model_name``: Model name, when using vLLM, model_name and hugging face official name need to be consistent.
+* ``gpuid``: Specify the gpu id of the deployment model, default is 0. If more than one is needed, use , to separate them.
+* ``port``: The port number of the deployment URL, default 5002.
 
-关于个人训练的模型以及多GPU批量评测方式请参考[Tutorial.md]()。
+Executing the above code will generate a URL.
+For a model of individual training and a multi-GPU batch evaluation approach, see [Tutorial.md]().
 
-### 2.3进行测评获取测评结果
-创建一个bash脚本，执行main.py程序，获取测评结果：
+### 2.3 Take the assessment and get the results
+Create a bash script[optional] and execute the main.py program to get the results of the assessment:
 ```shell
 python main.py \
     --model general \
     --model_args url=$URL,concurrency=1 \
     --config_path configs/eval_config.json \
     --output_base_path logs \
-    --batch_size 10 \
+    --batch_size 1 \
     --postprocess general_torch \
     --params models/model_params/vllm_sample.json \
     --write_out
 ```
-以下是具体的参数描述：
-* ``model``: 指定模型，目前支持general、gpt-3.5-turbo、gpt-4三种模型。
-* ``model_args``: 指定2.2生成的URL，初始化模型参数，以及并发线程数。以逗号分隔，参数名和参数值用=连接。例如：url=$URL,concurrency=1。
-* ``config_path``: 指定2.1中的评测文件路径，默认为configs/eval_config.json。
-* ``output_base_path``: 指定评测结果保存路径，默认为logs。
-* ``batch_size``: 指定批处理数量，默认为10。
-* ``postprocess``: 指定后处理方法，默认为general_torch。
-* ``params``: 指定模型推理时的参数，默认为models/model_params/vllm_sample.json。
-* ``write_out``: 是否保存每个instance的相关数据，默认为False。
-* ``limit``: 评测每个任务的一定数量的instance，默认为None。
+Below is a description of the specific parameters:
+* ``model``: Specifies the model. Currently, the general, gpt-3.5-turbo, and gpt-4 models are supported.
+* ``model_args``: Specify the URL generated in 2.2 and the number of concurrent threads to initialize the model parameters. Separate with commas, and connect parameter names and values with an equals sign. For example: url=$URL,concurrency=1.
+* ``config_path``: Specify the evaluation file path from 2.1, which by default is configs/eval_config.json.
+* ``output_base_path``: Specifies the path to save the results. The default is logs.
+* ``batch_size``: Specifies the number of batches to be processed. The default is 1.
+* ``num_fewshot``: Specifies the number of fewshot samples.
+* ``postprocess``: Specifies the post-processing method, which defaults to general_torch.
+* ``params``: Specifies parameters for model inference. The default is models/model_params/vllm_sample.json.
+* ``write_out``: Whether to save the data for each instance. The default value is False.
+* ``limit``: Evaluate a certain number of instances per task, default to None.
 
-测评结果保存在路径下：
+Evaluation results are saved in the path:
 ```shell
-output_base_path    #：输出路径
---timestamp # 时间戳
-----task1   # 评测任务
---------config.json # 评测任务的相关参数配置记录
---------final_metrics.json  # 该任务的最终结果
---------instance.jsonl  # 该任务每一条样例的详细结果
-----....    # 其他任务目录
-----_all_results.json   # 所有评测任务结果的综合
+output_base_path    #：Output path
+--timestamp # timestamp
+----task1   # Evaluation task
+--------config.json # Record the configuration of related parameters of the evaluation task
+--------final_metrics.json  # The final result of the task
+--------instance.jsonl  # Detailed results for each instance of the task
+----....    # Other task directory
+----_all_results.json   # Synthesis of results from all evaluation tasks
 ```
-### 2.4更多测评功能支持
-更多测评方法和功能（自定义评测集评测、批量测评、多GPU加速）详情请见[Tutorials.md]()
+### 2.4 More evaluation function support
+More evaluation methods and features (custom evaluation set, batch evaluation, multi-GPU acceleration) can be found in[Tutorials.md]()
 
-# 数据集支持
+# Evaluation set support
 
-UltraEval支持21个评测数据集，并按能力分类全面衡量大模型能力，数据集支持如下：
+UltraEval currently supports 59 evaluation datasets and comprehensively measures large model capabilities through capability categories, as follows:
 
-| 五大维度 | 二级       | 任务列表                                                     |
-| -------- | ---------- | ------------------------------------------------------------ |
-| 知识推理 | 学科知识   | MMLU, CMMLU, C-Eval |
-| 数学计算 | 数学计算   | GSM8K, MATH                                                  |
-| 代码生成 | 代码生成   | HumanEval, MBPP                                              |
-| 逻辑推理 | 蕴含关系   | AX-B, AX-G, RTE                                             |
-|          | 常识推理   | HellaSwag, COPA, PIQA |
-| 语言理解 | 阅读理解   | BoolQ, C3, ChiD, LAMBADA, TyDi QA |
-|          | 语义相似度 | AFQMC                                                 |
-|          | 词义消歧   | WiC                    |
-|          | 情感分析   | eprstmt                                                      |
+| **Five dimensions** | **Secondary classification** | **Task list**                                                |
+| ------------------- | ---------------------------- | ------------------------------------------------------------ |
+| Knowledge           | Subject knowledge            | CMMLU, MMLU, CEval, AGI-Eval, JEC-QA, MEDMCQA, MEDQA-MCMLE, MEDQA-USMLE, GAOKAO-Bench |
+|                     | World knowledge              | NQ-open, TriviaQA, TruthfulQA                                |
+| Math                | Math                         | GSM8K, MATH                                                  |
+| Code                | Code                         | HumanEval, MBPP                                              |
+| Logic               | Logical reasoning            | BBH                                                          |
+|                     | Implicative relation         | AX-B, AX-G, CB, CMNLI, OCNLI, OCNLI-FC, RTE                  |
+|                     | Common sense reasoning       | HellaSwag, OpenBookQA, ARC-c, ARC-e, CommonsenseQA, COPA, PIQA, SIQA, WinoGrande, Story Cloze, StrategyQA, TheoremQA |
+| Language            | Reading comprehension        | boolq, C3, ChiD, DRCD, LAMBADA, MultiRC, QuAC, RACE, RECORD, SQuAD, TyDi QA, SummEdits |
+|                     | Translation                  | FLORES, wmt20-en-zh, wmt20-en-zh                             |
+|                     | Semantic similarity          | AFQMC, BUSTM                                                 |
+|                     | Word sense disambiguation    | CLUEWSC, WIC, Winogender, WSC                                |
+|                     | Sentiment analysis           | EPRSTMT                                                      |
+|                     | News classification          | TNEWS                                                        |
 
-# 测评榜单
-请访问UltraEval[官方排行榜](https://ultraeval.openbmb.cn/rank)了解最新模型及其在每个维度中的详细结果。
+# Leaderboard
+Please visit UltraEval[Leaderboard](https://ultraeval.openbmb.cn/rank) to learn about the latest models and their detailed results in each dimension.
 
-# 致谢
+# Acknowledgement
 - [HuggingFace](https://huggingface.co)
 - [vLLM](https://github.com/vllm-project/vllm/blob/main)
 - [Harness](https://github.com/EleutherAI/lm-evaluation-harness/tree/master)
-# 联系我们
-- 如果有关于 UltraEval的问题或建议或功能请求，请提交GitHub Issue，让我们共同建设更好的UltraEval。
+# Contact us
+- If you have questions, suggestions, or feature requests regarding UltraEval, please submit GitHub Issues to jointly build an open and transparent UltraEval evaluation community.
 # License
-本项目遵循Apache-2.0
+This project follows the Apache-2.0 license.
