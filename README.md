@@ -6,7 +6,7 @@
  <a href="https://ultraeval.openbmb.cn/home"> 🌐Website</a> •
  <a href="#Overview">📖Overview</a> •
  <a href="#Quick start">🔧Quick start</a> •
- <a href="https://github.com/OpenBMB/UltraEval/docs/tutorials/ultraeval.md">🛠️Tutorials</a> •
+ <a href="docs/tutorials/ultraeval.md">🛠️Tutorials</a> •
  <a href="README_zh.md">中文</a> 
 </p>
 </div>
@@ -134,35 +134,86 @@ output_base_path    #：Output path
 ----_all_results.json   # Synthesis of results from all evaluation tasks
 ```
 ### 2.4 More evaluation function support
-More evaluation methods and features (custom evaluation set, batch evaluation, multi-GPU acceleration) can be found in[Tutorials.md]()
+More evaluation methods and features (custom evaluation set, batch evaluation, multi-GPU acceleration) can be found in [Tutorials.md]()
 
 # Evaluation set support
 
 UltraEval currently supports 59 evaluation datasets and comprehensively measures large model capabilities through capability categories, as follows:
 
-| **Five dimensions** | **Secondary classification** | **Task list**                                                |
-| ------------------- | ---------------------------- | ------------------------------------------------------------ |
-| Knowledge           | Subject knowledge            | CMMLU, MMLU, CEval, AGI-Eval, JEC-QA, MEDMCQA, MEDQA-MCMLE, MEDQA-USMLE, GAOKAO-Bench |
-|                     | World knowledge              | NQ-open, TriviaQA, TruthfulQA                                |
-| Math                | Math                         | GSM8K, MATH                                                  |
-| Code                | Code                         | HumanEval, MBPP                                              |
-| Logic               | Logical reasoning            | BBH                                                          |
-|                     | Implicative relation         | AX-B, AX-G, CB, CMNLI, OCNLI, OCNLI-FC, RTE                  |
-|                     | Common sense reasoning       | HellaSwag, OpenBookQA, ARC-c, ARC-e, CommonsenseQA, COPA, PIQA, SIQA, WinoGrande, Story Cloze, StrategyQA, TheoremQA |
-| Language            | Reading comprehension        | boolq, C3, ChiD, DRCD, LAMBADA, MultiRC, QuAC, RACE, RECORD, SQuAD, TyDi QA, SummEdits |
-|                     | Translation                  | FLORES, wmt20-en-zh, wmt20-en-zh                             |
-|                     | Semantic similarity          | AFQMC, BUSTM                                                 |
-|                     | Word sense disambiguation    | CLUEWSC, WIC, Winogender, WSC                                |
-|                     | Sentiment analysis           | EPRSTMT                                                      |
-|                     | News classification          | TNEWS                                                        |
+<table border="1">
+  <tr>
+    <th>First-level</th>
+    <th>Second-level</th>
+    <th>Dataset list</th>
+  </tr>
+  <tr>
+    <td rowspan="2"><strong>Knowledge</strong></td>
+    <td>Disciplinary knowledge</td>
+    <td>CMMLU, MMLU, CEval, AGI-Eval, JEC-QA, MEDMCQA, MEDQA-MCMLE, MEDQA-USMLE, GAOKAO-Bench</td>
+  </tr>
+  <tr>
+    <td>World knowledge</td>
+    <td>NQ-open, TriviaQA, TruthfulQA</td>
+  </tr>
+  <tr>
+    <td><strong>Math</strong></td>
+    <td>Math</td>
+    <td>GSM8K, MATH</td>
+  </tr>
+  <tr>
+    <td><strong>Code</strong></td>
+    <td>Code</td>
+    <td>HumanEval, MBPP</td>
+  </tr>
+  <tr>
+    <td rowspan="3"><strong>Logic</strong></td>
+    <td>Logical reasoning</td>
+    <td>BBH</td>
+  </tr>
+  <tr>
+    <td>Implicative relation</td>
+    <td>AX-B, AX-G, CB, CMNLI, OCNLI, OCNLI-FC, RTE</td>
+  </tr>
+  <tr>
+    <td>Common sense reasoning</td>
+    <td>HellaSwag, OpenBookQA, ARC-c, ARC-e, CommonsenseQA, COPA, PIQA, SIQA, WinoGrande, Story Cloze, StrategyQA, TheoremQA</td>
+  </tr>
+  <tr>
+    <td rowspan="6"><strong>Language</strong></td>
+    <td>Reading comprehension</td>
+    <td>boolq, C3, ChiD, DRCD, LAMBADA, MultiRC, QuAC, RACE, RECORD, SQuAD, TyDi QA, SummEdits</td>
+  </tr>
+  <tr>
+    <td>Translation</td>
+    <td>FLORES, wmt20-en-zh, wmt20-en-zh</td>
+  </tr>
+  <tr>
+    <td>Semantic similarity</td>
+    <td>AFQMC, BUSTM</td>
+  </tr>
+  <tr>
+    <td>Word sense disambiguation</td>
+    <td>CLUEWSC, WIC, Winogender, WSC</td>
+  </tr>
+  <tr>
+    <td>Sentiment analysis</td>
+    <td>EPRSTMT</td>
+  </tr>
+  <tr>
+    <td>News classification</td>
+    <td>TNEWS</td>
+  </tr>
+</table>
+
 
 # Leaderboard
-Please visit UltraEval[Leaderboard](https://ultraeval.openbmb.cn/rank) to learn about the latest models and their detailed results in each dimension.
+Please visit UltraEval [Leaderboard](https://ultraeval.openbmb.cn/rank) to learn about the latest models and their detailed results in each dimension.
 
 # Acknowledgement
 - [HuggingFace](https://huggingface.co)
 - [vLLM](https://github.com/vllm-project/vllm/blob/main)
 - [Harness](https://github.com/EleutherAI/lm-evaluation-harness/tree/master)
+- [OpenCompass](https://github.com/open-compass/opencompass)
 # Contact us
 - If you have questions, suggestions, or feature requests regarding UltraEval, please submit GitHub Issues to jointly build an open and transparent UltraEval evaluation community.
 # License

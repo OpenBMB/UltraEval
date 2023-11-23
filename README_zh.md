@@ -6,7 +6,7 @@
  <a href="https://ultraeval.openbmb.cn/home"> 🌐网站</a> •
  <a href="#总览">📖总览</a> •
  <a href="#快速开始">🔧快速开始</a> •
- <a href="https://github.com/OpenBMB/UltraEval/docs/tutorials/ultraeval.md">🛠️详细教程</a> •
+ <a href="docs/tutorials/ultraeval.md">🛠️详细教程</a> •
   <a href="README.md">English</a> 
 </p>
 </div>
@@ -130,21 +130,70 @@ output_base_path    #：输出路径
 # 数据集支持
 
 UltraEval支持59个评测数据集，并按能力分类全面衡量大模型能力，数据集支持如下：
-| 五大维度 | 二级分类   | 任务列表                                                     |
-| -------- | ---------- | ------------------------------------------------------------ |
-| 知识推理 | 学科知识   | CMMLU, MMLU, CEval, AGI-Eval, JEC-QA, MEDMCQA, MEDQA-MCMLE, MEDQA-USMLE, GAOKAO-Bench |
-|          | 世界知识   | NQ-open, TriviaQA, TruthfulQA                                |
-| 数学计算 | 数学计算   | GSM8K, MATH                                                  |
-| 代码生成 | 代码生成   | HumanEval, MBPP                                              |
-| 逻辑推理 | 逻辑推理   | BBH                                                          |
-|          | 蕴含关系   | AX-B, AX-G, CB, CMNLI, OCNLI, OCNLI-FC, RTE                  |
-|          | 常识推理   | HellaSwag, OpenBookQA, ARC-c, ARC-e, CommonsenseQA, COPA, PIQA, SIQA, WinoGrande, Story Cloze, StrategyQA, TheoremQA |
-| 语言理解 | 阅读理解   | boolq, C3, ChiD, DRCD, LAMBADA, MultiRC, QuAC, RACE, RECORD, SQuAD, TyDi QA, SummEdits |
-|          | 翻译       | FLORES, wmt20-en-zh, wmt20-en-zh                             |
-|          | 语义相似度 | AFQMC, BUSTM                                                 |
-|          | 词义消歧   | CLUEWSC, WIC, Winogender, WSC                                |
-|          | 情感分析   | EPRSTMT                                                      |
-|          | 新闻分类   | TNEWS                                                        |
+<table border="1">
+  <tr>
+    <th>一级分类</th>
+    <th>二级分类</th>
+    <th>数据集列表</th>
+  </tr>
+  <tr>
+    <td rowspan="2">知识推理</td>
+    <td>学科知识</td>
+    <td>CMMLU, MMLU, CEval, AGI-Eval, JEC-QA, MEDMCQA, MEDQA-MCMLE, MEDQA-USMLE, GAOKAO-Bench</td>
+  </tr>
+  <tr>
+    <td>世界知识</td>
+    <td>NQ-open, TriviaQA, TruthfulQA</td>
+  </tr>
+  <tr>
+    <td>数学计算</td>
+    <td>数学计算</td>
+    <td>GSM8K, MATH</td>
+  </tr>
+  <tr>
+    <td>代码生成</td>
+    <td>代码生成</td>
+    <td>HumanEval, MBPP</td>
+  </tr>
+  <tr>
+    <td rowspan="3">逻辑推理</td>
+    <td>逻辑推理</td>
+    <td>BBH</td>
+  </tr>
+  <tr>
+    <td>蕴含关系</td>
+    <td>AX-B, AX-G, CB, CMNLI, OCNLI, OCNLI-FC, RTE</td>
+  </tr>
+  <tr>
+    <td>常识推理</td>
+    <td>HellaSwag, OpenBookQA, ARC-c, ARC-e, CommonsenseQA, COPA, PIQA, SIQA, WinoGrande, Story Cloze, StrategyQA, TheoremQA</td>
+  </tr>
+  <tr>
+    <td rowspan="6">语言理解</td>
+    <td>阅读理解</td>
+    <td>boolq, C3, ChiD, DRCD, LAMBADA, MultiRC, QuAC, RACE, RECORD, SQuAD, TyDi QA, SummEdits</td>
+  </tr>
+  <tr>
+    <td>翻译</td>
+    <td>FLORES, wmt20-en-zh, wmt20-en-zh</td>
+  </tr>
+  <tr>
+    <td>语义相似度</td>
+    <td>AFQMC, BUSTM</td>
+  </tr>
+  <tr>
+    <td>词义消歧</td>
+    <td>CLUEWSC, WIC, Winogender, WSC</td>
+  </tr>
+  <tr>
+    <td>情感分析</td>
+    <td>EPRSTMT</td>
+  </tr>
+  <tr>
+    <td>新闻分类</td>
+    <td>TNEWS</td>
+  </tr>
+</table>
 
 
 # 测评榜单
@@ -154,6 +203,7 @@ UltraEval支持59个评测数据集，并按能力分类全面衡量大模型能
 - [HuggingFace](https://huggingface.co)
 - [vLLM](https://github.com/vllm-project/vllm/blob/main)
 - [Harness](https://github.com/EleutherAI/lm-evaluation-harness/tree/master)
+- [OpenCompass](https://github.com/open-compass/opencompass)
 # 联系我们
 - 如果有关于 UltraEval的问题或建议或功能请求，请提交GitHub Issues，共同建设开源透明的UltraEval评测社区。
 # License
