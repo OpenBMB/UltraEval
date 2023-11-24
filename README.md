@@ -221,6 +221,6 @@ Please visit UltraEval [Leaderboard](https://ultraeval.openbmb.cn/rank) to learn
 - [Harness](https://github.com/EleutherAI/lm-evaluation-harness/tree/master)
 - [OpenCompass](https://github.com/open-compass/opencompass)
 # Contact us
-- If you have questions, suggestions, or feature requests regarding UltraEval, please submit GitHub Issues to jointly build an open and transparent UltraEval evaluation community.
+If you have questions, suggestions, or feature requests regarding UltraEval, please submit GitHub Issues to jointly build an open and transparent UltraEval evaluation community.
 # License
 This project follows the Apache-2.0 license.
