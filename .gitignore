@@ -6,3 +6,4 @@ UltraEval.egg-info/
 build/
 logs/
 wip-*
+.idea/
