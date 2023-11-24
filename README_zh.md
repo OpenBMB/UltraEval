@@ -212,6 +212,6 @@ UltraEval支持59个评测数据集，并按能力分类全面衡量大模型能
 - [Harness](https://github.com/EleutherAI/lm-evaluation-harness/tree/master)
 - [OpenCompass](https://github.com/open-compass/opencompass)
 # 联系我们
-- 如果有关于 UltraEval的问题或建议或功能请求，请提交GitHub Issues，共同建设开源透明的UltraEval评测社区。
+如果有关于 UltraEval的问题或建议或功能请求，请提交GitHub Issues，共同建设开源透明的UltraEval评测社区。
 # License
 本项目遵循Apache-2.0协议。
