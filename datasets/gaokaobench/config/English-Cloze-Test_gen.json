@@ -1,0 +1,19 @@
+{
+    "task_name": "English-Cloze-Test",
+    "path": "datasets/gaokaobench/data/English-Cloze-Test.jsonl",
+    "description": "请回答下面的问题，将符合题意的五个选项的字母写在【答案】和<eoa>之间，例如“【答案】 A B C D E <eoa>\n请严格按照上述格式作答。\n",
+    "transform": "datasets/gaokaobench/transform_gen_v0.py",
+    "fewshot": 0,
+    "generate": {
+        "method": "generate",
+        "params": ""
+    },
+    "postprocess": "gaokao_five_out_of_seven_post",
+    "metric": {
+        "accuracy": {
+            "evaluation": {
+                "type": "gaokaobench_match"
+            }
+        }
+    }
+}

@@ -1,19 +1,19 @@
 {
-    "dataset_name": "boolq",
+    "task_name": "boolq",
     "path": "datasets/boolq/data/boolq.jsonl",
     "description": "",
-    "transforms": "datasets/boolq/transform_gen_v0.py",
+    "transform": "datasets/boolq/transform_gen_v0.py",
     "fewshot": 0,
-    "metrics": {
+    "generate": {
+        "method": "generate",
+        "params": ""
+    },
+    "postprocess": "",
+    "metric": {
         "accuracy": {
             "evaluation": {
                 "type": "prefix_match"
             }
         }
-    },
-    "generate": {
-        "method": "generate",
-        "params": ""
-    },
-    "postprocess": ""
+    }
 }

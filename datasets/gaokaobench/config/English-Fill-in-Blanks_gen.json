@@ -1,0 +1,19 @@
+{
+    "task_name": "English-Fill-in-Blanks",
+    "path": "datasets/gaokaobench/data/English-Fill-in-Blanks.jsonl",
+    "description": "请你做一道英语完形填空题,其中包含二十个小题。\n请你一步一步思考。每一题你将从A，B，C，D中选出正确的答案，并写在【答案】和<eoa>之间。\n例如：（1）【答案】 A <eoa>\n（2）【答案】 B <eoa>\n请你严格按照上述格式作答。\n",
+    "transform": "datasets/gaokaobench/transform_gen_v0.py",
+    "fewshot": 0,
+    "generate": {
+        "method": "generate",
+        "params": ""
+    },
+    "postprocess": "gaokao_multi_question_choice_post",
+    "metric": {
+        "accuracy": {
+            "evaluation": {
+                "type": "gaokaobench_match"
+            }
+        }
+    }
+}

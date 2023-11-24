@@ -1,19 +1,19 @@
 {
-    "dataset_name": "chinese-literature",
+    "task_name": "chinese-literature",
     "path": "datasets/cmmlu/data/chinese-literature.jsonl",
     "description": "以下是关于中国文学的单项选择题，请直接给出正确答案的选项。",
-    "transforms": "datasets/cmmlu/transform_gen_v0.py",
+    "transform": "datasets/cmmlu/transform_gen_v0.py",
     "fewshot": 5,
-    "metrics": {
+    "generate": {
+        "method": "generate",
+        "params": ""
+    },
+    "postprocess": "",
+    "metric": {
         "accuracy": {
             "evaluation": {
                 "type": "prefix_match"
             }
         }
-    },
-    "generate": {
-        "method": "generate",
-        "params": ""
-    },
-    "postprocess": ""
+    }
 }

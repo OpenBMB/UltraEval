@@ -11,5 +11,5 @@ setuptools.setup(
     description="An open source framework for evaluating foundation models",
     packages=setuptools.find_packages(),
     python_requires=">=3.10",
-    install_requires=requirements
+    install_requires=requirements,
 )

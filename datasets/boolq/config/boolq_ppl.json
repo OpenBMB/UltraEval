@@ -1,19 +1,19 @@
 {
-    "dataset_name": "boolq",
+    "task_name": "boolq",
     "path": "datasets/boolq/data/boolq.jsonl",
     "description": "",
-    "transforms": "datasets/boolq/transform_ppl_v0.py",
+    "transform": "datasets/boolq/transform_ppl_v0.py",
     "fewshot": 0,
-    "metrics": {
+    "generate": {
+        "method": "loglikelihood",
+        "params": ""
+    },
+    "postprocess": "",
+    "metric": {
         "accuracy": {
             "evaluation": {
                 "type": "log_prob"
             }
         }
-    },
-    "generate": {
-        "method": "loglikelihood",
-        "params": ""
-    },
-    "postprocess": ""
+    }
 }

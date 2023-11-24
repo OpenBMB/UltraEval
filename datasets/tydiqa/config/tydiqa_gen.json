@@ -1,10 +1,15 @@
 {
-    "dataset_name": "tydiqa",
+    "task_name": "tydiqa",
     "path": "datasets/tydiqa/data/tydiqa.jsonl",
     "description": "",
-    "transforms": "datasets/tydiqa/transform_gen_v0.py",
+    "transform": "datasets/tydiqa/transform_gen_v0.py",
     "fewshot": 0,
-    "metrics": {
+    "generate": {
+        "method": "generate",
+        "params": ""
+    },
+    "postprocess": "exact_match_post",
+    "metric": {
         "f1_score": {
             "evaluation": {
                 "type": "f1_score"
@@ -15,10 +20,5 @@
                 "type": "exact_match"
             }
         }
-    },
-    "generate": {
-        "method": "generate",
-        "params": ""
-    },
-    "postprocess": "exact_match_post"
+    }
 }

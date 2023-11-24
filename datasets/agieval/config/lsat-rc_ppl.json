@@ -1,0 +1,19 @@
+{
+    "task_name": "lsat-rc",
+    "path": "datasets/agieval/data/lsat-rc.jsonl",
+    "description": "",
+    "transform": "datasets/agieval/transform_ppl_v0.py",
+    "fewshot": 0,
+    "generate": {
+        "method": "loglikelihood",
+        "params": ""
+    },
+    "postprocess": "",
+    "metric": {
+        "accuracy": {
+            "evaluation": {
+                "type": "log_prob"
+            }
+        }
+    }
+}

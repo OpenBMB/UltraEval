@@ -32,5 +32,7 @@ class Instance:
             "metrics": self.metrics,
         }
 
-        with open(os.path.join(file_path, "instance.jsonl"), "a", encoding="utf-8") as jsonl_file:
+        with open(
+            os.path.join(file_path, "instance.jsonl"), "a", encoding="utf-8"
+        ) as jsonl_file:
             jsonl_file.write(json.dumps(instance_data, ensure_ascii=False) + "\n")

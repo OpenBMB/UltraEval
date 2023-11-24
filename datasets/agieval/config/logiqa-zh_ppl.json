@@ -1,0 +1,19 @@
+{
+    "task_name": "logiqa-zh",
+    "path": "datasets/agieval/data/logiqa-zh.jsonl",
+    "description": "",
+    "transform": "datasets/agieval/transform_ppl_v0.py",
+    "fewshot": 0,
+    "generate": {
+        "method": "loglikelihood",
+        "params": ""
+    },
+    "postprocess": "",
+    "metric": {
+        "accuracy": {
+            "evaluation": {
+                "type": "log_prob"
+            }
+        }
+    }
+}

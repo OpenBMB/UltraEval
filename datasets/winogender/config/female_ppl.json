@@ -1,0 +1,19 @@
+{
+    "task_name": "female",
+    "path": "datasets/winogender/data/female.jsonl",
+    "description": "",
+    "transform": "datasets/winogender/transform_ppl_v0.py",
+    "fewshot": 0,
+    "generate": {
+        "method": "loglikelihood",
+        "params": ""
+    },
+    "postprocess": "",
+    "metric": {
+        "accuracy": {
+            "evaluation": {
+                "type": "log_prob"
+            }
+        }
+    }
+}

@@ -1,0 +1,20 @@
+{
+    "task_name": "flores",
+    "path": "datasets/flores/data/flores.jsonl",
+    "description": "",
+    "transform": "datasets/flores/transform_gen_v0.py",
+    "fewshot": 0,
+    "generate": {
+        "method": "generate",
+        "params": ""
+    },
+    "postprocess": "until_return_post",
+    "metric": {
+        "bleu-4": {
+            "evaluation": {
+                "type": "bleu",
+                "tokenizer": "char"
+            }
+        }
+    }
+}

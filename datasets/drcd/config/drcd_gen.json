@@ -1,0 +1,19 @@
+{
+    "task_name": "drcd",
+    "path": "datasets/drcd/data/drcd.jsonl",
+    "description": "",
+    "transform": "datasets/drcd/transform_gen_v0.py",
+    "fewshot": 0,
+    "generate": {
+        "method": "generate",
+        "params": ""
+    },
+    "postprocess": "exact_match_post",
+    "metric": {
+        "accuracy": {
+            "evaluation": {
+                "type": "exact_match"
+            }
+        }
+    }
+}

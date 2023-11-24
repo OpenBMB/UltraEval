@@ -1,0 +1,19 @@
+{
+    "task_name": "openbookqa",
+    "path": "datasets/openbookqa/data/openbookqa.jsonl",
+    "description": "",
+    "transform": "datasets/openbookqa/transform_gen_v0.py",
+    "fewshot": 0,
+    "generate": {
+        "method": "generate",
+        "params": ""
+    },
+    "postprocess": "",
+    "metric": {
+        "accuracy": {
+            "evaluation": {
+                "type": "prefix_match"
+            }
+        }
+    }
+}

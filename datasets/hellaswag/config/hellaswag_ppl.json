@@ -1,19 +1,19 @@
 {
-    "dataset_name": "hellaswag",
+    "task_name": "hellaswag",
     "path": "datasets/hellaswag/data/hellaswag.jsonl",
     "description": "",
-    "transforms": "datasets/hellaswag/transform_ppl_v0.py",
+    "transform": "datasets/hellaswag/transform_ppl_v0.py",
     "fewshot": 0,
-    "metrics": {
+    "generate": {
+        "method": "loglikelihood",
+        "params": ""
+    },
+    "postprocess": "general_torch_ppl_norm",
+    "metric": {
         "accuracy": {
             "evaluation": {
                 "type": "log_prob"
             }
         }
-    },
-    "generate": {
-        "method": "loglikelihood",
-        "params": ""
-    },
-    "postprocess": "general_torch_ppl_norm"
+    }
 }

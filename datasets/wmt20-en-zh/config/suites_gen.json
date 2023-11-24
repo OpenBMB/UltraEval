@@ -1,0 +1,25 @@
+{
+    "task_name": "suites",
+    "path": "datasets/wmt20-en-zh/data/suites.jsonl",
+    "description": "",
+    "transform": "datasets/wmt20-en-zh/transform_gen_v0.py",
+    "fewshot": 0,
+    "generate": {
+        "method": "generate",
+        "params": ""
+    },
+    "postprocess": "until_return_post",
+    "metric": {
+        "bleu-4": {
+            "evaluation": {
+                "type": "bleu",
+                "tokenizer": "char"
+            }
+        },
+        "chrf": {
+            "evaluation": {
+                "type": "chrf"
+            }
+        }
+    }
+}

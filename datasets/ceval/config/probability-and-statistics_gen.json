@@ -1,19 +1,19 @@
 {
-    "dataset_name": "probability-and-statistics",
+    "task_name": "probability-and-statistics",
     "path": "datasets/ceval/data/probability-and-statistics.jsonl",
     "description": "以下是中国关于概率与统计考试的单项选择题，请选出其中的正确答案。",
-    "transforms": "datasets/ceval/transform_gen_v0.py",
+    "transform": "datasets/ceval/transform_gen_v0.py",
     "fewshot": 5,
-    "metrics": {
+    "generate": {
+        "method": "generate",
+        "params": ""
+    },
+    "postprocess": "",
+    "metric": {
         "accuracy": {
             "evaluation": {
                 "type": "prefix_match"
             }
         }
-    },
-    "generate": {
-        "method": "generate",
-        "params": ""
-    },
-    "postprocess": ""
+    }
 }

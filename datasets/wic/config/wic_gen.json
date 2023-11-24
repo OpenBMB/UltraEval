@@ -1,19 +1,19 @@
 {
-    "dataset_name": "wic",
+    "task_name": "wic",
     "path": "datasets/wic/data/wic.jsonl",
     "description": "",
-    "transforms": "datasets/wic/transform_gen_v0.py",
+    "transform": "datasets/wic/transform_gen_v0.py",
     "fewshot": 0,
-    "metrics": {
+    "generate": {
+        "method": "generate",
+        "params": ""
+    },
+    "postprocess": "",
+    "metric": {
         "accuracy": {
             "evaluation": {
                 "type": "prefix_match"
             }
         }
-    },
-    "generate": {
-        "method": "generate",
-        "params": ""
-    },
-    "postprocess": ""
+    }
 }

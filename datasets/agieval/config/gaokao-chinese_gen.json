@@ -1,0 +1,19 @@
+{
+    "task_name": "gaokao-chinese",
+    "path": "datasets/agieval/data/gaokao-chinese.jsonl",
+    "description": "",
+    "transform": "datasets/agieval/transform_gen_v0.py",
+    "fewshot": 0,
+    "generate": {
+        "method": "generate",
+        "params": ""
+    },
+    "postprocess": "agieval_single_answer_post",
+    "metric": {
+        "accuracy": {
+            "evaluation": {
+                "type": "prefix_match"
+            }
+        }
+    }
+}

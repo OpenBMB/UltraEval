@@ -1,19 +1,19 @@
 {
-    "dataset_name": "construction-project-management",
+    "task_name": "construction-project-management",
     "path": "datasets/cmmlu/data/construction-project-management.jsonl",
     "description": "以下是关于建设项目管理的单项选择题，请直接给出正确答案的选项。",
-    "transforms": "datasets/cmmlu/transform_gen_v0.py",
+    "transform": "datasets/cmmlu/transform_gen_v0.py",
     "fewshot": 5,
-    "metrics": {
+    "generate": {
+        "method": "generate",
+        "params": ""
+    },
+    "postprocess": "",
+    "metric": {
         "accuracy": {
             "evaluation": {
                 "type": "prefix_match"
             }
         }
-    },
-    "generate": {
-        "method": "generate",
-        "params": ""
-    },
-    "postprocess": ""
+    }
 }

@@ -1,0 +1,19 @@
+{
+    "task_name": "gaokao-mathcloze",
+    "path": "datasets/agieval/data/gaokao-mathcloze.jsonl",
+    "description": "",
+    "transform": "datasets/agieval/transform_gen_v0.py",
+    "fewshot": 0,
+    "generate": {
+        "method": "generate",
+        "params": ""
+    },
+    "postprocess": "agieval_cloze_post",
+    "metric": {
+        "accuracy": {
+            "evaluation": {
+                "type": "exact_match"
+            }
+        }
+    }
+}

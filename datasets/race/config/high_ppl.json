@@ -1,0 +1,19 @@
+{
+    "task_name": "high",
+    "path": "datasets/race/data/high.jsonl",
+    "description": "",
+    "transform": "datasets/race/transform_ppl_v0.py",
+    "fewshot": 0,
+    "generate": {
+        "method": "loglikelihood",
+        "params": ""
+    },
+    "postprocess": "",
+    "metric": {
+        "accuracy": {
+            "evaluation": {
+                "type": "log_prob"
+            }
+        }
+    }
+}

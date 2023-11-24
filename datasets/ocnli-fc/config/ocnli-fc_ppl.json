@@ -1,0 +1,19 @@
+{
+    "task_name": "ocnli-fc",
+    "path": "datasets/ocnli-fc/data/ocnli-fc.jsonl",
+    "description": "",
+    "transform": "datasets/ocnli-fc/transform_ppl_v0.py",
+    "fewshot": 0,
+    "generate": {
+        "method": "loglikelihood",
+        "params": ""
+    },
+    "postprocess": "",
+    "metric": {
+        "accuracy": {
+            "evaluation": {
+                "type": "log_prob"
+            }
+        }
+    }
+}

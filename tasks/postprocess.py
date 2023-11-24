@@ -9,9 +9,9 @@ class GeneralTorch:
         raw_outputs = []
         process_outputs = []
 
-        if isinstance(result, list):
+        if isinstance(result, list):  # 返回是列表，加了batch。已做截断
             raw_outputs = result
-        elif isinstance(result, str):
+        elif isinstance(result, str):  # 返回是字符串，没有加batch。已做截断
             raw_outputs = [result]
 
         process_outputs = raw_outputs
@@ -148,6 +148,25 @@ class HumanEvalPost:
         return raw_outputs, processed_outputs_
 
 
+class CommonMathPost:
+    def __init__(self):
+        pass
+
+    def __call__(self, raw_outputs, processed_outputs):
+        if isinstance(processed_outputs, str):
+            processed_outputs = [processed_outputs]
+        processed_outputs_ = []
+
+        for text in processed_outputs:
+            try:
+                stripped_text = _strip_string(text)
+            except:
+                stripped_text = text
+            processed_outputs_.append(stripped_text)
+
+        return raw_outputs, processed_outputs_
+
+
 class MathPost:
     SUBSTITUTIONS = [
         ("an ", ""),
@@ -216,18 +235,18 @@ class MathPost:
     def __call__(self, raw_outputs, processed_outputs):
         if isinstance(processed_outputs, str):
             processed_outputs = [processed_outputs]
-        try:
-            processed_outputs_ = [
-                self._strip_string(self.math_postprocess(text))
-                for text in processed_outputs
-            ]
-        except:
+
+        processed_outputs_ = []
+
+        for text in processed_outputs:
             try:
-                processed_outputs_ = [
-                    self.math_postprocess(text) for text in processed_outputs
-                ]
-            except:
-                processed_outputs_ = processed_outputs
+                processed_text = _strip_string(self.math_postprocess(text))
+            except Exception as e:
+                try:
+                    processed_text = self.math_postprocess(text)
+                except Exception as e:
+                    processed_text = text
+            processed_outputs_.append(processed_text)
 
         return raw_outputs, processed_outputs_
 
@@ -280,143 +299,9 @@ class MathPost:
         for maybe_ans in text.split("."):
             if "final answer" in maybe_ans.lower():
                 return self.normalize_final_answer(maybe_ans)
+            elif "最终答案" in maybe_ans:
+                return self.normalize_final_answer(maybe_ans)
         return self.normalize_final_answer(text.split(".")[0])
-
-    def _fix_fracs(self, string):
-        substrs = string.split("\\frac")
-        new_str = substrs[0]
-        if len(substrs) > 1:
-            substrs = substrs[1:]
-            for substr in substrs:
-                new_str += "\\frac"
-                if substr[0] == "{":
-                    new_str += substr
-                else:
-                    try:
-                        assert len(substr) >= 2
-                    except AssertionError:
-                        return string
-                    a = substr[0]
-                    b = substr[1]
-                    if b != "{":
-                        if len(substr) > 2:
-                            post_substr = substr[2:]
-                            new_str += "{" + a + "}{" + b + "}" + post_substr
-                        else:
-                            new_str += "{" + a + "}{" + b + "}"
-                    else:
-                        if len(substr) > 2:
-                            post_substr = substr[2:]
-                            new_str += "{" + a + "}" + b + post_substr
-                        else:
-                            new_str += "{" + a + "}" + b
-        string = new_str
-        return string
-
-    def _fix_a_slash_b(self, string):
-        if len(string.split("/")) != 2:
-            return string
-        a = string.split("/")[0]
-        b = string.split("/")[1]
-        try:
-            a = int(a)
-            b = int(b)
-            assert string == "{}/{}".format(a, b)
-            new_string = "\\frac{" + str(a) + "}{" + str(b) + "}"
-            return new_string
-        except:
-            return string
-
-    def _remove_right_units(self, string):
-        # "\\text{ " only ever occurs (at least in the val set) when describing
-        # units
-        if "\\text{ " in string:
-            splits = string.split("\\text{ ")
-            assert len(splits) == 2
-            return splits[0]
-        else:
-            return string
-
-    def _fix_sqrt(self, string):
-        if "\\sqrt" not in string:
-            return string
-        splits = string.split("\\sqrt")
-        new_string = splits[0]
-        for split in splits[1:]:
-            if split[0] != "{":
-                a = split[0]
-                new_substr = "\\sqrt{" + a + "}" + split[1:]
-            else:
-                new_substr = "\\sqrt" + split
-            new_string += new_substr
-        return new_string
-
-    def _strip_string(self, string):
-        # linebreaks
-        string = string.replace("\n", "")
-
-        # remove inverse spaces
-        string = string.replace("\\!", "")
-
-        # replace \\ with \
-        string = string.replace("\\\\", "\\")
-
-        # replace tfrac and dfrac with frac
-        string = string.replace("tfrac", "frac")
-        string = string.replace("dfrac", "frac")
-
-        # remove \left and \right
-        string = string.replace("\\left", "")
-        string = string.replace("\\right", "")
-
-        # Remove circ (degrees)
-        string = string.replace("^{\\circ}", "")
-        string = string.replace("^\\circ", "")
-
-        # remove dollar signs
-        string = string.replace("\\$", "")
-
-        # remove units (on the right)
-        string = self._remove_right_units(string)
-
-        # remove percentage
-        string = string.replace("\\%", "")
-        string = string.replace("\%", "")  # noqa: W605
-
-        # " 0." equivalent to " ." and "{0." equivalent to "{." Alternatively,
-        # add "0" if "." is the start of the string
-        string = string.replace(" .", " 0.")
-        string = string.replace("{.", "{0.")
-        # if empty, return empty string
-        if len(string) == 0:
-            return string
-        if string[0] == ".":
-            string = "0" + string
-
-        # to consider: get rid of e.g. "k = " or "q = " at beginning
-        if len(string.split("=")) == 2:
-            if len(string.split("=")[0]) <= 2:
-                string = string.split("=")[1]
-
-        # fix sqrt3 --> sqrt{3}
-        string = self._fix_sqrt(string)
-
-        # remove spaces
-        string = string.replace(" ", "")
-
-        # \frac1b or \frac12 --> \frac{1}{b} and \frac{1}{2}, etc. Even works
-        # with \frac1{72} (but not \frac{72}1). Also does a/b --> \\frac{a}{b}
-        string = self._fix_fracs(string)
-
-        # manually change 0.5 --> \frac{1}{2}
-        if string == "0.5":
-            string = "\\frac{1}{2}"
-
-        # NOTE: X/Y changed to \frac{X}{Y} in dataset, but in simple cases fix
-        # in case the model output is X/Y
-        string = self._fix_a_slash_b(string)
-
-        return string
 
 
 class TheoremQAPost:
@@ -473,15 +358,389 @@ class HumanEvalGPT:
         return raw_outputs, processed_outputs_
 
 
+class GaoKaoSingleChoicePost:
+    def __init__(self):
+        pass
+
+    def __call__(self, raw_outputs, processed_outputs):
+        if isinstance(processed_outputs, str):
+            processed_outputs = [processed_outputs]
+        processed_outputs_ = [self.postprocess(text) for text in processed_outputs]
+        return raw_outputs, processed_outputs_
+
+    def postprocess(self, text):
+        choice = re.findall(r"[A-D]", text[::-1])
+        if choice:
+            return choice[0]
+        else:
+            return ""
+
+
+class GaoKaoMultiQuestionChoicePost:
+    def __init__(self):
+        pass
+
+    def __call__(self, raw_outputs, processed_outputs):
+        if isinstance(processed_outputs, str):
+            processed_outputs = [processed_outputs]
+        processed_outputs_ = [self.postprocess(text) for text in processed_outputs]
+        return raw_outputs, processed_outputs_
+
+    def postprocess(self, text):
+        model_answer1 = []
+        model_answer2 = []
+        match1 = re.findall(r"【答案】\s*[:：]*\s*[A-Z]", text)
+        for t in match1:
+            model_answer1.append(re.findall(r"[A-Z]", t)[0])
+        text1 = "".join(model_answer1)
+
+        match2 = re.findall(r"[A-Z]", text)
+        if len(match2) > 0:
+            for k in range(len(match2)):
+                model_answer2.append(match2[k])
+        text2 = "".join(model_answer2)
+        return text1 + "[SEP]" + text2
+
+
+class GaoKaoMultiChoicePost:
+    def __init__(self):
+        pass
+
+    def __call__(self, raw_outputs, processed_outputs):
+        if isinstance(processed_outputs, str):
+            processed_outputs = [processed_outputs]
+        processed_outputs_ = [self.postprocess(text) for text in processed_outputs]
+        return raw_outputs, processed_outputs_
+
+    def postprocess(self, text):
+        model_answer = []
+        answer = ""
+        content = re.sub(r"\s+", "", text)
+        answer_index = content.find("【答案】")
+        if answer_index > 0:
+            temp = content[answer_index:]
+            if len(re.findall(r"[A-D]", temp)) > 0:
+                for t in re.findall(r"[A-D]", temp):
+                    answer += t
+        else:
+            temp = content[-10:]
+            if len(re.findall(r"[A-D]", temp)) > 0:
+                for t in re.findall(r"[A-D]", temp):
+                    answer += t
+        if len(answer) != 0:
+            model_answer.append(answer)
+        text = "".join(model_answer)
+        return text
+
+
+class GaoKaoFiveOutOfSevenPost:
+    def __init__(self):
+        pass
+
+    def __call__(self, raw_outputs, processed_outputs):
+        if isinstance(processed_outputs, str):
+            processed_outputs = [processed_outputs]
+        processed_outputs_ = [self.postprocess(text) for text in processed_outputs]
+        return raw_outputs, processed_outputs_
+
+    def postprocess(self, text):
+        model_answer = []
+        temp = re.findall(r"[A-G]", text)
+        if len(temp) > 0:
+            for k in range(min(5, len(temp))):
+                model_answer.append(temp[k])
+        text = "".join(model_answer)
+        return text
+
+
+class AGIEvalClozePost:
+    def __init__(self):
+        pass
+
+    def __call__(self, raw_outputs, processed_outputs):
+        processed_outputs_ = []
+        for output in processed_outputs:
+            raw_string = self.remove_few_shot_prefix(output)
+            if "\\boxed" in raw_string:
+                answer = self.remove_boxed(self.last_boxed_only_string(raw_string))
+            else:
+                answer = self.get_answer_with_dollar_sign(raw_string)
+                if not answer:
+                    answer = self.get_answer_without_dollar_sign(raw_string)
+            processed_outputs_.append(answer)
+
+        cmp = CommonMathPost()
+        _, processed_outputs_ = cmp([], processed_outputs_)
+
+        return raw_outputs, processed_outputs_
+
+    def remove_few_shot_prefix(self, string: str):
+        prefix_list = ["The answer is therefore", "答案是"]
+        for prefix in prefix_list:
+            if string.startswith(prefix):
+                string = string[len(prefix) :].strip()
+            elif prefix in string:
+                index = string.rfind(prefix)
+                if index >= 0:
+                    string = string[index + len(prefix) :].strip()
+        return string
+
+    def remove_boxed(self, s):
+        left = "\\boxed{"
+        try:
+            assert s[: len(left)] == left
+            assert s[-1] == "}"
+            answer = s[len(left) : -1]
+            if "=" in answer:
+                answer = answer.split("=")[-1].lstrip(" ")
+            return answer
+        except:
+            return None
+
+    def last_boxed_only_string(self, string):
+        idx = string.rfind("\\boxed")
+        if idx < 0:
+            idx = string.rfind("\\fbox")
+            if idx < 0:
+                return None
+        i = idx
+        right_brace_idx = None
+        num_left_braces_open = 0
+        while i < len(string):
+            if string[i] == "{":
+                num_left_braces_open += 1
+            if string[i] == "}":
+                num_left_braces_open -= 1
+                if num_left_braces_open == 0:
+                    right_brace_idx = i
+                    break
+            i += 1
+
+        if right_brace_idx == None:
+            retval = None
+        else:
+            retval = string[idx : right_brace_idx + 1]
+
+        return retval
+
+    def get_answer_with_dollar_sign(self, s):
+        first_pattern = "\$(.*)\$"
+        last_match = None
+        matches = re.findall(first_pattern, s)
+        if matches:
+            last_match = matches[-1]
+            if "=" in last_match:
+                last_match = last_match.split("=")[-1].lstrip(" ")
+        return last_match
+
+    def get_answer_without_dollar_sign(self, s):
+        last_match = None
+        if "=" in s:
+            last_match = s.split("=")[-1].lstrip(" ").rstrip(".")
+            if "\\n" in last_match:
+                last_match = last_match.split("\\n")[0]
+        else:
+            pattern = "(?:\\$)?\d+(?:\.\d+)?(?![\w\d])"
+            matches = re.findall(pattern, s)
+            if matches:
+                last_match = matches[-1]
+        return last_match
+
+
+class AGIEvalMultipleAnswerPost:
+    def __init__(self):
+        pass
+
+    def __call__(self, raw_outputs, processed_outputs):
+        if isinstance(processed_outputs, str):
+            processed_outputs = [processed_outputs]
+        processed_outputs_ = [self.postprocess(text) for text in processed_outputs]
+        return raw_outputs, processed_outputs_
+
+    def postprocess(self, text):
+        pattern = "\(*([A-F])\)*"
+        match = re.findall(pattern, text)
+        if match:
+            return "".join(match)
+        return ""
+
+
+class AGIEvalSingleAnswerPost:
+    def __init__(self):
+        pass
+
+    def __call__(self, raw_outputs, processed_outputs):
+        if isinstance(processed_outputs, str):
+            processed_outputs = [processed_outputs]
+        processed_outputs_ = [self.postprocess(text) for text in processed_outputs]
+        return raw_outputs, processed_outputs_
+
+    def postprocess(self, text):
+        pattern1 = "answer is .*?([A-G])"
+        match = re.search(pattern1, text)
+        if match:
+            return match.group(1)
+        pattern2 = "答案是.*?([A-G])"
+        match = re.search(pattern2, text)
+        if match:
+            return match.group(1)
+        return self.find_first_capital_letter(text)
+
+    def find_first_capital_letter(self, answer):
+        letter_set = {"A", "B", "C", "D", "E", "F"}
+        for c in answer:
+            if c in letter_set:
+                return c
+        return ""
+
+
+def _fix_fracs(string):
+    substrs = string.split("\\frac")
+    new_str = substrs[0]
+    if len(substrs) > 1:
+        substrs = substrs[1:]
+        for substr in substrs:
+            new_str += "\\frac"
+            if substr[0] == "{":
+                new_str += substr
+            else:
+                try:
+                    assert len(substr) >= 2
+                except AssertionError:
+                    return string
+                a = substr[0]
+                b = substr[1]
+                if b != "{":
+                    if len(substr) > 2:
+                        post_substr = substr[2:]
+                        new_str += "{" + a + "}{" + b + "}" + post_substr
+                    else:
+                        new_str += "{" + a + "}{" + b + "}"
+                else:
+                    if len(substr) > 2:
+                        post_substr = substr[2:]
+                        new_str += "{" + a + "}" + b + post_substr
+                    else:
+                        new_str += "{" + a + "}" + b
+    string = new_str
+    return string
+
+
+def _fix_a_slash_b(string):
+    if len(string.split("/")) != 2:
+        return string
+    a = string.split("/")[0]
+    b = string.split("/")[1]
+    try:
+        a = int(a)
+        b = int(b)
+        assert string == "{}/{}".format(a, b)
+        new_string = "\\frac{" + str(a) + "}{" + str(b) + "}"
+        return new_string
+    except:
+        return string
+
+
+def _remove_right_units(string):
+    if "\\text{ " in string:
+        splits = string.split("\\text{ ")
+        assert len(splits) == 2
+        return splits[0]
+    else:
+        return string
+
+
+def _fix_sqrt(string):
+    if "\\sqrt" not in string:
+        return string
+    splits = string.split("\\sqrt")
+    new_string = splits[0]
+    for split in splits[1:]:
+        if split[0] != "{":
+            a = split[0]
+            new_substr = "\\sqrt{" + a + "}" + split[1:]
+        else:
+            new_substr = "\\sqrt" + split
+        new_string += new_substr
+    return new_string
+
+
+def _strip_string(string):
+    # linebreaks
+    string = string.replace("\n", "")
+
+    # remove inverse spaces
+    string = string.replace("\\!", "")
+
+    # replace \\ with \
+    string = string.replace("\\\\", "\\")
+
+    # replace tfrac and dfrac with frac
+    string = string.replace("tfrac", "frac")
+    string = string.replace("dfrac", "frac")
+
+    # remove \left and \right
+    string = string.replace("\\left", "")
+    string = string.replace("\\right", "")
+
+    # Remove circ (degrees)
+    string = string.replace("^{\\circ}", "")
+    string = string.replace("^\\circ", "")
+
+    # remove dollar signs
+    string = string.replace("\\$", "")
+
+    # remove units (on the right)
+    string = _remove_right_units(string)
+
+    # remove percentage
+    string = string.replace("\\%", "")
+    string = string.replace("\%", "")  # noqa: W605
+
+    # " 0." equivalent to " ." and "{0." equivalent to "{." Alternatively,
+    # add "0" if "." is the start of the string
+    string = string.replace(" .", " 0.")
+    string = string.replace("{.", "{0.")
+    # if empty, return empty string
+    if len(string) == 0:
+        return string
+    if string[0] == ".":
+        string = "0" + string
+
+    # to consider: get rid of e.g. "k = " or "q = " at beginning
+    if len(string.split("=")) == 2:
+        if len(string.split("=")[0]) <= 2:
+            string = string.split("=")[1]
+
+    # fix sqrt3 --> sqrt{3}
+    string = _fix_sqrt(string)
+
+    # remove spaces
+    string = string.replace(" ", "")
+
+    # \frac1b or \frac12 --> \frac{1}{b} and \frac{1}{2}, etc. Even works
+    # with \frac1{72} (but not \frac{72}1). Also does a/b --> \\frac{a}{b}
+    string = _fix_fracs(string)
+
+    # manually change 0.5 --> \frac{1}{2}
+    if string == "0.5":
+        string = "\\frac{1}{2}"
+
+    # NOTE: X/Y changed to \frac{X}{Y} in dataset, but in simple cases fix
+    # in case the model output is X/Y
+    string = _fix_a_slash_b(string)
+
+    return string
+
+
 def extract_code_from_string(s):
-    # 查找第一对代码块标记
     code_start = s.find("```python") + len("```python")
     code_end = s.find("```", code_start)
-    # 提取并返回代码块
+
     return s[code_start:code_end]
 
 
-def cut(input, output):  # 对输出做输入截断
+def cut(input, output):
     if output.strip().startswith(input.strip()):
         return output.strip()[len(input.strip()) :]
     else:
@@ -513,6 +772,14 @@ POSTPROCESS_REGISTRY = {
     "gsm8k_post": GSM8KPost,
     "mbpp_post": MbppPost,
     "humaneval_chatgpt": HumanEvalGPT,
+    "gaokao_single_choice_post": GaoKaoSingleChoicePost,
+    "gaokao_multi_question_choice_post": GaoKaoMultiQuestionChoicePost,
+    "gaokao_multi_choice_post": GaoKaoMultiChoicePost,
+    "gaokao_five_out_of_seven_post": GaoKaoFiveOutOfSevenPost,
+    "agieval_cloze_post": AGIEvalClozePost,
+    "agieval_single_answer_post": AGIEvalSingleAnswerPost,
+    "agieval_multiple_answer_post": AGIEvalMultipleAnswerPost,
+    "common_math_post": CommonMathPost,
 }
 
 

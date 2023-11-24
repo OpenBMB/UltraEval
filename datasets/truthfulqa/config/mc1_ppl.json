@@ -1,0 +1,19 @@
+{
+    "task_name": "mc1",
+    "path": "datasets/truthfulqa/data/mc1.jsonl",
+    "description": "",
+    "transform": "datasets/truthfulqa/transform_ppl_v0.py",
+    "fewshot": 0,
+    "generate": {
+        "method": "loglikelihood",
+        "params": ""
+    },
+    "postprocess": "",
+    "metric": {
+        "accuracy": {
+            "evaluation": {
+                "type": "log_prob"
+            }
+        }
+    }
+}

@@ -1,19 +1,19 @@
 {
-    "dataset_name": "ax-g",
+    "task_name": "ax-g",
     "path": "datasets/ax-g/data/ax-g.jsonl",
     "description": "",
-    "transforms": "datasets/ax-g/transform_ppl_v0.py",
+    "transform": "datasets/ax-g/transform_ppl_v0.py",
     "fewshot": 0,
-    "metrics": {
+    "generate": {
+        "method": "loglikelihood",
+        "params": ""
+    },
+    "postprocess": "",
+    "metric": {
         "accuracy": {
             "evaluation": {
                 "type": "log_prob"
             }
         }
-    },
-    "generate": {
-        "method": "loglikelihood",
-        "params": ""
-    },
-    "postprocess": ""
+    }
 }

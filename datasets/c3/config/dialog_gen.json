@@ -1,19 +1,19 @@
 {
-    "dataset_name": "dialog",
+    "task_name": "dialog",
     "path": "datasets/c3/data/dialog.jsonl",
     "description": "",
-    "transforms": "datasets/c3/transform_gen_v0.py",
+    "transform": "datasets/c3/transform_gen_v0.py",
     "fewshot": 0,
-    "metrics": {
+    "generate": {
+        "method": "generate",
+        "params": ""
+    },
+    "postprocess": "",
+    "metric": {
         "accuracy": {
             "evaluation": {
                 "type": "prefix_match"
             }
         }
-    },
-    "generate": {
-        "method": "generate",
-        "params": ""
-    },
-    "postprocess": ""
+    }
 }

@@ -96,9 +96,9 @@ if __name__ == "__main__":
             with open(path, "r", encoding="utf-8") as f:
                 tdict = json.load(f)
             name1 = key
-            name2 = "-".join(re.split("[-_]", tdict["dataset_name"]))
+            name2 = "-".join(re.split("[-_]", tdict["task_name"]))
             name3 = "gen" if tdict["generate"]["method"] == "generate" else "ppl"
-            tdict["dataset_name"] = name1 + "_" + name2 + "_" + name3
+            tdict["task_name"] = name1 + "_" + name2 + "_" + name3
             if name3 != args.method:
                 continue
             eval_config.append(tdict)

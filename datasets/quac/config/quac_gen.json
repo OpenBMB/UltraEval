@@ -1,0 +1,19 @@
+{
+    "task_name": "quac",
+    "path": "datasets/quac/data/quac.jsonl",
+    "description": "",
+    "transform": "datasets/quac/transform_gen_v0.py",
+    "fewshot": 0,
+    "generate": {
+        "method": "generate",
+        "params": ""
+    },
+    "postprocess": "exact_match_post",
+    "metric": {
+        "f1_score": {
+            "evaluation": {
+                "type": "f1_score"
+            }
+        }
+    }
+}

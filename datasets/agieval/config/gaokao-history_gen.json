@@ -1,0 +1,19 @@
+{
+    "task_name": "gaokao-history",
+    "path": "datasets/agieval/data/gaokao-history.jsonl",
+    "description": "",
+    "transform": "datasets/agieval/transform_gen_v0.py",
+    "fewshot": 0,
+    "generate": {
+        "method": "generate",
+        "params": ""
+    },
+    "postprocess": "agieval_single_answer_post",
+    "metric": {
+        "accuracy": {
+            "evaluation": {
+                "type": "prefix_match"
+            }
+        }
+    }
+}

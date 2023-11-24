@@ -19,45 +19,42 @@ from utils.request import Request
 class EvalTask:
     def __init__(
         self,
-        dataset_name: str,  # 数据集名
-        dataset_path: str,  # 数据集路径
-        description: str,  # 对于任务的描述
-        transform_script_path: str,  # 数据集的transform.py路径
-        num_few_shot: int,  # few shot
-        metrics_config: Dict[str, Any],  # 评价指标
-        sample_config: Dict[str, Any],  # 生成方法配置
-        model_postprocess: str,  # 模型后处理函数名
-        task_postprocess: str,  # 任务后处理函数名
-        log_dir: str = "",  # 保存路径
-        params: str = "",  # 部署模型所需要的超参
-        limit: int = 1,  # 一次评测的指定数据条数
-        batch_size: int = 1,  # 批处理大小
+        task_name: str,
+        task_path: str,
+        description: str,
+        transform_script_path: str,
+        num_fewshot: int,
+        metric_config: Dict[str, Any],
+        sample_config: Dict[str, Any],
+        model_postprocess: str,
+        task_postprocess: str,
+        log_dir: str = "",
+        params: str = "",
+        limit: int = 1,
+        batch_size: int = 1,
     ):
-        self.dataset_name = dataset_name
-        self.dataset_path = dataset_path
+        self.task_name = task_name
+        self._task_path = task_path
 
         self.dataset = []
-        with open(dataset_path, "r", encoding="utf-8") as file:
+        with open(task_path, "r", encoding="utf-8") as file:
             for line in file:
                 self.dataset.append(Instance(json.loads(line.strip())))
 
         self.description = description
-        self.transform_script_path = transform_script_path
+        self._transform_script_path = transform_script_path
         self._transform_func = utils.import_function_from_path(
             transform_script_path, "transform"
         )
-        self._num_fewshot = num_few_shot
-        self.metrics_config = deepcopy(metrics_config)
-        self.construct_metrics(metrics_config)
+        self.num_fewshot = num_fewshot
+        self._metric_config = deepcopy(metric_config)
+        self.construct_metrics(metric_config)
 
-        self._sample_config = sample_config  # sampling的配置
-        _params = (
-            self._sample_config["params"] if self._sample_config["params"] else params
-        )
+        self.sample_config = sample_config  # sampling的配置
+        _params = sample_config["params"] if sample_config["params"] else params
         with open(_params, "r", encoding="utf-8") as f:
-            self._sample_args = json.load(f)
-        self.sample_config = sample_config
-        self.sample_config["args"] = self._sample_args
+            self.sample_args = json.load(f)
+        self.sample_config["args"] = self.sample_args
 
         self._model_postprocess = model_postprocess
         self._task_postprocess = task_postprocess
@@ -75,41 +72,22 @@ class EvalTask:
         self.log_dir = log_dir
         self.limit = limit if limit is not None else len(self.dataset)
         self.batch_size = (
-            self._sample_args["batch_size"]
-            if self._sample_args.get("batch_size")
+            self.sample_args["batch_size"]
+            if self.sample_args.get("batch_size")
             else batch_size
         )
 
     def construct_metrics(self, metrics_cfg):
-        """
-        metric_cfg是一个字典，包含了需要评测的类别，可以有多个，每一个metric，可以有两个属性，eval【必须有】和aggregation
-        其中 eval：针对每一个sampling的结果，进行评测
-            aggregation：针对该问题的所有的sampling的结果，进行聚合
-        {
-            "metric1": {
-                "eval": {
-                    "type": ""
-                },
-                "aggregation": {
-                    "type": ""
-                }
-            }
-        }
-        """
-        for metric_name, metric_cfg in metrics_cfg.items():  # 如果有多个metric
+        for metric_name, metric_cfg in metrics_cfg.items():
             eval_metric = metric_cfg["evaluation"]
             em_name = eval_metric["type"].lower()
             eval_metric.pop("type")
-            metric_cfg["evaluation"] = get_metric(em_name)(
-                **eval_metric
-            )  # 对metric类，初始化
+            metric_cfg["evaluation"] = get_metric(em_name)(**eval_metric)
             if "aggregation" in metric_cfg:
                 aggregator_metric = metric_cfg["aggregation"]
                 am_name = aggregator_metric["type"].lower()
                 aggregator_metric.pop("type")
-                metric_cfg["aggregation"] = get_aggregator(am_name)(
-                    **aggregator_metric
-                )  # 对aggregator类，初始化
+                metric_cfg["aggregation"] = get_aggregator(am_name)(**aggregator_metric)
             else:
                 metric_cfg["aggregation"] = None
         self.metrics = metrics_cfg
@@ -140,9 +118,7 @@ class EvalTask:
 
         else:
             requests = [request for request in self.yield_batch_requests()]
-            # for request in requests:
-            # print(len(requests), len(request.instances), len(request.raw_example), request.request_type)
-            # print(requests[0].request_type)
+
             generate = getattr(model, requests[0].request_type)
             result = generate(requests)
             if len(requests) != len(result):
@@ -174,12 +150,12 @@ class EvalTask:
 
     def yield_batch_requests(self):
         rnd = random.Random()
-        sampling_num = self._sample_args.get("sampling_num", 1)  # 每个问题sample的数量
-        raw_input = []  # 原问题
+        sampling_num = self.sample_args.get("sampling_num", 1)
+        raw_input = []
         for ins in self.dataset[: self.limit]:
-            raw_input.extend([ins for i in range(sampling_num)])  # 按照sampling_num复制原数据
+            raw_input.extend([ins for i in range(sampling_num)])
         prompt_input = [
-            self.construct_input(item.data, self._num_fewshot, rnd, self.description)
+            self.construct_input(item.data, self.num_fewshot, rnd, self.description)
             for item in raw_input
         ]
 
@@ -187,9 +163,9 @@ class EvalTask:
 
         for i in tqdm(range(0, len(prompt_input), batch_size)):
             request = Request(
-                request_type=self._sample_config["method"],
+                request_type=self.sample_config["method"],
                 instances=prompt_input[i : i + batch_size],
-                params=self._sample_args,
+                params=self.sample_args,
                 raw_example=raw_input[i : i + batch_size],
             )
             yield request
@@ -210,7 +186,7 @@ class EvalTask:
                     ins.metrics[metric_name] = ins.eval_results[metric_name]
 
     def finish(self):
-        save_task_path = os.path.join(self.log_dir, self.dataset_name)
+        save_task_path = os.path.join(self.log_dir, self.task_name)
         os.makedirs(save_task_path, exist_ok=True)
 
         self.gathered_metrics = defaultdict(list)
@@ -219,7 +195,7 @@ class EvalTask:
                 self.gathered_metrics[metric].append(ins.metrics[metric])
         print(
             "<<{}>> Gathered metrics are: {}".format(
-                self.dataset_name, self.gathered_metrics
+                self.task_name, self.gathered_metrics
             )
         )
 
@@ -227,34 +203,36 @@ class EvalTask:
         for metric in self.gathered_metrics:
             self.final_metrics[metric] = np.array(self.gathered_metrics[metric]).mean()
 
-        print(
-            "<<{}>> Final Metric is: {}".format(self.dataset_name, self.final_metrics)
-        )
+        print("<<{}>> Final Metric is: {}".format(self.task_name, self.final_metrics))
 
         dump_data = {
-            "dataset_name": self.dataset_name,
+            "task_name": self.task_name,
             "instance_result": self.gathered_metrics,
             "overall_result": self.final_metrics,
         }
 
-        with open(os.path.join(save_task_path, "final_metrics.json"), "w", encoding="utf-8") as fout:
+        with open(
+            os.path.join(save_task_path, "final_metrics.json"), "w", encoding="utf-8"
+        ) as fout:
             json.dump(dump_data, fout, indent=4, ensure_ascii=False)
 
         config_data = {
-            "dataset_name": self.dataset_name,
-            "path": self.dataset_path,
+            "task_name": self.task_name,
+            "path": self._task_path,
             "description": self.description,
-            "transforms": self.transform_script_path,
-            "metrics": self.metrics_config,
-            "generate": self.sample_config,
+            "transform": self._transform_script_path,
+            "fewshot": self.num_fewshot,
             "batch_size": self.batch_size,
-            "few-shot": self._num_fewshot,
+            "generate": self.sample_config,
             "model_postprocess": self._model_postprocess,
             "task_postprocess": self._task_postprocess,
+            "metric": self._metric_config,
             "log_dir": self.log_dir,
         }
 
-        with open(os.path.join(save_task_path, "config.json"), "w", encoding="utf-8") as fout:
+        with open(
+            os.path.join(save_task_path, "config.json"), "w", encoding="utf-8"
+        ) as fout:
             json.dump(config_data, fout, indent=4, ensure_ascii=False)
 
     def construct_input(
@@ -275,19 +253,13 @@ class EvalTask:
         else:
             fewshotex = rnd.sample(self.dataset, num_fewshot + 1)
 
-            # get rid of the doc that's the one we're evaluating, if it's in the fewshot
-            fewshotex = [x.data for x in fewshotex if x.data != doc][
-                :num_fewshot
-            ]  # 此时返回的是 Instance类，所以需要取出data
+            fewshotex = [x.data for x in fewshotex if x.data != doc][:num_fewshot]
 
-            # save the rnd state to before calling transform
             rnd_state = rnd.getstate()
 
             transformed_docs = []
             for d in fewshotex:
-                data = self._transform_func(
-                    d, num_fewshot, rnd, self.dataset_name
-                )  # 这里就对应到 数据集的transform.py
+                data = self._transform_func(d, num_fewshot, rnd, self.task_name)
                 if isinstance(data["output"], list):
                     transformed_docs.append(data["input"] + data["output"][0])
                 elif isinstance(data["output"], str):
@@ -300,9 +272,7 @@ class EvalTask:
 
             labeled_examples = "\n\n".join(transformed_docs) + "\n\n"
 
-        example = self._transform_func(
-            doc, num_fewshot, rnd, self.dataset_name
-        )  # 对该文本进行prompt处理
+        example = self._transform_func(doc, num_fewshot, rnd, self.task_name)
         return {
             "input": description + labeled_examples + example["input"],
             "output": example["output"],

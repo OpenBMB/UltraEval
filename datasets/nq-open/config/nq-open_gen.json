@@ -1,0 +1,19 @@
+{
+    "task_name": "nq-open",
+    "path": "datasets/nq-open/data/nq-open.jsonl",
+    "description": "",
+    "transform": "datasets/nq-open/transform_gen_v0.py",
+    "fewshot": 0,
+    "generate": {
+        "method": "generate",
+        "params": ""
+    },
+    "postprocess": "exact_match_post",
+    "metric": {
+        "accuracy": {
+            "evaluation": {
+                "type": "exact_match"
+            }
+        }
+    }
+}

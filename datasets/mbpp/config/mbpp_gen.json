@@ -1,10 +1,15 @@
 {
-    "dataset_name": "mbpp",
+    "task_name": "mbpp",
     "path": "datasets/mbpp/data/mbpp.jsonl",
     "description": "",
-    "transforms": "datasets/mbpp/transform_gen_v0.py",
+    "transform": "datasets/mbpp/transform_gen_v0.py",
     "fewshot": 3,
-    "metrics": {
+    "generate": {
+        "method": "generate",
+        "params": "models/model_params/vllm_sample_code.json"
+    },
+    "postprocess": "mbpp_post",
+    "metric": {
         "pass_k": {
             "evaluation": {
                 "type": "function_execution"
@@ -13,10 +18,5 @@
                 "type": "pass_k"
             }
         }
-    },
-    "generate": {
-        "method": "generate",
-        "params": "models/model_params/vllm_sample_code.json"
-    },
-    "postprocess": "mbpp_post"
+    }
 }

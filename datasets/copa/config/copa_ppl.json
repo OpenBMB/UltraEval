@@ -1,19 +1,19 @@
 {
-    "dataset_name": "copa",
+    "task_name": "copa",
     "path": "datasets/copa/data/copa.jsonl",
     "description": "",
-    "transforms": "datasets/copa/transform_ppl_v0.py",
+    "transform": "datasets/copa/transform_ppl_v0.py",
     "fewshot": 0,
-    "metrics": {
+    "generate": {
+        "method": "loglikelihood",
+        "params": ""
+    },
+    "postprocess": "",
+    "metric": {
         "accuracy": {
             "evaluation": {
                 "type": "log_prob"
             }
         }
-    },
-    "generate": {
-        "method": "loglikelihood",
-        "params": ""
-    },
-    "postprocess": ""
+    }
 }

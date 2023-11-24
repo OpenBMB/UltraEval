@@ -1,19 +1,19 @@
 {
-    "dataset_name": "eprstmt",
+    "task_name": "eprstmt",
     "path": "datasets/eprstmt/data/eprstmt.jsonl",
     "description": "",
-    "transforms": "datasets/eprstmt/transform_ppl_v0.py",
+    "transform": "datasets/eprstmt/transform_ppl_v0.py",
     "fewshot": 0,
-    "metrics": {
+    "generate": {
+        "method": "loglikelihood",
+        "params": ""
+    },
+    "postprocess": "",
+    "metric": {
         "accuracy": {
             "evaluation": {
                 "type": "log_prob"
             }
         }
-    },
-    "generate": {
-        "method": "loglikelihood",
-        "params": ""
-    },
-    "postprocess": ""
+    }
 }

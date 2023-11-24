@@ -1,0 +1,19 @@
+{
+    "task_name": "jec-qa-kd",
+    "path": "datasets/agieval/data/jec-qa-kd.jsonl",
+    "description": "",
+    "transform": "datasets/agieval/transform_gen_v0.py",
+    "fewshot": 0,
+    "generate": {
+        "method": "generate",
+        "params": ""
+    },
+    "postprocess": "agieval_multiple_answer_post",
+    "metric": {
+        "accuracy": {
+            "evaluation": {
+                "type": "exact_match"
+            }
+        }
+    }
+}

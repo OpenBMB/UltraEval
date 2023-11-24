@@ -1,0 +1,19 @@
+{
+    "task_name": "medqa-mcmle",
+    "path": "datasets/medqa-mcmle/data/medqa-mcmle.jsonl",
+    "description": "",
+    "transform": "datasets/medqa-mcmle/transform_ppl_v0.py",
+    "fewshot": 0,
+    "generate": {
+        "method": "loglikelihood",
+        "params": ""
+    },
+    "postprocess": "",
+    "metric": {
+        "accuracy": {
+            "evaluation": {
+                "type": "log_prob"
+            }
+        }
+    }
+}

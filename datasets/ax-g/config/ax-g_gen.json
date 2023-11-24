@@ -1,19 +1,19 @@
 {
-    "dataset_name": "ax-g",
+    "task_name": "ax-g",
     "path": "datasets/ax-g/data/ax-g.jsonl",
     "description": "",
-    "transforms": "datasets/ax-g/transform_gen_v0.py",
+    "transform": "datasets/ax-g/transform_gen_v0.py",
     "fewshot": 0,
-    "metrics": {
+    "generate": {
+        "method": "generate",
+        "params": ""
+    },
+    "postprocess": "",
+    "metric": {
         "accuracy": {
             "evaluation": {
                 "type": "prefix_match"
             }
         }
-    },
-    "generate": {
-        "method": "generate",
-        "params": ""
-    },
-    "postprocess": ""
+    }
 }

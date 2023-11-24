@@ -1,0 +1,19 @@
+{
+    "task_name": "podcast",
+    "path": "datasets/summedits/data/podcast.jsonl",
+    "description": "",
+    "transform": "datasets/summedits/transform_gen_v0.py",
+    "fewshot": 0,
+    "generate": {
+        "method": "generate",
+        "params": ""
+    },
+    "postprocess": "",
+    "metric": {
+        "accuracy": {
+            "evaluation": {
+                "type": "prefix_match"
+            }
+        }
+    }
+}

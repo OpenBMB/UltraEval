@@ -1,19 +1,19 @@
 {
-    "dataset_name": "modern-chinese-history",
+    "task_name": "modern-chinese-history",
     "path": "datasets/ceval/data/modern-chinese-history.jsonl",
     "description": "以下是中国关于现代中国历史考试的单项选择题，请选出其中的正确答案。",
-    "transforms": "datasets/ceval/transform_gen_v0.py",
+    "transform": "datasets/ceval/transform_gen_v0.py",
     "fewshot": 5,
-    "metrics": {
+    "generate": {
+        "method": "generate",
+        "params": ""
+    },
+    "postprocess": "",
+    "metric": {
         "accuracy": {
             "evaluation": {
                 "type": "prefix_match"
             }
         }
-    },
-    "generate": {
-        "method": "generate",
-        "params": ""
-    },
-    "postprocess": ""
+    }
 }

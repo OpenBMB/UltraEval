@@ -1,0 +1,19 @@
+{
+    "task_name": "siqa",
+    "path": "datasets/siqa/data/siqa.jsonl",
+    "description": "",
+    "transform": "datasets/siqa/transform_ppl_v0.py",
+    "fewshot": 0,
+    "generate": {
+        "method": "loglikelihood",
+        "params": ""
+    },
+    "postprocess": "",
+    "metric": {
+        "accuracy": {
+            "evaluation": {
+                "type": "log_prob"
+            }
+        }
+    }
+}

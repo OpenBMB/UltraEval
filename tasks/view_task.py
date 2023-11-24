@@ -85,7 +85,7 @@ def main():
     filename_parts = filename_part.split("_")
     config_part = filename_parts[-1]
 
-    dataset_name = f_config["dataset_name"]
+    dataset_name = f_config["task_name"]
 
     dataset_name = f"{dataset_part}_{dataset_name}_{config_part}"
     description = f_config["description"] + "\n\n" if f_config["description"] else ""
@@ -95,7 +95,7 @@ def main():
             data = json.loads(line)
             dataset.append(Instance(data))
 
-    spec = importlib.util.spec_from_file_location("transform", f_config["transforms"])
+    spec = importlib.util.spec_from_file_location("transform", f_config["transform"])
     transform_module = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(transform_module)
 

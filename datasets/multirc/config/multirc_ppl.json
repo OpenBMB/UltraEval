@@ -1,0 +1,19 @@
+{
+    "task_name": "multirc",
+    "path": "datasets/multirc/data/multirc.jsonl",
+    "description": "",
+    "transform": "datasets/multirc/transform_ppl_v0.py",
+    "fewshot": 0,
+    "generate": {
+        "method": "loglikelihood",
+        "params": ""
+    },
+    "postprocess": "",
+    "metric": {
+        "accuracy": {
+            "evaluation": {
+                "type": "log_prob"
+            }
+        }
+    }
+}

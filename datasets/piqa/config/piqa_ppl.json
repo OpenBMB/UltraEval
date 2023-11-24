@@ -1,19 +1,19 @@
 {
-    "dataset_name": "piqa",
+    "task_name": "piqa",
     "path": "datasets/piqa/data/piqa.jsonl",
     "description": "",
-    "transforms": "datasets/piqa/transform_ppl_v0.py",
+    "transform": "datasets/piqa/transform_ppl_v0.py",
     "fewshot": 0,
-    "metrics": {
+    "generate": {
+        "method": "loglikelihood",
+        "params": ""
+    },
+    "postprocess": "",
+    "metric": {
         "accuracy": {
             "evaluation": {
                 "type": "log_prob"
             }
         }
-    },
-    "generate": {
-        "method": "loglikelihood",
-        "params": ""
-    },
-    "postprocess": ""
+    }
 }

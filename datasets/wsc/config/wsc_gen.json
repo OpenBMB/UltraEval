@@ -1,0 +1,19 @@
+{
+    "task_name": "wsc",
+    "path": "datasets/wsc/data/wsc.jsonl",
+    "description": "",
+    "transform": "datasets/wsc/transform_gen_v0.py",
+    "fewshot": 0,
+    "generate": {
+        "method": "generate",
+        "params": ""
+    },
+    "postprocess": "",
+    "metric": {
+        "accuracy": {
+            "evaluation": {
+                "type": "prefix_match"
+            }
+        }
+    }
+}

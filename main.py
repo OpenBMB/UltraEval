@@ -51,36 +51,34 @@ class Evaluator:
         return data_config
 
     def build_tasks(self, configs):
-        dataset_map = {v["dataset_name"]: v for v in configs}
+        tasks_map = {v["task_name"]: v for v in configs}
 
         selected_task_objects = []
-        for name in dataset_map:
-            dataset_cfg = dataset_map[name]
+        for name in tasks_map:
+            task_cfg = tasks_map[name]
 
-            if not os.path.exists(dataset_cfg["path"]):
-                print(f'{dataset_cfg["path"]} not exist!')
+            if not os.path.exists(task_cfg["path"]):
+                print(f'{task_cfg["path"]} not exist!')
                 exit()
 
-            if len(dataset_cfg["metrics"]) == 0:
+            if len(task_cfg["metric"]) == 0:
                 raise ValueError(
-                    "No metric selected for dataset `{}`".format(
-                        dataset_cfg["dataset_name"]
-                    )
+                    "No metric selected for task `{}`".format(task_cfg["task_name"])
                 )
 
             selected_task_objects.append(
                 eval_task.EvalTask(
-                    dataset_name=dataset_cfg["dataset_name"],
-                    dataset_path=dataset_cfg["path"],
-                    description=dataset_cfg.get("description", ""),
-                    transform_script_path=dataset_cfg["transforms"],
-                    num_few_shot=self.args.num_fewshot
+                    task_name=task_cfg["task_name"],
+                    task_path=task_cfg["path"],
+                    description=task_cfg.get("description", ""),
+                    transform_script_path=task_cfg["transform"],
+                    num_fewshot=self.args.num_fewshot
                     if self.args.num_fewshot is not None
-                    else dataset_cfg["fewshot"],
-                    metrics_config=dataset_cfg["metrics"],
-                    sample_config=dataset_cfg.get("generate"),
+                    else task_cfg["fewshot"],
+                    metric_config=task_cfg["metric"],
+                    sample_config=task_cfg.get("generate"),
                     model_postprocess=self.args.postprocess,
-                    task_postprocess=dataset_cfg["postprocess"],
+                    task_postprocess=task_cfg["postprocess"],
                     log_dir=self.args.output_base_path,
                     params=self.args.params,
                     limit=self.args.limit,
@@ -103,7 +101,7 @@ class Evaluator:
     def write_out(self):
         def dump_task(task, base_path):
             for ins in task.dataset[: task.limit]:
-                ins.dump(os.path.join(base_path, task.dataset_name))
+                ins.dump(os.path.join(base_path, task.task_name))
 
         with ThreadPoolExecutor() as executor:
             futures = [
@@ -125,13 +123,13 @@ class Evaluator:
         values = []
         dataset_result = {}
         for task in self.tasks:
-            dataset_name = task.dataset_name.split("_")[0]
+            dataset_name = task.task_name.split("_")[0]
             if dataset_name not in dataset_result:
                 dataset_result[dataset_name] = dict()
-            dataset_result[dataset_name][task.dataset_name] = task.final_metrics
+            dataset_result[dataset_name][task.task_name] = task.final_metrics
 
             for k, v in task.final_metrics.items():
-                values.append([task.dataset_name, k, "%.4f" % v])
+                values.append([task.task_name, k, "%.4f" % v])
 
         md_writer.value_matrix = values
 
@@ -149,7 +147,9 @@ class Evaluator:
             }
 
         with open(
-            os.path.join(self.args.output_base_path, "_all_results.json"), "w", encoding="utf-8"
+            os.path.join(self.args.output_base_path, "_all_results.json"),
+            "w",
+            encoding="utf-8",
         ) as f:
             json.dump(dataset_result, f, indent=4, ensure_ascii=False)
 

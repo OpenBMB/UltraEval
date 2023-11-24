@@ -1,0 +1,19 @@
+{
+    "task_name": "billsum",
+    "path": "datasets/summedits/data/billsum.jsonl",
+    "description": "",
+    "transform": "datasets/summedits/transform_ppl_v0.py",
+    "fewshot": 0,
+    "generate": {
+        "method": "loglikelihood",
+        "params": ""
+    },
+    "postprocess": "",
+    "metric": {
+        "accuracy": {
+            "evaluation": {
+                "type": "log_prob"
+            }
+        }
+    }
+}

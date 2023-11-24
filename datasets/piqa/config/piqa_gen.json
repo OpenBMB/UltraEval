@@ -1,19 +1,19 @@
 {
-    "dataset_name": "piqa",
+    "task_name": "piqa",
     "path": "datasets/piqa/data/piqa.jsonl",
     "description": "",
-    "transforms": "datasets/piqa/transform_gen_v0.py",
+    "transform": "datasets/piqa/transform_gen_v0.py",
     "fewshot": 0,
-    "metrics": {
+    "generate": {
+        "method": "generate",
+        "params": ""
+    },
+    "postprocess": "",
+    "metric": {
         "accuracy": {
             "evaluation": {
                 "type": "prefix_match"
             }
         }
-    },
-    "generate": {
-        "method": "generate",
-        "params": ""
-    },
-    "postprocess": ""
+    }
 }

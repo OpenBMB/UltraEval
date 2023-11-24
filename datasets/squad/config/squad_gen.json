@@ -1,0 +1,19 @@
+{
+    "task_name": "squad",
+    "path": "datasets/squad/data/squad.jsonl",
+    "description": "",
+    "transform": "datasets/squad/transform_gen_v0.py",
+    "fewshot": 0,
+    "generate": {
+        "method": "generate",
+        "params": ""
+    },
+    "postprocess": "exact_match_post",
+    "metric": {
+        "accuracy": {
+            "evaluation": {
+                "type": "exact_match"
+            }
+        }
+    }
+}

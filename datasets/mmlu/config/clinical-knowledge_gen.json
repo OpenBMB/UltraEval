@@ -1,19 +1,19 @@
 {
-    "dataset_name": "clinical-knowledge",
+    "task_name": "clinical-knowledge",
     "path": "datasets/mmlu/data/clinical-knowledge.jsonl",
     "description": "The following are multiple choice questions (with answers) about clinical_knowledge.\n\n",
-    "transforms": "datasets/mmlu/transform_gen_v0.py",
+    "transform": "datasets/mmlu/transform_gen_v0.py",
     "fewshot": 5,
-    "metrics": {
+    "generate": {
+        "method": "generate",
+        "params": ""
+    },
+    "postprocess": "",
+    "metric": {
         "accuracy": {
             "evaluation": {
                 "type": "prefix_match"
             }
         }
-    },
-    "generate": {
-        "method": "generate",
-        "params": ""
-    },
-    "postprocess": ""
+    }
 }
