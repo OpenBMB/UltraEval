@@ -46,6 +46,11 @@ pip install .
 进入UltraEval根目录，以下所有指令均在根目录下执行。
 
 ### 2.1生成评测任务文件
+
+下载数据
+```shell
+wget -O RawData.zip "https://cloud.tsinghua.edu.cn/f/71b5232264ae4833a4d0/?dl=1"
+```
 解压数据
 ```shell
 unzip RawData.zip
@@ -72,6 +77,8 @@ python configs/make_config.py --datasets ALL
 * ``save``: 选择生成评测文件的文件名，默认为eval_config.json。
 
 注意⚠️：当tasks有值时，datasets的数量必须为1。表示执行某个数据集下的某些任务；save是一个文件名，且以.json结尾，不需要传入路径，默认在configs下。执行上述指令将在configs目录下生成评测文件eval_config.json。
+
+RawData.zip中保存了从官网收集的数据，其中为了加快解压速度，Math和race做了预处理（压缩包中保存了代码，便于用户复现）。
 
 ### 2.2本地部署模型
 以部署meta-llama/Llama-2-7b-hf为例，使用vllm部署模型：

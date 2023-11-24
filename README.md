@@ -54,11 +54,16 @@ pip install .
 Enter the UltraEval root directory; all the following commands are executed in the root directory.
 
 ### 2.1 Generate the evaluation task file
-unzip evaluation datasets：
+
+Download datasets:
+```shell
+wget -O RawData.zip "https://cloud.tsinghua.edu.cn/f/71b5232264ae4833a4d0/?dl=1"
+```
+Unzip evaluation datasets:
 ```shell
 unzip RawData.zip
 ```
-Preprocess the data：
+Preprocess the data:
 ```shell
 python data_process.py
 ```
@@ -69,7 +74,6 @@ python configs/show_datasets.py
 ```
 
 Specify the tasks to be tested with the following instructions:
-
 ```shell
 python configs/make_config.py --datasets ALL
 ```
@@ -80,6 +84,8 @@ The following is the specific parameter description:
 * ``save``: Select the filename for the generated evaluation file, which defaults to eval_config.json.
 
 Note ⚠️ : When 'tasks' have values, the number of 'datasets' must be 1, indicating that certain tasks under a specific dataset are to be executed; 'save' is a filename that should end with .json, and there is no need to input a path as it defaults to the 'configs' directory. Executing the above command will generate an evaluation file named 'eval_config.json' in the 'configs' directory.
+
+The "RawData.zip" contains data collected from the official website. To expedite the unzipping process, the 'Math' and 'race' data have been preprocessed (the zip file includes the code, facilitating replication by users).
 
 ### 2.2 Local deployment model
 As an example, deploying meta-llama/Llama-2-7b-hf using the vLLM deployment model:
