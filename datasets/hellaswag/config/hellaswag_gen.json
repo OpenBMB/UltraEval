@@ -8,7 +8,7 @@
         "method": "generate",
         "params": ""
     },
-    "postprocess": "",
+    "postprocess": "hellaswag_post",
     "metric": {
         "accuracy": {
             "evaluation": {

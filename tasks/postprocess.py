@@ -46,7 +46,7 @@ class GeneralTorchPPLNorm:
             else:
                 break
         processed_lists = [
-            -(sum(lst[len(prefix) :]) / len(lst[len(prefix) :])) for lst in inner_lists
+            -(sum(lst[len(prefix):]) / len(lst[len(prefix):])) for lst in inner_lists
         ]
         return processed_lists
 
@@ -296,12 +296,12 @@ class MathPost:
         return final_answer
 
     def math_postprocess(self, text: str) -> str:
-        for maybe_ans in text.split("."):
-            if "final answer" in maybe_ans.lower():
-                return self.normalize_final_answer(maybe_ans)
-            elif "最终答案" in maybe_ans:
-                return self.normalize_final_answer(maybe_ans)
-        return self.normalize_final_answer(text.split(".")[0])
+        for line in reversed(text.split("\n")):
+            for maybe_ans in line.split('.'):
+                if ('final answer' in maybe_ans.lower() or 'therefore' in maybe_ans.lower() or
+                        'thus' in maybe_ans.lower() or 'hence' in maybe_ans.lower()):
+                    return self.normalize_final_answer(maybe_ans)
+        return self.normalize_final_answer(text.split('.')[0])
 
 
 class TheoremQAPost:
@@ -335,12 +335,26 @@ class GSM8KPost:
         return raw_outputs, processed_outputs_
 
     def postprocess(self, text):
-        ANS_RE = re.compile(r"#### (\-?[0-9\.\,]+)")
-        text = ANS_RE.search(text)
-        if text is not None:
-            text = text.group(1).strip().replace(",", "")
+        ans_re = re.compile(r"#### (\-?[0-9\.\,]+)")
+        m = ans_re.search(text)
+        if m is not None:
+            text = m.group(1).strip().replace(",", "")
         else:
-            text = ""
+            if ">>" in text:
+                text = text[text.rfind(">>") + 2:].split()[0]
+                text = text.strip("$")
+                text = text.replace(",", '')
+                text = text.rstrip(".")
+            elif "=" in text:
+                text = text[text.rfind("=") + 1:].strip().split()[0]
+                text = text.strip("$")
+                text = text.replace(",", '')
+                text = text.rstrip(".")
+            else:
+                for text in reversed(text.split()):
+                    if text.isdigit():
+                        return text
+
         return text.strip()
 
 
@@ -352,10 +366,62 @@ class HumanEvalGPT:
         if isinstance(processed_outputs, str):
             processed_outputs = [processed_outputs]
 
-        processed_outputs_ = [
-            extract_code_from_string(text) for text in processed_outputs
-        ]
+        processed_outputs_ = [self.humaneval_gpt_postprocess(text) for text in processed_outputs]
         return raw_outputs, processed_outputs_
+
+    @staticmethod
+    def humaneval_gpt_postprocess(text: str) -> str:
+        """Better answer postprocessor for better instruction-aligned models like
+        GPT."""
+        if '```' in text:
+            blocks = re.findall(r'```(.*?)```', text, re.DOTALL)
+            if len(blocks) == 0:
+                text = text.split('```')[1]  # fall back to default strategy
+            else:
+                text = blocks[0]  # fetch the first code block
+                if not text.startswith('\n'):  # in case starting with ```python
+                    text = text[max(text.find('\n') + 1, 0):]
+        if text.strip().startswith('from') or text.strip().startswith('import'):
+            def_idx = text.find('def')
+            if def_idx != -1:
+                text = text[max(text.find('\n', def_idx) + 1, 0):]
+        text = text.split('\n\n\n')[0]
+        if text.strip().startswith('def'):
+            text = '\n'.join(text.split('\n')[1:])
+        if not text.startswith('    '):
+            if text.startswith(' '):
+                text = '    ' + text.lstrip()
+            else:
+                text = '\n'.join(['    ' + line for line in text.split('\n')])
+        return text
+
+
+class HellaSwagPost:
+    def __init__(self):
+        pass
+
+    def __call__(self, raw_outputs, processed_outputs):
+        if isinstance(processed_outputs, str):
+            processed_outputs = [processed_outputs]
+
+        processed_outputs_ = [self.process(text) for text in processed_outputs]
+
+        # print("processed_outputs:", processed_outputs)
+        # print("processed_outputs_:", processed_outputs_)
+        return raw_outputs, processed_outputs_
+
+    @staticmethod
+    def process(text):
+        # if len(text) >= 2 and text[1] in string.ascii_letters:
+        #     m = re.compile("[Oo]ption [ABCD]").search(text)
+        #     if m:
+        #         text = text[m.span()[1] - 1:]
+        #         return text
+        for idx, c in enumerate(text):
+            if c in ['A', 'B', 'C', 'D']:
+                return text[idx:]
+
+        return text
 
 
 class GaoKaoSingleChoicePost:
@@ -478,11 +544,11 @@ class AGIEvalClozePost:
         prefix_list = ["The answer is therefore", "答案是"]
         for prefix in prefix_list:
             if string.startswith(prefix):
-                string = string[len(prefix) :].strip()
+                string = string[len(prefix):].strip()
             elif prefix in string:
                 index = string.rfind(prefix)
                 if index >= 0:
-                    string = string[index + len(prefix) :].strip()
+                    string = string[index + len(prefix):].strip()
         return string
 
     def remove_boxed(self, s):
@@ -490,7 +556,7 @@ class AGIEvalClozePost:
         try:
             assert s[: len(left)] == left
             assert s[-1] == "}"
-            answer = s[len(left) : -1]
+            answer = s[len(left): -1]
             if "=" in answer:
                 answer = answer.split("=")[-1].lstrip(" ")
             return answer
@@ -519,7 +585,7 @@ class AGIEvalClozePost:
         if right_brace_idx == None:
             retval = None
         else:
-            retval = string[idx : right_brace_idx + 1]
+            retval = string[idx: right_brace_idx + 1]
 
         return retval
 
@@ -742,7 +808,7 @@ def extract_code_from_string(s):
 
 def cut(input, output):
     if output.strip().startswith(input.strip()):
-        return output.strip()[len(input.strip()) :]
+        return output.strip()[len(input.strip()):]
     else:
         return output
 
@@ -772,6 +838,7 @@ POSTPROCESS_REGISTRY = {
     "gsm8k_post": GSM8KPost,
     "mbpp_post": MbppPost,
     "humaneval_chatgpt": HumanEvalGPT,
+    "hellaswag_post": HellaSwagPost,
     "gaokao_single_choice_post": GaoKaoSingleChoicePost,
     "gaokao_multi_question_choice_post": GaoKaoMultiQuestionChoicePost,
     "gaokao_multi_choice_post": GaoKaoMultiChoicePost,
@@ -785,3 +852,10 @@ POSTPROCESS_REGISTRY = {
 
 def get_postprocess(postprocess_name):
     return POSTPROCESS_REGISTRY[postprocess_name]
+
+
+if __name__ == "__main__":
+    text = HellaSwagPost.process(
+        "Based on the given information, the most logical ending would be Option C: they sit in a canoe "
+        "while the man paddles.")
+    print(text)
