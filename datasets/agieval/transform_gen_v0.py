@@ -1,6 +1,6 @@
 import random
 
-from UltraEval.tasks.postprocess import CommonMathPost
+from ...tasks.postprocess import CommonMathPost
 
 english_qa_datasets = [
     "lsat-ar",

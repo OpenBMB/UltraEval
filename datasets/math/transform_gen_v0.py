@@ -1,6 +1,6 @@
 import random
 
-from UltraEval.tasks.postprocess import MathPost
+from ...tasks.postprocess import MathPost
 
 
 def remove_boxed(s):

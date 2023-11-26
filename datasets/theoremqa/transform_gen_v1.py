@@ -1,6 +1,6 @@
 import random
 
-from UltraEval.tasks.postprocess import TheoremQAPost
+from ...tasks.postprocess import TheoremQAPost
 
 
 def transform(data, num_sample: int, r: random.Random, dataset_name: str):

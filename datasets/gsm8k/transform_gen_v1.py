@@ -1,6 +1,6 @@
 import random
 
-from UltraEval.tasks.postprocess import GSM8KPost
+from ...tasks.postprocess import GSM8KPost
 
 
 def transform(data, num_sample: int, r: random.Random, dataset_name: str):

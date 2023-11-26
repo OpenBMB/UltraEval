@@ -1,6 +1,6 @@
 import random
 
-from UltraEval.tasks.postprocess import ExactMatchPost
+from ...tasks.postprocess import ExactMatchPost
 
 
 def transform(data, num_sample: int, r: random.Random, dataset_name: str):

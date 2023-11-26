@@ -1,7 +1,7 @@
 import setuptools
 
-with open("requirements.txt") as f:
-    requirements = f.read().splitlines()
+with open("requirements.txt", 'r', encoding='utf-8') as f:
+    requirements = f.read().strip().splitlines()
 
 setuptools.setup(
     name="UltraEval",
