@@ -6,7 +6,7 @@
     "fewshot": 3,
     "generate": {
         "method": "generate",
-        "params": "models/model_params/vllm_sample_code.json"
+        "params": "models/model_params/vllm_sample_v1.json"
     },
     "postprocess": "mbpp_post",
     "metric": {
