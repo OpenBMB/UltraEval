@@ -1,0 +1,30 @@
+{
+    "dataset_name": "humaneval_humaneval_gen",
+    "path": "datasets/humaneval/data/humaneval.jsonl",
+    "description": "",
+    "transforms": "datasets/humaneval/transform_gen_v0.py",
+    "metrics": {
+        "pass_k": {
+            "evaluation": {
+                "type": "function_execution"
+            },
+            "aggregation": {
+                "type": "pass_k"
+            }
+        }
+    },
+    "generate": {
+        "method": "generate",
+        "params": "models/model_params/vllm_sample_v1.json",
+        "args": {
+            "temperature": 0.1,
+            "top_p": 0.95,
+            "max_tokens": 200,
+            "sampling_num": 1
+        }
+    },
+    "batch_size": 64,
+    "few-shot": 0,
+    "model_postprocess": "general_torch",
+    "task_postprocess": "humaneval_chatgpt"
+}
