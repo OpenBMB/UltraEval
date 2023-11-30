@@ -6,7 +6,7 @@
     "fewshot": 8,
     "generate": {
         "method": "generate",
-        "params": "models/model_params/vllm_sample_math.json"
+        "params": "models/model_params/vllm_sample_v1.json"
     },
     "postprocess": "gsm8k_post",
     "metric": {
