@@ -1,0 +1,31 @@
+{
+    "dataset_name": "mmlu_high-school-psychology_gen",
+    "path": "datasets/mmlu/data/high-school-psychology.jsonl",
+    "description": "The following are multiple choice questions (with answers) about high_school_psychology.\n\n",
+    "transforms": "datasets/mmlu/transform_gen_v0.py",
+    "metrics": {
+        "accuracy": {
+            "evaluation": {
+                "type": "prefix_match"
+            }
+        }
+    },
+    "generate": {
+        "method": "generate",
+        "params": "",
+        "args": {
+            "temperature": 0.0,
+            "stop": null,
+            "max_tokens": 1600,
+            "request_id": null,
+            "top_p": 1,
+            "presence_penalty": 0,
+            "frequency_penalty": 0,
+            "sampling_num": 1
+        }
+    },
+    "batch_size": 8,
+    "few-shot": 5,
+    "model_postprocess": "general_torch",
+    "task_postprocess": ""
+}

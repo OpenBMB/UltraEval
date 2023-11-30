@@ -1,0 +1,27 @@
+{
+    "dataset_name": "math_counting-and-probability_gen",
+    "path": "datasets/math/data/counting-and-probability.jsonl",
+    "description": "",
+    "transforms": "datasets/math/transform_gen_v0.py",
+    "metrics": {
+        "accuracy": {
+            "evaluation": {
+                "type": "exact_match"
+            }
+        }
+    },
+    "generate": {
+        "method": "generate",
+        "params": "models/model_params/vllm_sample_v1.json",
+        "args": {
+            "temperature": 0.1,
+            "top_p": 0.95,
+            "max_tokens": 200,
+            "sampling_num": 1
+        }
+    },
+    "batch_size": 32,
+    "few-shot": 4,
+    "model_postprocess": "general_torch",
+    "task_postprocess": "math_post"
+}

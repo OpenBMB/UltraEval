@@ -1,0 +1,27 @@
+{
+    "dataset_name": "cmmlu_high-school-politics_gen",
+    "path": "datasets/cmmlu/data/high-school-politics.jsonl",
+    "description": "以下是关于高中政治的单项选择题，请直接给出正确答案的选项。",
+    "transforms": "datasets/cmmlu/transform_gen_v0.py",
+    "metrics": {
+        "accuracy": {
+            "evaluation": {
+                "type": "prefix_match"
+            }
+        }
+    },
+    "generate": {
+        "method": "generate",
+        "params": "",
+        "args": {
+            "temperature": 0.3,
+            "top_p": 0.8,
+            "max_tokens": 100,
+            "sampling_num": 1
+        }
+    },
+    "batch_size": 32,
+    "few-shot": 5,
+    "model_postprocess": "general_torch",
+    "task_postprocess": ""
+}
