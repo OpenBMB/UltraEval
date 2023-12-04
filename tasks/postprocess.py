@@ -340,12 +340,12 @@ class GSM8KPost:
         if m is not None:
             text = m.group(1).strip().replace(",", "")
         else:
-            if ">>" in text:
-                text = text[text.rfind(">>") + 2:].split()[0]
+            if ">>" in text and text[text.rfind(">>") + 2:].strip().split():
+                text = text[text.rfind(">>") + 2:].strip().split()[0]
                 text = text.strip("$")
                 text = text.replace(",", '')
                 text = text.rstrip(".")
-            elif "=" in text:
+            elif "=" in text and text[text.rfind("=") + 1:].strip().split():
                 text = text[text.rfind("=") + 1:].strip().split()[0]
                 text = text.strip("$")
                 text = text.replace(",", '')
