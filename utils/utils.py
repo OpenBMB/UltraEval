@@ -1,7 +1,24 @@
 import importlib.util
 import os
 
-from omegaconf import OmegaConf
+
+def infer_type(value):
+
+    try:
+        return int(value)
+    except ValueError:
+        pass
+
+
+    try:
+        return float(value)
+    except ValueError:
+        pass
+
+    if value.lower() in ['true', 'false']:
+        return value.lower() == 'true'
+
+    return value
 
 
 def simple_parse_args_string(args_string):
@@ -14,7 +31,7 @@ def simple_parse_args_string(args_string):
     if not args_string:
         return {}
     arg_list = args_string.split(",")
-    args_dict = OmegaConf.to_object(OmegaConf.from_dotlist(arg_list))
+    args_dict = {k.strip(): infer_type(v.strip()) for k, v in (arg.split('=') for arg in arg_list)}
     return args_dict
 
 

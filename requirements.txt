@@ -1,7 +1,6 @@
 vllm
 flask
 openai
-omegaconf
 sacrebleu
 rouge_chinese
 pytablewriter
