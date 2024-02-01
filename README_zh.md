@@ -14,7 +14,7 @@
 
 # 更新
 
-- \[2024.2.1\] MiniCPM已经发布啦🔥🔥🔥，使用了UltraEval作为评测框架。
+- \[2024.2.1\] [MiniCPM](https://github.com/OpenBMB/MiniCPM)已经发布啦🔥🔥🔥，使用了UltraEval作为评测框架。
 - \[2023.11.23\] 我们开源了UltraEval评测框架，并发布了第一版榜单。🔥🔥🔥
 
 # 总览

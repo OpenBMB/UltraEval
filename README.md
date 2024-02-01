@@ -15,7 +15,7 @@
 
 # News!
 
-- \[2024.2.1\] MiniCPM has been released🔥🔥🔥, using UltraEval as its evaluation framework!
+- \[2024.2.1\] [MiniCPM](https://github.com/OpenBMB/MiniCPM) has been released🔥🔥🔥, using UltraEval as its evaluation framework!
 - \[2023.11.23\] We open sourced the UltraEval evaluation framework and published the first version of the list.🔥🔥🔥
 
 # Overview
