@@ -7,7 +7,7 @@ gdp = GPUDispatcher()
 bind = "127.0.0.1:5002"
 workers = gdp.workers_num()
 wsgi_app = "URLs.vllm_url_m:app"
-proc_name = "vllm-url-infer"
+proc_name = "infer"
 accesslog = "-"
 timeout = 300
 

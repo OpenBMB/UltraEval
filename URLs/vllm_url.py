@@ -48,7 +48,7 @@ print("model load finished")
 app = Flask(__name__)
 
 
-@app.route("/vllm-url-infer", methods=["POST"])
+@app.route("/infer", methods=["POST"])
 def main():
     datas = request.get_json()
     params = datas["params"]
