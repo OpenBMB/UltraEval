@@ -21,7 +21,7 @@ class Instance:
         self.eval_results = defaultdict(list)
         self.metrics = defaultdict(None)
 
-    def dump(self, file_path):
+    def dump(self):
         instance_data = {
             "data": self.data,
             "ground_truth": self.ground_truth,
@@ -31,8 +31,10 @@ class Instance:
             "eval_results": self.eval_results,
             "metrics": self.metrics,
         }
+        
+        return json.dumps(instance_data, ensure_ascii=False)
 
-        with open(
-            os.path.join(file_path, "instance.jsonl"), "a", encoding="utf-8"
-        ) as jsonl_file:
-            jsonl_file.write(json.dumps(instance_data, ensure_ascii=False) + "\n")
+        # with open(
+        #     os.path.join(file_path, "instance.jsonl"), "a", encoding="utf-8"
+        # ) as jsonl_file:
+        #     jsonl_file.write(json.dumps(instance_data, ensure_ascii=False) + "\n")

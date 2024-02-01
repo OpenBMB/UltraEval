@@ -98,19 +98,29 @@ class Evaluator:
         for task in self.tasks:
             task.run(self.model)
 
-    def write_out(self):
-        def dump_task(task, base_path):
-            for ins in task.dataset[: task.limit]:
-                ins.dump(os.path.join(base_path, task.task_name))
+            # save instance.jsonl
+            if self.args.write_out:
+                _save_path = os.path.join(self.args.output_base_path, task.task_name, "instance.jsonl")
+                with open(_save_path, "a", encoding="utf-8") as jsonl_file:
+                    for ins in task.dataset[: task.limit]:
+                        jsonl_file.write(ins.dump() + "\n")
+            
+            print(f"For detailed output of the model, see {_save_path}")
 
-        with ThreadPoolExecutor() as executor:
-            futures = [
-                executor.submit(dump_task, task, self.args.output_base_path)
-                for task in self.tasks
-            ]
 
-            for future in futures:
-                future.result()
+    # def write_out(self):
+    #     def dump_task(task, base_path):
+    #         for ins in task.dataset[: task.limit]:
+    #             ins.dump(os.path.join(base_path, task.task_name))
+
+    #     with ThreadPoolExecutor() as executor:
+    #         futures = [
+    #             executor.submit(dump_task, task, self.args.output_base_path)
+    #             for task in self.tasks
+    #         ]
+
+    #         for future in futures:
+    #             future.result()
 
     def make_table(
         self,
@@ -133,8 +143,10 @@ class Evaluator:
 
         md_writer.value_matrix = values
 
+        print("\nHere are the results for each task:")
         print(md_writer.dumps())
 
+        sum_values = []
         for dataset, tasks in dataset_result.items():
             sums = defaultdict(float)
             counts = defaultdict(int)
@@ -146,12 +158,22 @@ class Evaluator:
                 key: sums[key] / counts[key] for key in sums
             }
 
+            for k, v in dataset_result[dataset]["mean_result"].items():
+                sum_values.append([dataset, k, "%.4f" % v])
+        
+        md_writer.headers = ["Dataset", "Metric", "Value"]
+        md_writer.value_matrix = sum_values
+        print("\nHere are the results for each dataset:")
+        print(md_writer.dumps())
+
         with open(
             os.path.join(self.args.output_base_path, "_all_results.json"),
             "w",
             encoding="utf-8",
         ) as f:
             json.dump(dataset_result, f, indent=4, ensure_ascii=False)
+        
+        print(f"\nThe results of all tasks have been saved to the {os.path.join(self.args.output_base_path, '_all_results.json')}\n")
 
 
 def parse_args():
@@ -184,8 +206,8 @@ def main():
     running = time.time()
     print(f"Running time: {running - starting} seconds")
 
-    if args.write_out:
-        evaluator.write_out()
+    # if args.write_out:
+    #     evaluator.write_out()
 
     ending = time.time()
     print(
