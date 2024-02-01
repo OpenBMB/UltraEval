@@ -15,7 +15,8 @@
 
 # News!
 
-- \[2023.11.23\]We open sourced the UltraEval evaluation framework and published the first version of the list.🔥🔥🔥
+- \[2024.2.1\] MiniCPM has been released🔥🔥🔥, using UltraEval as its evaluation framework!
+- \[2023.11.23\] We open sourced the UltraEval evaluation framework and published the first version of the list.🔥🔥🔥
 
 # Overview
 UltraEval is an open-source framework for evaluating the capabilities of foundation models, providing a suite of lightweight, easy-to-use evaluation systems that support the performance assessment of mainstream LLMs. Its main features are as follows:
