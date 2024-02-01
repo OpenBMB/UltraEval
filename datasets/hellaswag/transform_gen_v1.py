@@ -2,7 +2,7 @@ import random
 
 
 def transform(data, num_sample: int, r: random.Random, dataset_name: str):
-    context = f"Context:\n{data['question']}\n"
+    context = f"Context:\n {data['activity_label']}: {data['question']}\n"
     question = f"Question:\nWhich ending makes the most sense?\n"
     instruction = f"Requirement:\nChoose and respond with the letter of the correct answer, including the parentheses.\n"
     options = "Options:\n"

@@ -2,7 +2,7 @@
     "task_name": "hellaswag",
     "path": "datasets/hellaswag/data/hellaswag.jsonl",
     "description": "",
-    "transform": "datasets/hellaswag/transform_ppl_v0.py",
+    "transform": "datasets/hellaswag/transform_ppl_v1.py",
     "fewshot": 0,
     "generate": {
         "method": "loglikelihood",

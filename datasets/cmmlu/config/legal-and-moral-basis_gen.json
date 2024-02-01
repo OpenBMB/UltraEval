@@ -2,7 +2,7 @@
     "task_name": "legal-and-moral-basis",
     "path": "datasets/cmmlu/data/legal-and-moral-basis.jsonl",
     "description": "以下是关于法律与道德基础的单项选择题，请直接给出正确答案的选项。",
-    "transform": "datasets/cmmlu/transform_gen_v0.py",
+    "transform": "datasets/cmmlu/transform_gen_v1.py",
     "fewshot": 5,
     "generate": {
         "method": "generate",

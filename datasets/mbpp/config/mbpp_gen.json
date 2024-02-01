@@ -8,7 +8,7 @@
         "method": "generate",
         "params": "models/model_params/vllm_sample_v1.json"
     },
-    "postprocess": "mbpp_post",
+    "postprocess": "new_mbpp_post",
     "metric": {
         "pass_k": {
             "evaluation": {

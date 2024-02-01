@@ -2,7 +2,7 @@
     "task_name": "chinese-civil-service-exam",
     "path": "datasets/cmmlu/data/chinese-civil-service-exam.jsonl",
     "description": "以下是关于中国公务员考试的单项选择题，请直接给出正确答案的选项。",
-    "transform": "datasets/cmmlu/transform_gen_v0.py",
+    "transform": "datasets/cmmlu/transform_gen_v1.py",
     "fewshot": 5,
     "generate": {
         "method": "generate",

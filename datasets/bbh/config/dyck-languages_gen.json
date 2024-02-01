@@ -8,7 +8,7 @@
         "method": "generate",
         "params": ""
     },
-    "postprocess": "exact_match_post",
+    "postprocess": "bbh_post",
     "metric": {
         "accuracy": {
             "evaluation": {

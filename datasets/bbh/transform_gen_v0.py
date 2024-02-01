@@ -17,8 +17,12 @@ def transform(data, num_sample: int, r: random.Random, dataset_name: str):
     if true_dataset_name in gen_cases:
         text = question + answer_prompt
         correct_answer = data["answer"]
-        emp = ExactMatchPost()
-        _, processed_correct_answer = emp([], correct_answer)
+        # if true_dataset_name == "dyck_languages":
+        #     processed_correct_answer = correct_answer.replace(" ", "")
+        # else:
+        processed_correct_answer = correct_answer
+        # emp = ExactMatchPost()
+        # _, processed_correct_answer = emp([], correct_answer)
     else:
         instruction = f"Requirement:\nChoose and respond with the letter of the correct answer, including the parentheses.\n"
         options = "Options:\n"

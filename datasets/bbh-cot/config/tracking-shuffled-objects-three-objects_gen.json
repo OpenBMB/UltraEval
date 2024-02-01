@@ -1,0 +1,19 @@
+{
+    "task_name": "tracking-shuffled-objects-three-objects",
+    "path": "datasets/bbh-cot/data/tracking-shuffled-objects-three-objects.jsonl",
+    "description": "",
+    "transform": "datasets/bbh-cot/transform_gen_cot.py",
+    "fewshot": 0,
+    "generate": {
+        "method": "generate",
+        "params": "models/model_params/vllm_sample_bbh.json"
+    },
+    "postprocess": "bbh_post",
+    "metric": {
+        "accuracy": {
+            "evaluation": {
+                "type": "in_match"
+            }
+        }
+    }
+}

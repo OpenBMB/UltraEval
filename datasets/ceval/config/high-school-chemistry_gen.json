@@ -2,7 +2,7 @@
     "task_name": "high-school-chemistry",
     "path": "datasets/ceval/data/high-school-chemistry.jsonl",
     "description": "以下是中国关于高中化学考试的单项选择题，请选出其中的正确答案。",
-    "transform": "datasets/ceval/transform_gen_v0.py",
+    "transform": "datasets/ceval/transform_gen_v1.py",
     "fewshot": 5,
     "generate": {
         "method": "generate",

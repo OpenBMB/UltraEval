@@ -5,6 +5,9 @@ import os
 def transform_entry(data_entry):
     return {
         "passage": "",
+        "activity_label": data_entry["activity_label"],
+        "ctx_a": data_entry["ctx_a"],
+        "ctx_b": data_entry["ctx_b"],
         "question": data_entry["ctx"],
         "target_scores": {
             choice: int(idx == data_entry["label"])

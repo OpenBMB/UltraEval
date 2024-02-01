@@ -2,7 +2,7 @@
     "task_name": "boolq",
     "path": "datasets/boolq/data/boolq.jsonl",
     "description": "",
-    "transform": "datasets/boolq/transform_gen_v0.py",
+    "transform": "datasets/boolq/transform_gen_v1.py",
     "fewshot": 0,
     "generate": {
         "method": "generate",
@@ -12,7 +12,7 @@
     "metric": {
         "accuracy": {
             "evaluation": {
-                "type": "prefix_match"
+                "type": "qa_match"
             }
         }
     }
