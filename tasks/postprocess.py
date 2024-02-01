@@ -51,6 +51,27 @@ class GeneralTorchPPLNorm:
         return processed_lists
 
 
+class BBHPost:
+    def __init__(self):
+        pass
+
+    def __call__(self, raw_outputs, processed_outputs):
+        if isinstance(processed_outputs, str):
+            processed_outputs = [processed_outputs]
+        processed_outputs_ = [self.postprocess(text) for text in processed_outputs]
+        return raw_outputs, processed_outputs_
+
+    def postprocess(self, text: str) -> str:
+        text = text.strip().split("\n\n")[0].strip()
+        if "So the answer is" in text:
+            text = text.split("So the answer is")[-1].strip().rstrip('.').strip()
+        if "answer is" in text:
+            text = text.split("answer is")[-1].strip()
+        if "答案是" in text:
+            text = text.split("答案是")[-1].strip()
+
+        return text
+
 class ExactMatchPost:
     def __init__(self):
         pass
@@ -824,6 +845,41 @@ def general_postprocess(text: str) -> str:
     cleaned_text = re.sub(r"\s+", " ", no_articles).strip()
     return cleaned_text
 
+class NewMbppPost:
+    def __call__(self, raw_outputs, processed_outputs):
+        processed_outputs_ = []
+
+        if isinstance(processed_outputs, str):
+            processed_outputs = [processed_outputs]
+
+        processed_outputs_ = [self.process_text(text) for text in processed_outputs]
+        return raw_outputs, processed_outputs_
+    
+    @staticmethod
+    def process_text(text):
+        # 找到所有的三重双引号位置
+        triple_quotes_indices = [i for i, _ in enumerate(text) if text.startswith('\"\"\"', i)]
+
+        # 如果三重双引号的数量是偶数并且大于0
+        if len(triple_quotes_indices) % 2 == 0 and len(triple_quotes_indices) > 0:
+            # 逐对检查三重双引号之间的内容
+            for i in range(0, len(triple_quotes_indices), 2):
+                start_index = triple_quotes_indices[i]
+                end_index = triple_quotes_indices[i + 1]
+                # 检查是否包含'def'
+                if 'def' in text[end_index:]:
+                    # 删除三重双引号后的所有内容
+                    return text[:start_index].strip()
+            # 如果没有任何一对三重双引号之间的内容包含'def'，返回原字符串
+            return text.strip()
+        # 如果三重双引号的数量不是偶数
+        elif len(triple_quotes_indices) > 0:
+            # 删除第一个三重双引号之后的所有内容
+            return text[:triple_quotes_indices[0]].strip()
+        # 如果没有三重双引号，返回原字符串
+        else:
+            return text.strip()
+
 
 POSTPROCESS_REGISTRY = {
     "general_torch": GeneralTorch,
@@ -847,6 +903,8 @@ POSTPROCESS_REGISTRY = {
     "agieval_single_answer_post": AGIEvalSingleAnswerPost,
     "agieval_multiple_answer_post": AGIEvalMultipleAnswerPost,
     "common_math_post": CommonMathPost,
+    "new_mbpp_post": NewMbppPost,
+    "bbh_post": BBHPost
 }
 
 

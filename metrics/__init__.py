@@ -8,6 +8,8 @@ from .log_prob import LogProb
 from .log_prob_mc2 import LogProbMC2
 from .prefix_match import PrefixMatch
 from .rouge import ROUGE
+from .in_match import InMatch
+from .qa_match import QaMatch
 
 METRICS_REGISTRY = {
     "bleu": BLEU,
@@ -20,6 +22,8 @@ METRICS_REGISTRY = {
     "f1_score": F1Score,
     "function_execution": FunctionExecution,
     "gaokaobench_match": GaoKaoBenchMatch,
+    "in_match": InMatch,
+    "qa_match": QaMatch,
 }
 
 
