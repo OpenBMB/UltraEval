@@ -11,7 +11,10 @@
 </p>
 </div>
 
+# Colab
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1hNXtaR3V-VgmG59QJMW7YPaAYgwtmyuH?usp=sharing)
 
+We provide a Colab notebook to help you get started with UltraEval.
 
 # News!
 

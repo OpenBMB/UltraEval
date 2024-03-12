@@ -11,6 +11,11 @@
 </p>
 </div>
 
+# Colab
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1hNXtaR3V-VgmG59QJMW7YPaAYgwtmyuH?usp=sharing)
+
+我们在 `Google Colab` 上提供了 `UltraEval` 的快速使用教程，您可以在 `Colab` 中直接运行。
+
 
 # 更新
 
