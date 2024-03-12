@@ -6,7 +6,7 @@
  <a href="https://ultraeval.openbmb.cn/home"> 🌐网站</a> •
  <a href="#总览">📖总览</a> •
  <a href="#快速开始">🔧快速开始</a> •
- <a href="docs/tutorials/ultraeval.md">🛠️详细教程</a> •
+ <a href="docs/tutorials/zh/ultraeval.md">🛠️详细教程</a> •
   <a href="README.md">English</a> 
 </p>
 </div>
@@ -99,7 +99,7 @@ python URLs/vllm_url.py \
 * ``gpuid``: 指定部署模型的gpu id，默认0。如果需要多个，可用,隔开
 * ``port``: 部署URL的端口号，默认5002。
 
-执行上面这个代码，会产生一个URL。关于个人训练的模型以及多GPU批量评测方式请参考[Tutorial.md]()。
+执行上面这个代码，会产生一个URL。关于个人训练的模型以及多GPU批量评测方式请参考[Tutorial](./docs/tutorials/zh/ultraeval.md)。
 
 ### 2.3进行测评获取测评结果
 创建一个bash脚本，执行main.py程序，获取测评结果：
