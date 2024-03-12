@@ -1,1 +1,0 @@
-Please wait a moment, it will be available shortly.
