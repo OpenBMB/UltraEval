@@ -1,6 +1,10 @@
 UltraEval是一个开源的基础模型能力评测框架，提供了一套轻量级、易于使用的评测体系。整体框架组织如下图所示:
 
-![img](../../pics/ultraeval_pipeline_white.png)
+<div align="center">
+<p align="center">
+<img src="../../pics/ultraeval_pipeline_white.png" width="800px">
+</p>
+</div>
 
 按照操作顺序，共分为【数据准备】、【模型部署】、和【任务评测】三大模块，分别对应
 

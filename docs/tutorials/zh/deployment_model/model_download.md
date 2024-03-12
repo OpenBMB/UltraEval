@@ -14,6 +14,7 @@ huggingface-cli login
 2.**输入您的 Token**：
 
 登录时，输入 Huggingface 上的 Token。
+
 3.**下载模型**：
 
 在这里既可以git clone对应的模型，也可以通过之后的单卡部署进行下载。
