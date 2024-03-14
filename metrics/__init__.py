@@ -10,6 +10,7 @@ from .prefix_match import PrefixMatch
 from .rouge import ROUGE
 from .in_match import InMatch
 from .qa_match import QaMatch
+from .gpt4_eval import GPT4Eval
 
 METRICS_REGISTRY = {
     "bleu": BLEU,
@@ -24,6 +25,7 @@ METRICS_REGISTRY = {
     "gaokaobench_match": GaoKaoBenchMatch,
     "in_match": InMatch,
     "qa_match": QaMatch,
+    "gpt4_eval": GPT4Eval,
 }
 
 
