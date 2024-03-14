@@ -17,7 +17,7 @@ URL="http://127.0.0.1:5002/infer"  # 这里是固定的
 NUMBER_OF_THREAD=$2  # 线程数，一般设为 gpu数/per-proc-gpus
 CONFIG_PATH=configs/eval_config.json  # 评测文件路径
 OUTPUT_BASE_PATH=$4 # /local/logs/test  # 结果保存路径，与HF_MODEL_NAME一致
-CUDA_VISIBLE_DEVICES=$8
+CUDA_VISIBLE_DEVICES=$8 # 指定的一组GPU序号，以逗号分隔，如果为空的话默认运行所有GPU，示例"2,4,5" 即选用序号为2、4、5的三张GPU进行评测
 
 # 步骤1
 # 选择评测的任务，生成评测 config文件。其中method=gen，表示生成式
