@@ -9,7 +9,12 @@ PATTERN = "WORKER_{}"
 class GPUDispatcher:
     def __init__(self):
         pynvml.nvmlInit()
-        self._gpus_num = pynvml.nvmlDeviceGetCount()
+        visible_devices = os.environ.get("CUDA_VISIBLE_DEVICES", "")
+        if visible_devices:
+            visible_devices = GPUDispatcher._unpack_gpus(visible_devices)
+            self._gpus_num = len(visible_devices)
+        else:
+            self._gpus_num = pynvml.nvmlDeviceGetCount()
         assert self._gpus_num > 0
         self._per_proc_gpus_num = int(os.getenv("PER_PROC_GPUS", "-1"))
         if self._per_proc_gpus_num <= 0 or self._per_proc_gpus_num > self._gpus_num:
@@ -40,13 +45,24 @@ class GPUDispatcher:
         return self._gpus_num
 
     def _gpus_list(self, index):
-        gpus = []
-        if self.workers_num() == 1:
-            for i in range(self._gpus_num):
-                gpus.append(i)
+        visible_devices = os.environ.get("CUDA_VISIBLE_DEVICES", "")
+        if visible_devices:
+            visible_devices = GPUDispatcher._unpack_gpus(visible_devices)
+            gpus = []
+            if self.workers_num() == 1:
+                for i in range(self._gpus_num):
+                    gpus.append(int(visible_devices[i]))
+            else:
+                for i in range(self._per_proc_gpus_num):
+                    gpus.append(int(visible_devices[index * self._per_proc_gpus_num + i]))
         else:
-            for i in range(self._per_proc_gpus_num):
-                gpus.append(index * self._per_proc_gpus_num + i)
+            gpus = []
+            if self.workers_num() == 1:
+                for i in range(self._gpus_num):
+                    gpus.append(i)
+            else:
+                for i in range(self._per_proc_gpus_num):
+                    gpus.append(index * self._per_proc_gpus_num + i)
         assert len(gpus) > 0
         return gpus
 

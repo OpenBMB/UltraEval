@@ -3,9 +3,10 @@
 # 初始化变量
 HF_MODEL_NAME=""
 PER_PROC_GPUS=1 # 每个子进程占用GPU数，默认全部占用，单进程；该值必须能被POD内可用GPUs总数整除，worker数量=gpu总数/该数值
+CUDA_VISIBLE_DEVICES=""
 
 # 解析长选项
-options=$(getopt -o "" --long hf-model-name:,per-proc-gpus: -- "$@")
+options=$(getopt -o "" --long hf-model-name:,per-proc-gpus:,cuda-visible-devices: -- "$@")
 
 # 设置解析后的参数
 eval set -- "$options"
@@ -19,6 +20,10 @@ while true; do
             ;;
         --per-proc-gpus)
             PER_PROC_GPUS=$2 
+            shift 2
+            ;;
+        --cuda-visible-devices)
+            CUDA_VISIBLE_DEVICES=$2
             shift 2
             ;;
         --)
@@ -37,6 +42,7 @@ fi
 # 导出环境变量
 export PER_PROC_GPUS
 export HF_MODEL_NAME
+export CUDA_VISIBLE_DEVICES
 
 
 # 运行 gunicorn
