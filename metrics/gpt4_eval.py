@@ -1,9 +1,5 @@
 from typing import Any
-import json
 import time
-import re
-import os
-import openai
 from openai import OpenAI
 
 default_template = """
@@ -75,7 +71,7 @@ class GPT4Eval:
             print(e,doc,results)
             print('-'*100)
             res = ""
-            score = "unknown error"
+            
         
         res = 1.0 if res.strip(" \n.,").lower() == "yes" else 0.0
         return res
