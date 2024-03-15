@@ -4,6 +4,7 @@ import time
 import re
 import os
 import openai
+from openai import OpenAI
 
 default_template = """
 Determine if the following two answers are consistent: 
@@ -13,10 +14,8 @@ Model Answer: {model_answer}
 please only return "yes" if they convey the same essential information, or "no" if they do not.
 """
 
-# Set your own api key
-openai.api_key = ""
-# openai.organization = ""
-
+# Set your own api key\
+client = OpenAI(api_key='YOUR_API_KEY')
 
 def GPT4_eval(user_prompt):
     # 设置重试次数和初始重试间隔（秒）
@@ -41,7 +40,7 @@ def GPT4_eval(user_prompt):
 
 
 def openai_request(prompt: str):
-    completion = openai.ChatCompletion.create(
+    completion = client.chat.completions.create(
         model="gpt-3.5-turbo",
         messages=[
             {"role": "system", "content": "You are a helpful assistant."},
@@ -78,7 +77,7 @@ class GPT4Eval:
             res = ""
             score = "unknown error"
         
-        res = 1.0 if res == "yes" else 0.0
+        res = 1.0 if res.strip(" \n.,").lower() == "yes" else 0.0
         return res
 
 if __name__ == "__main__":
