@@ -78,8 +78,8 @@ def main():
         file_name = os.path.basename(input_file)
         output_file = os.path.join(
             output_dir,
-            re.sub(r"\d{4}-\d{4}_", "", file_name.replace(".json", ".jsonl")),
-        ).replace("_", "-")
+            re.sub(r"\d{4}-\d{4}_", "", file_name.replace(".json", ".jsonl")).replace("_", "-"),
+        )
         convert(input_file, output_file, file_name)
 
 

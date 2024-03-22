@@ -56,7 +56,4 @@ python main.py \
 
 # 步骤5
 # 结束 gunicorn 进程及其 worker 进程
-MAIN_PID=$(cat gunicorn.pid)
-pgrep -P $MAIN_PID | xargs kill -9
-kill -9 $MAIN_PID
-rm gunicorn.pid
+pkill gunicorn; sleep 5; kill -SIGINT $$
