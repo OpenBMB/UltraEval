@@ -17,4 +17,4 @@ huggingface-cli login
 
 3.**下载模型**：
 
-在这里既可以git clone对应的模型，也可以通过之后的单卡部署进行下载。
+在这里既可以git clone对应的模型，也可以通过之后的[单卡部署](./deployment.md)进行下载。

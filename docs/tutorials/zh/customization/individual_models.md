@@ -1,9 +1,13 @@
 ## 用户部署自己的模型
 
+该部分涉及更改以下代码文件：
+
+1. 创建新的 `URLs/YourModel_url.py` 
+2. `URLs/gunicorn_conf.py`，在其中增加`YourModel_url.py`的判断逻辑
 
 ### 1.模版代码
 
-对于该部分，我们提供一个适配gunicorn框架的模板，用户只需实现/替换其中的初始化方法和推理函数适配：
+创建新的 `URLs/YourModel_url.py` 。对于该部分，我们提供一个适配gunicorn框架的模板，用户只需实现/替换其中的初始化方法和推理函数适配：
 
 ```
 from flask import Flask, request, jsonify
@@ -51,7 +55,7 @@ def main():
     inputs = tokenizer(prompt)  # Prepare the input tensor
 
     #调用模型的推理函数，需自定义接口
-    generate_ids = model.generate(inputs.input_ids, **params_dict)
+    generate_ids = model.generate(inputs.input_ids, attention_mask=inputs.attention_mask, **params_dict)
 
     # Decoding the generated ids to text
     generated_text = tokenizer.batch_decode(generate_ids, skip_special_tokens=True, clean_up_tokenization_spaces=False)
@@ -177,3 +181,39 @@ timeout=300
 
 ...........(other part of code)..............
 ```
+
+### 4.测试
+
+修改完成后，进行模型的部署测试
+
+```python
+bash URLs/start_gunicorn.sh --hf-model-name meta-llama/Llama-2-7b-hf
+```
+
+部署无异常，并正确打印 `Model and tokenizer initialized.` 之后，即可挑选一个简单的数据集进行测试。
+
+```python
+TASK_NAME=humaneval  # 需要评测的任务，多个用,隔开
+URL="http://127.0.0.1:5002/infer"  # 这里是固定的
+NUMBER_OF_THREAD=2  # 线程数，一般设为 gpu数/per-proc-gpus
+CONFIG_PATH=configs/eval_config.json  # 评测文件路径
+OUTPUT_BASE_PATH=test  # 结果保存路径
+
+# 步骤1
+# 选择评测的任务，生成评测 config文件。其中method=gen，表示生成式
+python configs/make_config.py --datasets $TASK_NAME --method gen
+
+# 步骤4
+# 执行 Python 脚本
+python main.py \
+    --model general \
+    --model_args url=$URL,concurrency=$NUMBER_OF_THREAD \
+    --config_path $CONFIG_PATH \
+    --output_base_path $OUTPUT_BASE_PATH \
+    --batch_size 1 \
+    --postprocess general_torch \
+    --params models/model_params/vllm_sample.json \
+    --write_out \
+    #--limit 32
+```
+
