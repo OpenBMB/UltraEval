@@ -92,8 +92,8 @@ def main():
     for input_file in glob.glob(input_dir + "/*.json"):
         file_name = os.path.basename(input_file)
         output_file = os.path.join(
-            output_dir, file_name.replace(".json", ".jsonl")
-        ).replace("_", "-")
+            output_dir, file_name.replace(".json", ".jsonl").replace("_", "-")
+        )
         convert(input_file, output_file, file_name)
 
 

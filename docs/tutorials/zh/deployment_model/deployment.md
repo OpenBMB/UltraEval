@@ -28,3 +28,5 @@ python URLs/vllm_url.py --model_name $MODEL_NAME --gpuid $GPU_ID --port $PORT
     - 部署多个模型实例时，确保每个实例使用不同的端口。
 
 部署成功后，终端将显示“model load finished”和“Running on http://127.0.0.1:$PORT”等提示信息。
+
+(对于多张显卡的用户，可以参阅[多卡部署](./acceleration.md))

@@ -35,8 +35,8 @@ def main():
             new_data.append(temp_data)
         
         output_file = os.path.join(
-            output_dir, task.replace(".json", ".jsonl")
-        ).replace("_", "-")
+            output_dir, task.replace(".json", ".jsonl").replace("_", "-")
+        )
         with open(output_file, "w", encoding="utf-8") as outfile:
             for example in new_data:
                 outfile.write(json.dumps(example, ensure_ascii=False) + "\n")

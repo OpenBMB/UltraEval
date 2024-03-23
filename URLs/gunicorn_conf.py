@@ -1,15 +1,26 @@
+import os
+import sys
 from URLs.dispatcher import GPUDispatcher
 
 # gunicorn config & hook
 
 gdp = GPUDispatcher()
 
-bind = "127.0.0.1:5002"
+port = os.environ.get('PORT')
+infer_type = os.environ.get('INFER_TYPE')
+
+bind = '127.0.0.1:' + port
 workers = gdp.workers_num()
-wsgi_app = "URLs.vllm_url_m:app"
-proc_name = "infer"
-accesslog = "-"
-timeout = 300
+
+# determine deploy type, currently support 'vLLM' and 'transformers'
+if infer_type == "vLLM":
+    wsgi_app = 'URLs.vllm_url_m:app'
+elif infer_type == "transformers":
+    wsgi_app = 'URLs.transformers_url_m:app'
+
+proc_name = 'infer' 
+accesslog = '-'
+timeout=300
 
 
 def on_starting(server):
