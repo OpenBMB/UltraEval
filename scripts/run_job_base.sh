@@ -3,6 +3,9 @@
 # $1 表示模型路径，$2表示用多少并发，$3表示每个模型需要几张卡。所以$2=可用的GPU数/$3.【小于13b的模型，$3一般为1.】
 # $4表示log存放路径, $5表示评测的数据集，用逗号隔开 $6表示gen/ppl
 # $7表示fewshot大小。如果小于0，表示不穿fewshot，采用任务本身的数值。如果大于等于0，则表示重新赋值。
+# $8-指定的一组GPU序号，以逗号分隔，如果为空的话默认运行所有GPU，示例"2,4,5" 即选用序号为2、4、5的三张GPU进行评测
+# $9-本地部署的端口号，默认5002
+# $10-部署方式，默认为"vllm"，可选"vllm"和"transformers"
 
 echo "打印每个传递的参数："
 for arg in "$@"; do
@@ -18,6 +21,8 @@ NUMBER_OF_THREAD=$2  # 线程数，一般设为 gpu数/per-proc-gpus
 CONFIG_PATH=configs/eval_config.json  # 评测文件路径
 OUTPUT_BASE_PATH=$4 # /local/logs/test  # 结果保存路径，与HF_MODEL_NAME一致
 CUDA_VISIBLE_DEVICES=$8 # 指定的一组GPU序号，以逗号分隔，如果为空的话默认运行所有GPU，示例"2,4,5" 即选用序号为2、4、5的三张GPU进行评测
+PORT=${9:-5002} # 端口号，默认5002
+INFER_TYPE=${10:-vllm} # 部署方式，默认为"vllm"，可选"vllm"和"transformers"
 
 # 步骤1
 # 选择评测的任务，生成评测 config文件。其中method=gen，表示生成式
@@ -26,7 +31,7 @@ python configs/make_config.py --datasets $TASK_NAME --method $6 # gen
 
 # 步骤2
 # 启动 gunicorn 并保存 PID
-bash URLs/start_gunicorn.sh --hf-model-name $HF_MODEL_NAME --per-proc-gpus $3 --cuda-visible-devices $CUDA_VISIBLE_DEVICES & 
+bash URLs/start_gunicorn.sh --hf-model-name $HF_MODEL_NAME --per-proc-gpus $3 --cuda-visible-devices $CUDA_VISIBLE_DEVICES --port $PORT --infer-type $INFER_TYPE& 
 echo $! > gunicorn.pid
 
 
