@@ -6,7 +6,7 @@ UltraEval sets the parameters for model inference through `models/model_params`.
 
 - `vllm_beamsearch.json` for Beam Search
 
-```json
+```
 {
     "use_beam_search": true,  // Whether to use beam search. True indicates it is used, typically to improve the quality of generated text.
     "best_of": 10,            // In beam search or other generation strategies, choose the best output from this number of candidates.
@@ -20,7 +20,7 @@ UltraEval sets the parameters for model inference through `models/model_params`.
 
 - `vllm_sample.json` for Random Sampling
 
-```json
+```
 {
     "temperature": 0.3,   // Controls the randomness of the generated text. A lower temperature (e.g., 0.1) means the generated text is more likely to lean towards high probability words, making it more deterministic and consistent.
     "top_p": 0.8,        // Keep the smallest set of words whose cumulative probability reaches 0.8. This means the model will only consider words that cumulatively reach 80% probability for generation, helping to ensure the diversity and reliability of generated text.
@@ -38,7 +38,7 @@ Special notes for random sampling:
 
 - `vllm_logprobs.json` for Log Likelihood, this file generally does not need changing of parameters, and changing them does not affect evaluation
 
-```json
+```
 {
     "prompt_logprobs": 0,   // The number of log likelihoods returned for each prompt token, not recommended to change
     "max_tokens": 1         // The maximum number of tokens in the generated text. Here set to 1, meaning that during loglikelihood inference, only one token is generated at a time.
