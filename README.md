@@ -6,7 +6,7 @@
  <a href="https://ultraeval.openbmb.cn/home"> 🌐Website</a> •
  <a href="#Overview">📖Overview</a> •
  <a href="#Quick start">🔧Quick start</a> •
- <a href="docs/tutorials/ultraeval.md">🛠️Tutorials</a> •
+ <a href="docs/tutorials/en/ultraeval.md">🛠️Tutorials</a> •
  <a href="README_zh.md">中文</a> 
 </p>
 </div>
@@ -22,7 +22,16 @@ We provide a Colab notebook to help you get started with UltraEval.
 - \[2023.11.23\] We open sourced the UltraEval evaluation framework and published the first version of the list.🔥🔥🔥
 
 # Overview
-UltraEval is an open-source framework for evaluating the capabilities of foundation models, providing a suite of lightweight, easy-to-use evaluation systems that support the performance assessment of mainstream LLMs. Its main features are as follows:
+UltraEval is an open-source framework for evaluating the capabilities of foundation models, providing a suite of lightweight, easy-to-use evaluation systems that support the performance assessment of mainstream LLMs. 
+
+UltraEval's overall workflow is as follows:
+<div align="center">
+<p align="center">
+<img src="docs/pics/ultraeval_pipeline_white.png" width="800px">
+</p>
+</div>
+
+Its main features are as follows:
 1. **Lightweight and Easy-to-use Evaluation Framework:** Seamlessly designed with an intuitive interface, minimal dependencies, effortless deployment, excellent scalability, adaptable to diverse evaluation scenarios.
 
 2. **Flexible and Diverse Evaluation Methods:** Supports a unified prompt template with an extensive array of evaluation metrics, allowing for personalized customization to suit specific needs.
@@ -35,14 +44,6 @@ UltraEval is an open-source framework for evaluating the capabilities of foundat
 
 6. **Comprehensive and Extensive Model Support:** Offers support for a wide spectrum of models, including those from the Huggingface open-source repository and personally trained models, ensuring comprehensive coverage.
 
-
-
-UltraEval's overall workflow is as follows:
-<div align="center">
-<p align="center">
-<img src="docs/pics/ultraeval_pipeline_white.png" width="800px">
-</p>
-</div>
 
 # Quick start
 Welcome to UltraEval, your assistant for evaluating the capabilities of large models. Get started in just a few simple steps:
@@ -105,10 +106,10 @@ Below is a description of the specific parameters:
 * ``port``: The port number of the deployment URL, default 5002.
 
 Executing the above code will generate a URL.
-For a model of individual training and a multi-GPU batch evaluation approach, see [Tutorial.md]().
+For a model of individual training and a multi-GPU batch evaluation approach, see [Tutorial.md](./docs/tutorials/en/ultraeval.md).
 
 ### 2.3 Take the assessment and get the results
-Create a bash script[optional] and execute the main.py program to get the results of the assessment:
+Create a bash script and execute the main.py program to get the results of the assessment:
 ```shell
 python main.py \
     --model general \
@@ -144,7 +145,7 @@ output_base_path    #：Output path
 ----_all_results.json   # Synthesis of results from all evaluation tasks
 ```
 ### 2.4 More evaluation function support
-More evaluation methods and features (custom evaluation set, batch evaluation, multi-GPU acceleration) can be found in [Tutorials.md]()
+More evaluation methods and features (custom evaluation set, batch evaluation, multi-GPU acceleration) can be found in [Tutorials.md](./docs/tutorials/en/ultraeval.md)
 
 # Evaluation set support
 
@@ -176,7 +177,7 @@ UltraEval currently supports 59 evaluation datasets and comprehensively measures
     <td>HumanEval, MBPP</td>
   </tr>
   <tr>
-    <td rowspan="3"><strong>Logic</strong></td>
+    <td rowspan="3"><strong>Reason</strong></td>
     <td>Logical reasoning</td>
     <td>BBH</td>
   </tr>
