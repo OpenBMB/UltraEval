@@ -12,6 +12,10 @@ for arg in "$@"; do
     echo "$arg"
 done
 
+# 使用nvidia-smi命令获取GPU数量
+gpu_count=$(nvidia-smi -L | wc -l)
+default_gpus=$(seq -s ',' 0 $((gpu_count-1)) | sed 's/,$//')
+echo "Available GPUs: $gpu_count: $default_gpus"
 
 # hyperparameters
 TASK_NAME=$5 # arc-e,arc-c,boolq,hellaswag,piqa,winogrande  # 需要评测的任务，多个用,隔开
@@ -20,9 +24,9 @@ URL="http://127.0.0.1:5002/infer"  # 这里是固定的
 NUMBER_OF_THREAD=$2  # 线程数，一般设为 gpu数/per-proc-gpus
 CONFIG_PATH=configs/eval_config.json  # 评测文件路径
 OUTPUT_BASE_PATH=$4 # /local/logs/test  # 结果保存路径，与HF_MODEL_NAME一致
-CUDA_VISIBLE_DEVICES=$8 # 指定的一组GPU序号，以逗号分隔，如果为空的话默认运行所有GPU，示例"2,4,5" 即选用序号为2、4、5的三张GPU进行评测
+CUDA_VISIBLE_DEVICES=${8:-$default_gpus} # 指定的一组GPU序号，以逗号分隔，如果为空的话默认运行所有GPU，示例"2,4,5" 即选用序号为2、4、5的三张GPU进行评测
 PORT=${9:-5002} # 端口号，默认5002
-INFER_TYPE=${10:-vllm} # 部署方式，默认为"vllm"，可选"vllm"和"transformers"
+INFER_TYPE=${10:-vLLM} # 部署方式，默认为"vllm"，可选"vllm"和"transformers"
 
 # 步骤1
 # 选择评测的任务，生成评测 config文件。其中method=gen，表示生成式
