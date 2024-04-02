@@ -55,5 +55,7 @@ python main.py \
 # --postprocess cpm-torch_ppl还可以选用cpm-torch_ppl_norm
 
 # 步骤5
+# del gunicorn.pid file
+rm gunicorn.pid
 # 结束 gunicorn 进程及其 worker 进程
 pkill gunicorn; sleep 5; kill -SIGINT $$

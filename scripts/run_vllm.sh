@@ -54,5 +54,7 @@ python main.py \
 
 
 # 步骤5
+# del gunicorn.pid file
+rm gunicorn.pid
 # 结束 gunicorn 进程及其 worker 进程
 pkill gunicorn; sleep 5; kill -SIGINT $$
