@@ -3,6 +3,7 @@
   <br />
   <br />
 <p align="center">
+ <a href="https://arxiv.org/abs/2404.07584">📖Paper</a> •
  <a href="https://ultraeval.openbmb.cn/home"> 🌐Website</a> •
  <a href="#Overview">📖Overview</a> •
  <a href="#Quick start">🔧Quick start</a> •
@@ -18,6 +19,7 @@ We provide a Colab notebook to help you get started with UltraEval.
 
 # News!
 
+- \[2024.4.11\] We published the [UltraEval paper](https://arxiv.org/abs/2404.07584)🔥🔥🔥, and we welcome discussions and exchanges on this topic.
 - \[2024.2.1\] [MiniCPM](https://github.com/OpenBMB/MiniCPM) has been released🔥🔥🔥, using UltraEval as its evaluation framework!
 - \[2023.11.23\] We open sourced the UltraEval evaluation framework and published the first version of the list.🔥🔥🔥
 
@@ -229,3 +231,18 @@ Please visit UltraEval [Leaderboard](https://ultraeval.openbmb.cn/rank) to learn
 If you have questions, suggestions, or feature requests regarding UltraEval, please submit GitHub Issues to jointly build an open and transparent UltraEval evaluation community.
 # License
 This project follows the Apache-2.0 license.
+
+# Citation 
+Please cite our paper if you use UltraEval.
+
+**BibTeX:**
+```bibtex
+@misc{he2024ultraeval,
+      title={UltraEval: A Lightweight Platform for Flexible and Comprehensive Evaluation for LLMs}, 
+      author={Chaoqun He and Renjie Luo and Shengding Hu and Yuanqian Zhao and Jie Zhou and Hanghao Wu and Jiajie Zhang and Xu Han and Zhiyuan Liu and Maosong Sun},
+      year={2024},
+      eprint={2404.07584},
+      archivePrefix={arXiv},
+      primaryClass={cs.CL}
+}
+```

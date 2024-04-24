@@ -3,6 +3,7 @@
   <br />
   <br />
 <p align="center">
+  <a href="https://arxiv.org/abs/2404.07584">📖论文</a> •
  <a href="https://ultraeval.openbmb.cn/home"> 🌐网站</a> •
  <a href="#总览">📖总览</a> •
  <a href="#快速开始">🔧快速开始</a> •
@@ -19,6 +20,7 @@
 
 # 更新
 
+- \[2024.4.11\] 我们发布了[UltraEval 论文](https://arxiv.org/abs/2404.07584)🔥🔥🔥，欢迎交流讨论。
 - \[2024.2.1\] [MiniCPM](https://github.com/OpenBMB/MiniCPM)已经发布啦🔥🔥🔥，使用了UltraEval作为评测框架。
 - \[2023.11.23\] 我们开源了UltraEval评测框架，并发布了第一版榜单。🔥🔥🔥
 
@@ -224,3 +226,18 @@ UltraEval支持59个评测数据集，并按能力分类全面衡量大模型能
 如果有关于 UltraEval的问题或建议或功能请求，请提交GitHub Issues，共同建设开源透明的UltraEval评测社区。
 # License
 本项目遵循Apache-2.0协议。
+
+# Citation 
+如果您使用了UltraEval，请引用我们的论文。
+
+**BibTeX:**
+```bibtex
+@misc{he2024ultraeval,
+      title={UltraEval: A Lightweight Platform for Flexible and Comprehensive Evaluation for LLMs}, 
+      author={Chaoqun He and Renjie Luo and Shengding Hu and Yuanqian Zhao and Jie Zhou and Hanghao Wu and Jiajie Zhang and Xu Han and Zhiyuan Liu and Maosong Sun},
+      year={2024},
+      eprint={2404.07584},
+      archivePrefix={arXiv},
+      primaryClass={cs.CL}
+}
+```
