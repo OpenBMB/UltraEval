@@ -19,7 +19,7 @@ We provide a Colab notebook to help you get started with UltraEval.
 
 # News!
 
-- \[2024.6.4\] *UltraEval* was accepted by ACL 2024 System Demonstration Track (SDT).🔥🔥🔥
+- \[2024.6.4\] **UltraEval** was accepted by ACL 2024 System Demonstration Track (SDT).🔥🔥🔥
 - \[2024.4.11\] We published the [UltraEval paper](https://arxiv.org/abs/2404.07584)🔥🔥🔥, and we welcome discussions and exchanges on this topic.
 - \[2024.2.1\] [MiniCPM](https://github.com/OpenBMB/MiniCPM) has been released🔥🔥🔥, using UltraEval as its evaluation framework!
 - \[2023.11.23\] We open sourced the UltraEval evaluation framework and published the first version of the list.🔥🔥🔥
