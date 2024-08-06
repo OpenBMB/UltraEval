@@ -19,6 +19,7 @@ We provide a Colab notebook to help you get started with UltraEval.
 
 # News!
 
+- \[2024.6.4\] *UltraEval* was accepted by ACL 2024 System Demonstration Track (SDT).🔥🔥🔥
 - \[2024.4.11\] We published the [UltraEval paper](https://arxiv.org/abs/2404.07584)🔥🔥🔥, and we welcome discussions and exchanges on this topic.
 - \[2024.2.1\] [MiniCPM](https://github.com/OpenBMB/MiniCPM) has been released🔥🔥🔥, using UltraEval as its evaluation framework!
 - \[2023.11.23\] We open sourced the UltraEval evaluation framework and published the first version of the list.🔥🔥🔥
@@ -107,7 +108,8 @@ Below is a description of the specific parameters:
 * ``gpuid``: Specify the gpu id of the deployment model, default is 0. If more than one is needed, use , to separate them.
 * ``port``: The port number of the deployment URL, default 5002.
 
-Executing the above code will generate a URL.
+Executing the above code will generate a URL. For instance, the URL is `http://127.0.0.1:5002/infer`, where `5002` is the port number, and `/infer` is the URL path specified by the `@app.route("/infer", methods=["POST"])` decorator in the `URLs/vllm_url.py` file.
+
 For a model of individual training and a multi-GPU batch evaluation approach, see [Tutorial.md](./docs/tutorials/en/ultraeval.md).
 
 ### 2.3 Take the assessment and get the results

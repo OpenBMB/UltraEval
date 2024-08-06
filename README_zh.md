@@ -20,6 +20,7 @@
 
 # 更新
 
+- \[2024.6.4\] *UltraEval*被ACL 2024 System Demostration Track (SDT)录用。🔥🔥🔥
 - \[2024.4.11\] 我们发布了[UltraEval 论文](https://arxiv.org/abs/2404.07584)🔥🔥🔥，欢迎交流讨论。
 - \[2024.2.1\] [MiniCPM](https://github.com/OpenBMB/MiniCPM)已经发布啦🔥🔥🔥，使用了UltraEval作为评测框架。
 - \[2023.11.23\] 我们开源了UltraEval评测框架，并发布了第一版榜单。🔥🔥🔥
@@ -104,7 +105,9 @@ python URLs/vllm_url.py \
 * ``gpuid``: 指定部署模型的gpu id，默认0。如果需要多个，可用,隔开
 * ``port``: 部署URL的端口号，默认5002。
 
-执行上面这个代码，会产生一个URL。关于个人训练的模型以及多GPU批量评测方式请参考[Tutorial](./docs/tutorials/zh/ultraeval.md)。
+执行上面这个代码，会产生一个URL。例如，这里URL为 `http://127.0.0.1:5002/infer`，其中 `5002` 是端口号，`/infer` 是URL路径，由 `URLs/vllm_url.py` 文件中的 `@app.route("/infer", methods=["POST"])` 指定。
+
+关于个人训练的模型以及多GPU批量评测方式请参考[Tutorial](./docs/tutorials/zh/ultraeval.md)。
 
 ### 2.3进行测评获取测评结果
 创建一个bash脚本，执行main.py程序，获取测评结果：
