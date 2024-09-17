@@ -65,8 +65,10 @@ Enter the UltraEval root directory; all the following commands are executed in t
 
 Download datasets:
 ```shell
-wget -O RawData.zip "https://cloud.tsinghua.edu.cn/f/71b5232264ae4833a4d0/?dl=1"
+wget -O RawData.zip "https://cloud.tsinghua.edu.cn/f/11d562a53e40411fb385/?dl=1"
 ```
+The Google Drive link is [here](https://drive.google.com/file/d/1S0Ze9ToFC9V6CNzsI_e18ILMAk-l0Ckb/view?usp=drive_link).
+
 Unzip evaluation datasets:
 ```shell
 unzip RawData.zip

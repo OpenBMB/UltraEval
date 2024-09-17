@@ -61,8 +61,10 @@ pip install .
 
 下载数据
 ```shell
-wget -O RawData.zip "https://cloud.tsinghua.edu.cn/f/71b5232264ae4833a4d0/?dl=1"
+wget -O RawData.zip "https://cloud.tsinghua.edu.cn/f/11d562a53e40411fb385/?dl=1"
 ```
+Google Drive的[链接](https://drive.google.com/file/d/1S0Ze9ToFC9V6CNzsI_e18ILMAk-l0Ckb/view?usp=drive_link)。
+
 解压数据
 ```shell
 unzip RawData.zip
